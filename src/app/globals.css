@@ -5,3 +5,42 @@
   --font-poppins: "Poppins", sans-serif;
   --font-space-grotesk: "Space Grotesk", sans-serif;
 }
+
+/* Swiper Custom Pagination */
+.custom-bullet {
+  height: 8px;
+  width: 8px;
+  background-color: #6C7275;
+  display: block;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.custom-bullet-active {
+  height: 8px;
+  width: 8px;
+  background-color: #141718;
+  border-radius: 50%;
+  position: relative;
+}
+
+.custom-bullet.custom-bullet-active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgb(255, 255, 255);
+  z-index: -1;
+  border: 1px solid #141718;
+  transform: translate(-50%, -50%);
+}
+
+#main_bullets {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

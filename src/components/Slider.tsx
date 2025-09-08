@@ -5,24 +5,28 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import Image from "next/image";
 import dammyprodcut from "../../public/images/dammy_product.png";
-import { Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
+import Link from "next/link";
+import StarIcon from "./svg/StarIcon";
 
 export default function Slider() {
   return (
     <>
-      <div className="container mx-auto lg:pt-12 pt-8">
-        <h2 className="text-[34px] lg:text-[40px] md:text-[38px] font-medium font-poppins text-black lg:mb-12 md:mb-10 mb-10 lg:pl-0 md:pl-0 sm:pl-0 pl-8">
+      <div className="container mx-auto lg:pt-12 pt-8 flex justify-between items-start lg lg:pr-0 md:pr-0 sm:pr-0 pr-8">
+        <h2 className="text-[34px] leading-[110%] lg:text-[40px] md:text-[38px] font-medium font-poppins text-black lg:mb-12 md:mb-10 mb-10 lg:pl-0 md:pl-0 sm:pl-0 pl-8">
           Just In
         </h2>
+        <div id="main_bullets" className="mt-2.5"></div>
       </div>
       <div className="ml-[calc((100%-1536px)/2)] max-[1535px]:ml-[calc((100%-1280px)/2)] 
-      max-[1279px]:ml-[calc((100%-1024px)/2)] max-[1023px]:ml-[calc((100%-768px)/2)] max-[768px]:ml-[calc((100%-640px)/2)] max-[640px]:ml-8 lg:pb-12 md:pb-12 pb-8">
+      max-[1280px]:ml-[calc((100%-1024px)/2)] max-[1023px]:ml-[calc((100%-768px)/2)] max-[768px]:ml-[calc((100%-640px)/2)] max-[640px]:ml-8 lg:pb-12 md:pb-12 pb-8">
         <Swiper
           spaceBetween={16}
           slidesPerView={1.5}
           loop={false}
           modules={[Pagination]}
           pagination={{
+            el: "#main_bullets",
             clickable: true,
             bulletClass: "custom-bullet",
             bulletActiveClass: "custom-bullet-active",
@@ -34,163 +38,210 @@ export default function Slider() {
           }}
         >
           <SwiperSlide>
-            <div className="relative">
-              <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold absolute left-4 top-4 rounded-[4px]">
-                NEW
-              </span>
-              <Image
-                className="w-full"
-                src={dammyprodcut}
-                height={349}
-                alt=""
-              />
-            </div>
-            <div className="flex items-center gap-0.5 mt-3 mb-1">
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-            </div>
-            <h4 className="text-[16px] font-semibold text-[#141718]">
-              96 Nuptse Dip Dye Korea Puffers Jacket
-            </h4>
-            <h4 className="text-[14px] font-semibold text-[#141718]">
-              $400.00
-            </h4>
+            <Link href="#">
+              <div className="relative group">
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                  <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold rounded-[4px]">
+                    NEW
+                  </span>
+                  <span className="px-3.5 py-1 bg-[#38CB89] text-white font-inter text-[16px] font-bold rounded-[4px]">
+                    -50%
+                  </span>
+                </div>
+                <Heart width={32} height={32} color="#6C7275" className="bg-white rounded-[50%] p-1.5 
+                absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all
+                duration-300" />
+                <Image
+                  className="w-full"
+                  src={dammyprodcut}
+                  height={349}
+                  alt=""
+                />
+                <button className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
+                cursor-pointer leading-[28px] py-2.5 w-[80%] rounded-[8px] 
+                absolute bottom-4 left-[50%] translate-x-[-50%] opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  Add to cart
+                </button>
+              </div>
+              <div className="flex items-center gap-0.5 mt-3 mb-1">
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+              </div>
+              <h4 className="text-[16px] font-semibold text-[#141718]">
+                96 Nuptse Dip Dye Korea Puffers Jacket
+              </h4>
+              <h4 className="text-[14px] font-semibold text-[#141718]">
+                $400.00
+              </h4>
+            </Link>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="relative">
-              <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold absolute left-4 top-4 rounded-[4px]">
-                NEW
-              </span>
-              <Image
-                className="w-full"
-                src={dammyprodcut}
-                height={349}
-                alt=""
-              />
-            </div>
-            <div className="flex items-center gap-0.5 mt-3 mb-1">
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-            </div>
-            <h4 className="text-[16px] font-semibold text-[#141718]">
-              96 Nuptse Dip Dye Korea Puffers Jacket
-            </h4>
-            <h4 className="text-[14px] font-semibold text-[#141718]">
-              $400.00
-            </h4>
+            <Link href="#">
+              <div className="relative group">
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                  <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold rounded-[4px]">
+                    NEW
+                  </span>
+                  <span className="px-3.5 py-1 bg-[#38CB89] text-white font-inter text-[16px] font-bold rounded-[4px]">
+                    -50%
+                  </span>
+                </div>
+                <Heart width={32} height={32} color="#6C7275" className="bg-white rounded-[50%] p-1.5 
+                absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all
+                duration-300" />
+                <Image
+                  className="w-full"
+                  src={dammyprodcut}
+                  height={349}
+                  alt=""
+                />
+                <button className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
+                cursor-pointer leading-[28px] py-2.5 w-[80%] rounded-[8px] 
+                absolute bottom-4 left-[50%] translate-x-[-50%] opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  Add to cart
+                </button>
+              </div>
+              <div className="flex items-center gap-0.5 mt-3 mb-1">
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+              </div>
+              <h4 className="text-[16px] font-semibold text-[#141718]">
+                96 Nuptse Dip Dye Korea Puffers Jacket
+              </h4>
+              <h4 className="text-[14px] font-semibold text-[#141718]">
+                $400.00
+              </h4>
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Link href="#">
+              <div className="relative group">
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                  <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold rounded-[4px]">
+                    NEW
+                  </span>
+                  <span className="px-3.5 py-1 bg-[#38CB89] text-white font-inter text-[16px] font-bold rounded-[4px]">
+                    -50%
+                  </span>
+                </div>
+                <Heart width={32} height={32} color="#6C7275" className="bg-white rounded-[50%] p-1.5 
+                absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all
+                duration-300" />
+                <Image
+                  className="w-full"
+                  src={dammyprodcut}
+                  height={349}
+                  alt=""
+                />
+                <button className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
+                cursor-pointer leading-[28px] py-2.5 w-[80%] rounded-[8px] 
+                absolute bottom-4 left-[50%] translate-x-[-50%] opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  Add to cart
+                </button>
+              </div>
+              <div className="flex items-center gap-0.5 mt-3 mb-1">
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+              </div>
+              <h4 className="text-[16px] font-semibold text-[#141718]">
+                96 Nuptse Dip Dye Korea Puffers Jacket
+              </h4>
+              <h4 className="text-[14px] font-semibold text-[#141718]">
+                $400.00
+              </h4>
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Link href="#">
+              <div className="relative group">
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                  <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold rounded-[4px]">
+                    NEW
+                  </span>
+                  <span className="px-3.5 py-1 bg-[#38CB89] text-white font-inter text-[16px] font-bold rounded-[4px]">
+                    -50%
+                  </span>
+                </div>
+                <Heart width={32} height={32} color="#6C7275" className="bg-white rounded-[50%] p-1.5 
+                absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all
+                duration-300" />
+                <Image
+                  className="w-full"
+                  src={dammyprodcut}
+                  height={349}
+                  alt=""
+                />
+                <button className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
+                cursor-pointer leading-[28px] py-2.5 w-[80%] rounded-[8px] 
+                absolute bottom-4 left-[50%] translate-x-[-50%] opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  Add to cart
+                </button>
+              </div>
+              <div className="flex items-center gap-0.5 mt-3 mb-1">
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+              </div>
+              <h4 className="text-[16px] font-semibold text-[#141718]">
+                96 Nuptse Dip Dye Korea Puffers Jacket
+              </h4>
+              <h4 className="text-[14px] font-semibold text-[#141718]">
+                $400.00
+              </h4>
+            </Link>
           </SwiperSlide>
 
           <SwiperSlide>
-            <div className="relative">
-              <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold absolute left-4 top-4 rounded-[4px]">
-                NEW
-              </span>
-              <Image
-                className="w-full"
-                src={dammyprodcut}
-                height={349}
-                alt=""
-              />
-            </div>
-            <div className="flex items-center gap-0.5 mt-3 mb-1">
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-            </div>
-            <h4 className="text-[16px] font-semibold text-[#141718]">
-              96 Nuptse Dip Dye Korea Puffers Jacket
-            </h4>
-            <h4 className="text-[14px] font-semibold text-[#141718]">
-              $400.00
-            </h4>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="relative">
-              <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold absolute left-4 top-4 rounded-[4px]">
-                NEW
-              </span>
-              <Image
-                className="w-full"
-                src={dammyprodcut}
-                height={349}
-                alt=""
-              />
-            </div>
-            <div className="flex items-center gap-0.5 mt-3 mb-1">
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-            </div>
-            <h4 className="text-[16px] font-semibold text-[#141718]">
-              96 Nuptse Dip Dye Korea Puffers Jacket
-            </h4>
-            <h4 className="text-[14px] font-semibold text-[#141718]">
-              $400.00
-            </h4>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative">
-              <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold absolute left-4 top-4 rounded-[4px]">
-                NEW
-              </span>
-              <Image
-                className="w-full"
-                src={dammyprodcut}
-                height={349}
-                alt=""
-              />
-            </div>
-            <div className="flex items-center gap-0.5 mt-3 mb-1">
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-            </div>
-            <h4 className="text-[16px] font-semibold text-[#141718]">
-              96 Nuptse Dip Dye Korea Puffers Jacket
-            </h4>
-            <h4 className="text-[14px] font-semibold text-[#141718]">
-              $400.00
-            </h4>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="relative">
-              <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold absolute left-4 top-4 rounded-[4px]">
-                NEW
-              </span>
-              <Image
-                className="w-full"
-                src={dammyprodcut}
-                height={349}
-                alt=""
-              />
-            </div>
-            <div className="flex items-center gap-0.5 mt-3 mb-1">
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-              <Star width={16} height={16} />
-            </div>
-            <h4 className="text-[16px] font-semibold text-[#141718]">
-              96 Nuptse Dip Dye Korea Puffers Jacket
-            </h4>
-            <h4 className="text-[14px] font-semibold text-[#141718]">
-              $400.00
-            </h4>
+            <Link href="#">
+              <div className="relative group">
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                  <span className="px-3.5 py-1 bg-white font-inter text-[16px] font-bold rounded-[4px]">
+                    NEW
+                  </span>
+                  <span className="px-3.5 py-1 bg-[#38CB89] text-white font-inter text-[16px] font-bold rounded-[4px]">
+                    -50%
+                  </span>
+                </div>
+                <Heart width={32} height={32} color="#6C7275" className="bg-white rounded-[50%] p-1.5 
+                absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all
+                duration-300" />
+                <Image
+                  className="w-full"
+                  src={dammyprodcut}
+                  height={349}
+                  alt=""
+                />
+                <button className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
+                cursor-pointer leading-[28px] py-2.5 w-[80%] rounded-[8px] 
+                absolute bottom-4 left-[50%] translate-x-[-50%] opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  Add to cart
+                </button>
+              </div>
+              <div className="flex items-center gap-0.5 mt-3 mb-1">
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+              </div>
+              <h4 className="text-[16px] font-semibold text-[#141718]">
+                96 Nuptse Dip Dye Korea Puffers Jacket
+              </h4>
+              <h4 className="text-[14px] font-semibold text-[#141718]">
+                $400.00
+              </h4>
+            </Link>
           </SwiperSlide>
         </Swiper>
       </div>
