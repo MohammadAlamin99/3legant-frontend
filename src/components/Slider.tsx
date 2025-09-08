@@ -5,7 +5,7 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import Image from "next/image";
 import dammyprodcut from "../../public/images/dammy_product.png";
-import { Heart, Star } from "lucide-react";
+import { Heart } from "lucide-react";
 import Link from "next/link";
 import StarIcon from "./svg/StarIcon";
 
