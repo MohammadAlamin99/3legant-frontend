@@ -1,5 +1,4 @@
 "use client";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -11,12 +10,13 @@ import { Star } from "lucide-react";
 export default function Slider() {
   return (
     <>
-      <div className="container mx-auto pt-12">
-        <h2 className="text-[40px] font-medium font-poppins text-black mb-12">
+      <div className="container mx-auto lg:pt-12 pt-8">
+        <h2 className="text-[34px] lg:text-[40px] md:text-[38px] font-medium font-poppins text-black lg:mb-12 md:mb-10 mb-10 lg:pl-0 md:pl-0 sm:pl-0 pl-8">
           Just In
         </h2>
       </div>
-      <div className="hamim">
+      <div className="ml-[calc((100%-1536px)/2)] max-[1535px]:ml-[calc((100%-1280px)/2)] 
+      max-[1279px]:ml-[calc((100%-1024px)/2)] max-[1023px]:ml-[calc((100%-768px)/2)] max-[768px]:ml-[calc((100%-640px)/2)] max-[640px]:ml-8 lg:pb-12 md:pb-12 pb-8">
         <Swiper
           spaceBetween={16}
           slidesPerView={1.5}
