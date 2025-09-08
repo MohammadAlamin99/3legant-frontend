@@ -6,3 +6,6 @@
   --font-space-grotesk: "Space Grotesk", sans-serif;
 }
 
+.hamim {
+  margin-left: calc(100% - 1536px);
+}
