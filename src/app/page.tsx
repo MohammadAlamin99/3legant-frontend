@@ -4,14 +4,14 @@ import HeroBanner from "@/components/HeroBanner";
 import NavMenu from "@/components/NavMenu";
 import Slider from "@/components/Slider";
 export default async function Page() {
-   const products = await getProduct();
-   console.log(products, "alamin")
+  const products = await getProduct();
+
   return (
     <>
       <Announcedbar />
-      <NavMenu/>
-      <HeroBanner/>
-      <Slider/>
+      <NavMenu />
+      <HeroBanner />
+      <Slider products={products} />
     </>
   );
 }
