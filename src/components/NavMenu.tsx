@@ -28,24 +28,26 @@ export default function NavMenu() {
           <Link href="/">
             <Image
               src={Logo}
+              width={105}
+              height={24}
               alt="logo"
               className="w-[105px] h-[24px] object-contain"
             />
           </Link>
         </div>
         <ul className="hidden items-center justify-center gap-10 font-space-grotesk text-[14px] font-medium md:flex">
-          <Link href="#">
-            <li>Home</li>
-          </Link>
-          <Link href="#">
-            <li>Shop</li>
-          </Link>
-          <Link href="#">
-            <li>Product</li>
-          </Link>
-          <Link href="#">
-            <li>Contact Us</li>
-          </Link>
+          <li>
+            <Link href="#">Home</Link>
+          </li>
+          <li>
+            <Link href="#">Shop</Link>
+          </li>
+          <li>
+            <Link href="#">Product</Link>
+          </li>
+          <li>
+            <Link href="#">Contact Us</Link>
+          </li>
         </ul>
 
         <div className="flex items-center gap-4">

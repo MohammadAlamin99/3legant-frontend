@@ -71,11 +71,11 @@ export default function Slider({ products }: SliderProps) {
                       duration-300"
                     />
                     <Image
-                      className="w-full"
+                      className="w-full h-auto"
                       src={item?.featureImage}
                       width={300}
                       height={349}
-                      alt=""
+                      alt={item?.title || "Feature image"}
                     />
                     <button
                       className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
@@ -103,18 +103,20 @@ export default function Slider({ products }: SliderProps) {
                       className="text-[#6C7275]"
                     />
                   ))}
-                  <span className="text-[14px] font-inter text-[#000] font-semibold ml-1.5">({item?.rating?.average})</span>
+                  <span className="text-[14px] font-inter text-[#000] font-semibold ml-1.5">
+                    ({item?.rating?.average})
+                  </span>
                 </div>
-                <h4 className="text-[16px] font-semibold text-[#141718]">
+                <h2 className="text-[16px] font-semibold text-[#141718]">
                   {item?.title}
-                </h4>
+                </h2>
                 <div className="flex items-center gap-3">
-                  <h4 className="text-[14px] font-semibold text-[#141718]">
+                  <p className="text-[14px] font-semibold text-[#141718]">
                     TK. {item?.basePrice}
-                  </h4>
-                  <h4 className="text-[14px] font-normal text-[#6C7275] line-through">
+                  </p>
+                  <p className="text-[14px] font-normal text-[#6C7275] line-through">
                     TK. {item?.compareAtPrice}
-                  </h4>
+                  </p>
                 </div>
               </SwiperSlide>
             ))}

@@ -4,11 +4,13 @@ import Image from "next/image"
 export default function HeroBanner() {
     return (
         <div className="w-full grid grid-cols-1 md:grid-cols-2">
-            <div className="w-full h-[auto] md:h-[820px]">
+            <div className="relative w-full h-[300px] md:h-[820px]">
                 <Image
                     src={bannerImg}
                     alt="banner"
-                    className="object-cover w-full h-full"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                 />
             </div>
             <div className="flex flex-col items-start justify-center px-8 py-12 lg:pl-16 bg-[#171D28] text-[#FEFEFE]">
