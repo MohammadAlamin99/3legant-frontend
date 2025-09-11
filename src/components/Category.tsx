@@ -2,12 +2,10 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Icollection } from "@/types/collection.type";
+import { getCollection } from "@/actions/collection.action";
 
-export default function Category({
-  collection,
-}: {
-  collection: Icollection[];
-}) {
+export default async function Category() {
+  const collection:Icollection[] = await getCollection("shop_by_category");
   return (
     <div className="container px-[32px] lg:px-0 md:px-0 sm:px-0 mx-auto py-10 lg:py-12">
       <h2 className="text-[34px] lg:text-[40px] text-[#23262F] center font-poppins font-medium text-center mb-12">

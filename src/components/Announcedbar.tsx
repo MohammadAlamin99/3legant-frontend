@@ -32,8 +32,7 @@ export default function Announcedbar() {
                         before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-[1px] 
                         before:w-0 before:bg-white before:transition-all before:duration-300 
                         hover:before:w-full"
-                        aria-label="Shop Now"
-                    >
+                        aria-label="Shop Now">
                         Shop Now
                         <ArrowRight
                             className="transition-transform duration-300 group-hover:-rotate-45"
