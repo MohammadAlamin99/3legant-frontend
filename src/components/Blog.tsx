@@ -27,7 +27,6 @@ export default async function Blog() {
                     </button>
                 </div>
             </div>
-
             <div className="xl:px-3 lg:px-3 md:px-3 sm:px-3 px-8 container mx-auto grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 pb-12">
                 {
                     data && data.map((item, i) => (

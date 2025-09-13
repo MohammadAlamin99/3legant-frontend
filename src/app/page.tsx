@@ -8,6 +8,9 @@ import BestSeller from "@/components/BestSeller";
 import PromotionBanner from "@/components/PromotionBanner";
 import PromotionVideo from "@/components/PromotionVideo";
 import Blog from "@/components/Blog";
+import InstaFeed from "@/components/InstaFeed";
+import Support from "@/components/Support";
+import Footer from "@/components/Footer";
 export default function Page() {
   return (
     <>
@@ -21,6 +24,9 @@ export default function Page() {
       <PromotionBanner/>
       <PromotionVideo/>
       <Blog/>
+      <InstaFeed/>
+      <Support/>
+      <Footer/>
     </>
   );
 }
