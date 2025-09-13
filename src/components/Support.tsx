@@ -1,9 +1,5 @@
-
-export default function Support (){
-    return (
-        <>
-            
-        </>
-    );
+export default function Support() {
+  return <>
+  
+  </>;
 }
-

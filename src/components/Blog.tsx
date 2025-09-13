@@ -7,7 +7,7 @@ export default async function Blog() {
 
     return (
         <div>
-            <div className="container mx-auto py-10 lg:pt-12 lg:pb-12 lg:px-0 max-[640px]:px-8 flex justify-between items-center">
+            <div className="xl:px-3 lg:px-3 md:px-3 sm:px-3 px-8 container mx-auto py-10 lg:pt-12 lg:pb-12 flex justify-between items-center">
                 <h2 className="font-poppins font-medium lg:text-[20px] text-[16px] text-[#141718]">Latest Articles</h2>
                 <div className="relative z-10 w-fit">
                     <button
@@ -28,7 +28,7 @@ export default async function Blog() {
                 </div>
             </div>
 
-            <div className="container mx-auto grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 lg:px-0 max-[640px]:px-8 pb-12">
+            <div className="xl:px-3 lg:px-3 md:px-3 sm:px-3 px-8 container mx-auto grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 pb-12">
                 {
                     data && data.map((item, i) => (
                         <div key={i}>

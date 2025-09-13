@@ -7,7 +7,7 @@ export default function PromotionVideo() {
     const [play, setPlay] = useState<boolean>(false);
     return (
         <>
-            <div className="container text-center mx-auto py-10 lg:py-12 px-0 max-[640px]:px-8">
+            <div className="xl:px-3 lg:px-3 md:px-3 sm:px-3 px-8 container text-center mx-auto py-10 lg:py-12">
                 <h4 className="font-poppins font-bold text-[16px] text-[#377DFF]">PROMOTION</h4>
                 <p className="font-inter text-[34px] lg:text-[40px] max-w-[424px] mx-auto
                 text-[#141718] leading-[44px] mb-4 mt-4 text-center w-full">Winter Collections</p>

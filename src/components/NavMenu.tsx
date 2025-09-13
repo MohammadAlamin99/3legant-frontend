@@ -16,7 +16,7 @@ export default function NavMenu() {
   return (
     <>
       <MobileMenu mobileMenu={mobileMenu} onClose={onCloseHandler} />
-      <div className="container bg-white mx-auto py-[18px] flex justify-between px-8 xl:px-8 md:px-8 ">
+      <div className="container bg-white mx-auto py-[18px] flex justify-between xl:px-3 lg:px-3 md:px-3 sm:px-8 px-8">
         <div className="flex items-center gap-1">
           <Menu
             onClick={onClickHandler}

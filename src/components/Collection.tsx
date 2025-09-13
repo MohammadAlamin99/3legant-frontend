@@ -6,12 +6,12 @@ export default async function Collection() {
   const collection:Icollection[] = await getCollection("collection");
   return (
     <>
-      <div className="lg:px-8 container mx-auto py-10 lg:py-12 max-[640px]:px-8 grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 lg:gap-6 md:gap-4 sm:gap-4 gap-4">
+      <div className="lx:px-0 lg:px-3 md:px-3 container mx-auto py-10 lg:py-12 max-[640px]:px-8 grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 lg:gap-6 md:gap-4 sm:gap-4 gap-4 max-[768px]:px-3">
         {
           collection && collection.map((item, i) => (
             <div className="relative z-0 after:content-[''] after:absolute after:left-0 after:top-0 after:w-full after:h-full after:bg-[linear-gradient(180deg,rgba(0,0,0,0)_67.59%,rgba(0,0,0,0.32)_83.07%)]" key={i}>
               <Image
-                className="lg:w-full lg:h-[664px] aspect-[548/664] object-cover"
+                className="w-full h-[377px] lg:w-full lg:h-[664px] md:h-[500px] object-cover"
                 src={item?.image || ""}
                 alt={item?.name || "Collection imgae"}
                 width={548}

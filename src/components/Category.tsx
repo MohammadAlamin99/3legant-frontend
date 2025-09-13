@@ -11,7 +11,7 @@ export default async function Category() {
       <h2 className="text-[34px] lg:text-[40px] text-[#23262F] center font-poppins font-medium text-center mb-12">
         Shop by Categories
       </h2>
-      <div className="lg:px-8 grid xl:grid-cols-6 lg:grid-cols-4 md:grid-cols-4 grid-cols-2 max-[300px]:grid-cols-1 gap-2 lg:gap-6 md:gap-6">
+      <div className="lg:px-3 md:px-3 sm:px-3 grid xl:grid-cols-6 lg:grid-cols-4 md:grid-cols-4 grid-cols-2 max-[300px]:grid-cols-1 gap-2 lg:gap-6 md:gap-6">
         {collection &&
           collection.map((item, id) => (
             <div className="flex items-center flex-col gap-3" key={id}>

@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 export default function BestSeller() {
     return (
-        <div>
-            <div className="container mx-auto py-10 lg:py-12 px-0 max-[640px]:px-8">
-                <h2 className="text-[34px] lg:text-[40px] text-[#23262F] center font-poppins font-medium text-center mb-12">
+        <>
+            <div className="lg:px-3 md:px-3 sm:px-3 container mx-auto py-10 lg:py-12 px-8">
+                <h2 className="text-[34px] lg:text-[40px] text-[#23262F] center font-poppins font-medium text-center mb-3">
                     Best Seller
                 </h2>
                 <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 lg:gap-6 md:gap-4 sm:gap-2 gap-2">
@@ -203,7 +203,7 @@ export default function BestSeller() {
 
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
