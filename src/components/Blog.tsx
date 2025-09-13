@@ -1,6 +1,5 @@
-import { ArrowRight, Fullscreen } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import img from "../../public/images/promotion_banner.jpg"
 import { getBlog } from "@/actions/blog.action";
 import { IBlog } from "@/types/blog.type";
 export default async function Blog() {
@@ -33,7 +32,7 @@ export default async function Blog() {
                 {
                     data && data.map((item, i) => (
                         <div key={i}>
-                            <div className="relative w-full h-[325px]">
+                            <div className="relative w-full lg:h-[325px] h-[280px]">
                                 <Image
                                     src={item?.image[0] || ""}
                                     alt={item?.title || "blogImage"}
