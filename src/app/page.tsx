@@ -7,6 +7,7 @@ import JustIn from "@/components/JustIn";
 import BestSeller from "@/components/BestSeller";
 import PromotionBanner from "@/components/PromotionBanner";
 import PromotionVideo from "@/components/PromotionVideo";
+import Blog from "@/components/Blog";
 export default function Page() {
   return (
     <>
@@ -19,6 +20,7 @@ export default function Page() {
       <BestSeller/>
       <PromotionBanner/>
       <PromotionVideo/>
+      <Blog/>
     </>
   );
 }

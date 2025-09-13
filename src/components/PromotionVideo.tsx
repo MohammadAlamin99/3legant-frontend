@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 import Image from "next/image";
-import img from "../../public/images/promotion_banner.jpg"
+import img from "../../public/images//promotion_video_Thummbnailbanner.jpg"
 
 export default function PromotionVideo() {
     const [play, setPlay] = useState<boolean>(false);
