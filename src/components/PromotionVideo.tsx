@@ -27,7 +27,7 @@ export default function PromotionVideo() {
                                 className="object-cover rounded-2xl"
                             />
                             <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-2xl">
-                                <button className="lg:w-16 lg:h-16 w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg">
+                                <button aria-label="Play video" className="lg:w-16 lg:h-16 w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="22" viewBox="0 0 19 22" fill="none">
                                         <path d="M0.700195 3.38562C0.700195 1.03509 3.28069 -0.402389 5.27926 0.834823L17.5797 8.44937C19.4743 9.62221 19.4743 12.3781 17.5797 13.551L5.27926 21.1655C3.28069 22.4027 0.700195 20.9652 0.700195 18.6147V3.38562Z" fill="#232627" />
                                     </svg>

@@ -13,7 +13,7 @@ export default function MobileMenu({ mobileMenu, onClose }: MobileMenuProps) {
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden md:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black bg-opacity-50 z-40 hidden ${
           mobileMenu ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         onClick={onClose}

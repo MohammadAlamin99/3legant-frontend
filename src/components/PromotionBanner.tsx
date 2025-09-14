@@ -15,10 +15,10 @@ export default function PromotionBanner() {
                     />
                 </div>
                 <div className="flex flex-col items-start justify-center px-8 py-12 lg:pl-16 bg-[#F3F5F7] text-[#FEFEFE]">
-                    <h4 className="font-poppins font-bold text-[16px] text-[#377DFF]">SALE UP TO 35% OFF</h4>
-                    <p className="font-inter text-[34px] lg:text-[40px] max-w-[424px] text-[#141718] leading-[44px] mb-4 mt-4">
+                    <h2 className="font-poppins font-bold text-[16px] text-[#377DFF]">SALE UP TO 35% OFF</h2>
+                    <h3 className="font-inter text-[34px] lg:text-[40px] max-w-[424px] text-[#141718] leading-[44px] mb-4 mt-4">
                         HUNDREDS of New lower prices!
-                    </p>
+                    </h3>
                     <p className="font-poppins text-[20px] text-[#141718] mb-6">Hurry up!!! Winter is coming!</p>
                     <div className="relative z-10 w-fit">
                         <button
