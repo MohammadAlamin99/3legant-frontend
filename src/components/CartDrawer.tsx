@@ -34,7 +34,7 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                     <h3 className="font-poppins text-[28px] font-medium leading-[34px] tracking-[-0.6px] text-[#121212]">
                         Cart
                     </h3>
-                    <button className="cursor-pointer">
+                    <button className="cursor-pointer" aria-label="Close cart drawer">
                         <X
                             onClick={onClose}
                             color="#6C7275"
@@ -67,17 +67,17 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                             <div className="flex justify-between items-center mt-auto">
                                 {/* Quantity */}
                                 <div className="flex border border-[#6C7275] rounded w-[100px] items-center justify-between px-2 py-1">
-                                    <button className="p-1 cursor-pointer" onClick={()=> handleQuantityChange(quantity-1)}>
+                                    <button className="p-1 cursor-pointer" aria-label="Decrease quantity" onClick={()=> handleQuantityChange(quantity-1)}>
                                         <Minus width={16} height={16} />
                                     </button>
                                     <span className="text-xs font-inter font-semibold">{quantity}</span>
-                                    <button className="p-1 cursor-pointer" onClick={() => handleQuantityChange(quantity + 1)}>
+                                    <button className="p-1 cursor-pointer" aria-label="Increase quantity" onClick={() => handleQuantityChange(quantity + 1)}>
                                         <Plus width={16} height={16} />
                                     </button>
                                 </div>
 
                                 {/* Remove */}
-                                <button className="cursor-pointer">
+                                <button className="cursor-pointer" aria-label="Remove item">
                                     <X
                                         color="#6C7275"
                                         width={24}
