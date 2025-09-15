@@ -1,4 +1,5 @@
-import React from "react";
+'use client'
+// import React, { useEffect, useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -9,7 +10,19 @@ import {
 } from "lucide-react";
 import img from "../../public/images/Hero_banner.png";
 import Image from "next/image";
+// import { getProductById } from "@/actions/product.action";
+// import { useParams } from "next/navigation";
 const TrayTable = () => {
+  // const {id} = useParams();
+
+  // const [data, setData ] = useState({});
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const productData = getProductById(id as string);
+  //     setData(productData);
+  //   })()
+  // }, [id])
   return (
     <div className="lx:px-0 lg:px-3 md:px-3 container mx-auto p-6 bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-16 md:gap-10 gap-4">

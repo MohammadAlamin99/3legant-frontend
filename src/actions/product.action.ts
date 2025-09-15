@@ -20,3 +20,26 @@ export const getProduct = async (tags: string, page: number, limit: number) => {
     return e;
   }
 };
+
+
+// get product by id
+export const getProductById = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${baseUrl}/product/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    console.log("baler error",e)
+    return e;
+  }
+}
+
+

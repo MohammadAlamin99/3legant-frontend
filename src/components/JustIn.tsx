@@ -12,7 +12,7 @@ export default async function JustIn() {
         </h2>
         <div id="main_bullets" className="mt-2.5"></div>
       </div>
-      <div className="pl-3 md:pl-3 sm:pl-3 ml-[calc((100%-1536px)/2)] max-[1536px]:ml-[calc((100%-1280px)/2)] max-[1280px]:ml-[calc((100%-1024px)/2)] max-[1023px]:ml-[calc((100%-768px)/2)] max-[768px]:ml-[calc((100%-640px)/2)] max-[640px]:ml-8 lg:pb-12 md:pb-12 pb-8">
+      <div className="pl-0 md:pl-3 sm:pl-3 ml-[calc((100%-1536px)/2)] max-[1536px]:ml-[calc((100%-1280px)/2)] max-[1280px]:ml-[calc((100%-1024px)/2)] max-[1023px]:ml-[calc((100%-768px)/2)] max-[768px]:ml-[calc((100%-640px)/2)] max-[640px]:ml-8 lg:pb-12 md:pb-12 pb-8">
         <ProductSlider products={products} />
       </div>
     </>
