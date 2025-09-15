@@ -21,21 +21,42 @@ export default function ProductSlider({ products }: SliderClientProps) {
         640: { slidesPerView: 1.5, spaceBetween: 16 },
         768: { slidesPerView: 2.5, spaceBetween: 24 },
         1024: { slidesPerView: 4.5, spaceBetween: 24 },
+        1280: { slidesPerView: 5.5, spaceBetween: 24 },
       }}
     >
-      {products.map((item, i) => (
+      {products && products.map((item, i) => (
         <SwiperSlide key={i}>
-          <Link href="#">
+          <Link href={`product/${item?._id}`}>
             <div className="relative group">
               <Heart
                 width={32}
                 height={32}
                 color="#6C7275"
                 className="bg-white rounded-[50%] p-1.5 
-                absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all
+                absolute top-4 z-30 right-4 opacity-0 group-hover:opacity-100 transition-all
                 duration-300"
               />
-              <div className="w-full h-[308px] lg:[349px]">
+              <div className="absolute top-4 left-4 z-10">
+                {
+                  item?.badge && (
+                    <span className="bg-white font-inter text-[#121212] px-3 py-1 rounded-md text-sm font-bold uppercase">
+                      {item?.badge}
+                    </span>
+                  )
+                }
+                {
+                  item.compareAtPrice && (
+                    <div className="bg-[#38CB89] font-inter text-white px-3 py-1 rounded-md text-sm font-bold mt-2">
+                      -
+                      {
+                        ((item?.compareAtPrice - item?.basePrice) / item?.compareAtPrice * 100).toFixed(0)
+                      }
+                      %
+                    </div>
+                  )
+                }
+              </div>
+              <div className="w-full h-[308px] lg:h-[349px] md:h-[320px] sm:h-[310px]">
                 <Image
                   className="object-cover"
                   src={item.featureImage}

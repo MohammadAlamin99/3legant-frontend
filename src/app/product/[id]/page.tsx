@@ -1,4 +1,5 @@
 import Announcedbar from "@/components/Announcedbar";
+import Footer from "@/components/Footer";
 import JustIn from "@/components/JustIn";
 import NavMenu from "@/components/NavMenu";
 import ProductDetails from "@/components/ProductDetails";
@@ -12,6 +13,7 @@ export default function Page() {
             <ProductDetails />
             <JustIn/>
             <Review/>
+            <Footer/>
         </>
     );
 }

@@ -3,7 +3,7 @@ import "swiper/css/pagination";
 import ProductSlider from "./Slider/ProductSlide";
 import { getProduct } from "@/actions/product.action";
 export default async function JustIn() {
-  const products = await getProduct();
+  const products = await getProduct("justin", 1, 10);
   return (
     <>
       <div className="lg:px-3 md:px-3 sm:px-3 container mx-auto lg:pt-12 pt-8 flex justify-between items-start">
