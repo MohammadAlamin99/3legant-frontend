@@ -6,7 +6,7 @@ import img from "../../public/images/promotion_banner.jpg";
 export default function Review() {
   return (
     <section className="py-10">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto xl:px-3 lg:px-3 md:px-3 sm:px-3 px-8">
         <h3 className="text-2xl font-poppins font-medium mb-6">
           Customer Reviews
         </h3>
@@ -35,7 +35,7 @@ export default function Review() {
         <h2 className="text-xl font-medium font-poppins mb-6">11 Reviews</h2>
         <div className="space-y-6">
           {[1, 2].map((id) => (
-            <div key={id} className="flex gap-6 border-b border-gray-200 pb-6">
+            <div key={id} className="flex max-[575px]:flex-col gap-6 border-b border-gray-200 pb-6">
               <div className="relative flex-shrink-0 w-[72px] h-[72px]">
                 <Image
                   className="rounded-full object-cover"

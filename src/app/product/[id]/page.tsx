@@ -6,19 +6,20 @@ import NavMenu from "@/components/NavMenu";
 import ProductDetails from "@/components/ProductDetails";
 import Review from "@/components/Review";
 
-export default async function Page() {
-    const product = await getProductById("68c7b80262c1e2ac6d5624a4");
-    console.log(product)
-    return (
-        <>
-            <Announcedbar />
-            <NavMenu />
-            <ProductDetails />
-            <JustIn/>
-            <Review/>
-            <Footer/>
-        </>
-    );
+interface PageProps {
+  params: { id: string };
 }
-
-
+export default async function Page({ params }: PageProps) {
+  const { id } = params;
+  const product = await getProductById(id);
+  return (
+    <>
+      <Announcedbar />
+      <NavMenu />
+      <ProductDetails product={product} />
+      <JustIn />
+      <Review />
+      <Footer />
+    </>
+  );
+}

@@ -1,5 +1,5 @@
 
-const baseUrl = "https://3legant-backend-zeta.vercel.app/api/v1/";
+const baseUrl = "https://3legant-backend-zeta.vercel.app/api/v1";
 
 export const getBlog = async (page:number=1, limit:number=3)=>{
     try {

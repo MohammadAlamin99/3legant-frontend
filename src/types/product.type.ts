@@ -2,14 +2,15 @@ export interface Product {
   _id: string;
   title: string;
   description: string;
-  featureImage: string;
+  badge?: string;
   basePrice: number;
   compareAtPrice?: number;
-  attributes?: Record<string, string>;
+  attributes?: Record<string, string> | any; 
   status?: "active" | "draft";
   isTaxable?: boolean;
   shippingRequired?: boolean;
   weight?: number;
+  featureImage: string;
   tags?: string[];
   collections?: string[];
   images?: Array<{ url: string; alt?: string; _id?: string }>;
@@ -37,5 +38,5 @@ export interface Product {
   }>;
   createdAt?: string;
   updatedAt?: string;
-  [key: string]: any;
+  [key: string]: any; 
 }

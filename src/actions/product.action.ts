@@ -1,5 +1,5 @@
-const baseUrl = "https://3legant-backend-zeta.vercel.app/api/v1/";
 
+const baseUrl = "https://3legant-backend-zeta.vercel.app/api/v1";
 
 // get just In product
 export const getProduct = async (tags: string, page: number, limit: number) => {
@@ -21,25 +21,19 @@ export const getProduct = async (tags: string, page: number, limit: number) => {
   }
 };
 
-
 // get product by id
 export const getProductById = async (id: string) => {
   try {
-    const res = await fetch(
-      `${baseUrl}/product/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(`${baseUrl}/product/${id}`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+      },
+      cache: "no-store",
+    });
     const data = await res.json();
-    return data;
+    return data.message;
   } catch (e) {
-    console.log("baler error",e)
     return e;
   }
-}
-
-
+};
