@@ -62,7 +62,7 @@ export default function ThumsSlider({ product }: ProductDetailsProps) {
       <Swiper
         onSwiper={(swiper) => setThumbsSwiper(swiper as any)}
         spaceBetween={24}
-        slidesPerView={3}
+        slidesPerView={4}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
