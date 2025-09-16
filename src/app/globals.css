@@ -45,10 +45,14 @@
   gap: 12px;
 }
 
-body .swiper{
+.swiper-slide-thumb-active {
+  border: 2px solid #141718;
+}
+
+body .swiper {
   display: none;
 }
 
-body .swiper.swiper-initialized{
+body .swiper.swiper-initialized {
   display: block;
 }

@@ -1,7 +1,6 @@
 "use client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import img from "../../../public/images/promotion_banner.jpg";
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -16,6 +15,14 @@ interface ProductDetailsProps {
 }
 export default function ThumsSlider({ product }: ProductDetailsProps) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+  const images = [
+    ...(product?.featureImage ? [{ url: product?.featureImage }] : []),
+    ...(product?.images
+      ? product.images.filter((img) => img.url !== product?.featureImage)
+      : []),
+  ];
+  console.log(images);
   return (
     <>
       <div className="relative bg-gray-50 overflow-hidden w-full lg:h-[729px] h-[414px]">
@@ -50,10 +57,15 @@ export default function ThumsSlider({ product }: ProductDetailsProps) {
           modules={[FreeMode, Navigation, Thumbs]}
           className="mySwiper2"
         >
-          {product?.images?.map((item, i) => (
+          {images?.map((item, i) => (
             <SwiperSlide key={i}>
               <div className="relative w-full lg:h-[729px] h-[414px]">
-                <Image src={item?.url} fill alt="feature image" className="object-cover" />
+                <Image
+                  src={item?.url}
+                  fill
+                  alt="feature image"
+                  className="object-cover"
+                />
               </div>
             </SwiperSlide>
           ))}
@@ -68,9 +80,9 @@ export default function ThumsSlider({ product }: ProductDetailsProps) {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
-        {product?.images?.map((item, i) => (
+        {images?.map((item, i) => (
           <SwiperSlide key={i}>
-            <div className="w-full lg:h-[167px] md:h-[157px] sm:h-[120px] h-[100px] relative">
+            <div className="w-full lg:h-[167px] md:h-[157px] sm:h-[120px] h-[100px] relative cursor-pointer">
               <Image objectFit="cover" src={item?.url} fill alt="thums image" />
             </div>
           </SwiperSlide>
