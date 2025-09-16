@@ -21,6 +21,8 @@ export const getProduct = async (tags: string, page: number, limit: number) => {
   }
 };
 
+
+
 // get product by id
 export const getProductById = async (id: string) => {
   try {
