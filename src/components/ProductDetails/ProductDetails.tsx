@@ -1,7 +1,7 @@
 import { Star } from "lucide-react";
-import QtyAndATC from "./ProductDetails/QtyAndATC";
-import ColorVarient from "./ProductDetails/ColorVarient";
-import ThumsSlider from "./ProductDetails/ThumsSlider";
+import QtyAndATC from "./QtyAndATC";
+import ColorVarient from "./ColorVarient";
+import ThumsSlider from "./ThumsSlider";
 import { Product } from "@/types/product.type";
 import { IProductVariant } from "@/types/variant.type";
 

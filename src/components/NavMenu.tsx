@@ -7,10 +7,12 @@ import MobileMenu from "./MobileMenu";
 import { useEffect, useState } from "react";
 import CartSvg from "./svg/CartSvg";
 import CartDrawer from "./CartDrawer";
+import { usePathname } from "next/navigation";
 export default function NavMenu() {
   const [mobileMenu, setMobileMenu] = useState<boolean>(false);
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [stickyMenu, setStickyMenu] = useState<boolean>(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,16 +69,16 @@ export default function NavMenu() {
           </div>
           <ul className="hidden items-center justify-center gap-10 font-space-grotesk text-[14px] font-medium md:flex">
             <li>
-              <Link href="#">Home</Link>
+              <Link className={pathname === "/" ? "text-[#141718]" : "text-[#6C7275]"} href="/">Home</Link>
             </li>
             <li>
-              <Link href="#">Shop</Link>
+              <Link className={pathname === "/shop" ? "text-[#141718]" : "text-[#6C7275]"} href="/shop">Shop</Link>
             </li>
             <li>
-              <Link href="#">Product</Link>
+              <Link className={pathname === "/product" ? "text-[#141718]" : "text-[#6C7275]"} href="#">Product</Link>
             </li>
             <li>
-              <Link href="#">Contact Us</Link>
+              <Link className={pathname === "/contact-us" ? "text-[#141718]" : "text-[#6C7275]"} href="#">Contact Us</Link>
             </li>
           </ul>
 
