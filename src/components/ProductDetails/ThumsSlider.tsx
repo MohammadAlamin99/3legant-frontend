@@ -9,12 +9,12 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Product } from "@/types/product.type";
-
+import type { Swiper as SwiperType } from "swiper";
 interface ProductDetailsProps {
   product: Product;
 }
 export default function ThumsSlider({ product }: ProductDetailsProps) {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
 
   const images = [
     ...(product?.featureImage ? [{ url: product?.featureImage }] : []),
@@ -22,7 +22,6 @@ export default function ThumsSlider({ product }: ProductDetailsProps) {
       ? product.images.filter((img) => img.url !== product?.featureImage)
       : []),
   ];
-  console.log(images);
   return (
     <>
       <div className="relative bg-gray-50 overflow-hidden w-full lg:h-[729px] h-[414px]">
@@ -72,7 +71,7 @@ export default function ThumsSlider({ product }: ProductDetailsProps) {
         </Swiper>
       </div>
       <Swiper
-        onSwiper={(swiper) => setThumbsSwiper(swiper as any)}
+        onSwiper={(swiper) => setThumbsSwiper(swiper)}
         spaceBetween={24}
         slidesPerView={4}
         freeMode={true}
@@ -82,7 +81,7 @@ export default function ThumsSlider({ product }: ProductDetailsProps) {
       >
         {images?.map((item, i) => (
           <SwiperSlide key={i}>
-            <div className="w-full lg:h-[167px] md:h-[157px] sm:h-[120px] h-[100px] relative cursor-pointer">
+            <div className="w-full xl:h-[167px] lg:h-[110px] md:h-[140px] sm:h-[120px] h-[80px] relative cursor-pointer">
               <Image objectFit="cover" src={item?.url} fill alt="thums image" />
             </div>
           </SwiperSlide>
