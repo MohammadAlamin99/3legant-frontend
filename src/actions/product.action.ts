@@ -42,10 +42,10 @@ export const getProductById = async (id: string) => {
 
 
 // get all product
-export const getAllProduct = async () => {
+export const getAllProduct = async (page:number, limit:number) => {
   try {
     const res = await fetch(
-      `${baseUrl}/products`,
+      `${baseUrl}/products?page=${page}&limit=${limit}`,
       {
         method: "GET",
         headers: {
