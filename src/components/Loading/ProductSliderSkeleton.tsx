@@ -2,7 +2,7 @@
 export default function ProductSliderSkeleton() {
   return (
     <div
-    className="grid grid-cols-5 gap-6"
+    className="grid xl:grid-cols-6 md:grid-cols-5 sm:grid-cols-3 grid-cols-2 gap-6"
     >
       {Array.from({ length: 5 }).map((_, i) => (
         <div key={i}>

@@ -51,7 +51,6 @@ export const getAllProduct = async (page:number, limit:number) => {
         headers: {
           content: "application/json",
         },
-        next: { revalidate: 60 },
       }
     );
     const data = await res.json();
