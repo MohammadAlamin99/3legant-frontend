@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { getAllProduct } from "@/actions/product.action";
 import Filter from "./Filter";
 import ShopProductCard from "./ShopProductCard";
@@ -6,16 +6,17 @@ import ShopProductSkeleton from "../Loading/ShopProductSkeleton";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function ShopProduct() {
-  const limit = 6;
+  const limit = 9;
 
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ["products"],
-    queryFn: ({ pageParam }) => getAllProduct(pageParam as number, limit),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, pages) => {
-      return lastPage.length === limit ? pages.length + 1 : undefined;
-    }
-  })
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["products"],
+      queryFn: ({ pageParam }) => getAllProduct(pageParam as number, limit),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, pages) => {
+        return lastPage.length === limit ? pages.length + 1 : undefined;
+      },
+    });
 
   if (isLoading) return <ShopProductSkeleton />;
 
@@ -27,7 +28,7 @@ export default function ShopProduct() {
         <div className="w-full">
           <ShopProductCard
             products={allProducts}
-            loadMore={() => fetchNextPage()}
+            fetchNextPage={() => fetchNextPage()}
             isFetchingNextPage={isFetchingNextPage}
             hasNextPage={hasNextPage}
           />
