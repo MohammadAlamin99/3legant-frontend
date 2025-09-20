@@ -63,12 +63,13 @@ export default function ProductSlider({ products }: SliderClientProps) {
               }
             </div>
             <Link href={`product/${item?._id}`}>
-              <div className="w-full h-[308px] lg:h-[349px] md:h-[320px] sm:h-[310px]">
+              <div className="relative w-full h-[308px] lg:h-[349px] md:h-[320px] sm:h-[310px]">
                 <Image
                   className="object-cover"
                   src={item.featureImage}
                   fill
                   alt={item.title}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
             </Link>
