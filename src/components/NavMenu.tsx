@@ -16,12 +16,7 @@ export default function NavMenu() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 200) {
-        setStickyMenu(true)
-      }
-      else {
-        setStickyMenu(false);
-      }
+      setStickyMenu(window.scrollY > 100)
     }
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -29,29 +24,16 @@ export default function NavMenu() {
     }
   }, [])
 
-  // cart drawer
-  const onCartOpenHandler = () => {
-    setCartOpen(true);
-  }
-  const onCartCloseHandler = () => {
-    setCartOpen(false);
-  }
-
-  const onClickHandler = () => {
-    setMobileMenu(true);
-  };
-  const onCloseHandler = () => {
-    setMobileMenu(false);
-  };
   return (
     <>
-      <MobileMenu mobileMenu={mobileMenu} onClose={onCloseHandler} />
-      <CartDrawer cartOpen={cartOpen} onClose={onCartCloseHandler} />
-      <div className={`bg-white ${stickyMenu ? "fixed top-0 left-0 right-0 z-20 w-full" : "static"}`}>
+      <MobileMenu mobileMenu={mobileMenu} onClose={() => setMobileMenu(false)} />
+      <CartDrawer cartOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      <div className={`bg-white ${stickyMenu ? "fixed top-0 left-0 right-0 z-20 w-full" : "static"
+        }`}>
         <div className="container bg-white mx-auto py-[18px] flex justify-between xl:px-3 lg:px-3 md:px-3 sm:px-3 px-8">
           <div className="flex items-center gap-1">
             <Menu
-              onClick={onClickHandler}
+              onClick={() => setMobileMenu(true)}
               className="block lg:hidden md:hidden cursor-pointer"
               size={18}
               color="#141718"
@@ -96,7 +78,7 @@ export default function NavMenu() {
               strokeWidth={1.5}
             />
             <div className="flex items-center gap-1">
-              <button onClick={onCartOpenHandler} className="cursor-pointer" aria-label="cart">
+              <button onClick={() => setCartOpen(true)} className="cursor-pointer" aria-label="cart">
                 <CartSvg />
               </button>
               <span className="font-inter text-[#fff] font-bold text-[12px] w-5 h-5 bg-[#141718] rounded-[50%] flex items-center justify-center">

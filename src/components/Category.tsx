@@ -20,8 +20,8 @@ export default async function Category() {
                   <Image
                     className="object-cover"
                     src={item?.image || ""}
-                    width={167}
-                    height={167}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     alt={item?.name || "Profile image"}
                     priority
                   />

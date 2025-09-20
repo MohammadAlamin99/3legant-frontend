@@ -37,6 +37,7 @@ export default async function Blog() {
                                     alt={item?.title || "blogImage"}
                                     fill
                                     className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 33vw"
                                 />
                             </div>
                             <h4 className="font-poppins lg:text-[20px] text-[16px] font-medium mt-6 mb-2">{item?.title}</h4>

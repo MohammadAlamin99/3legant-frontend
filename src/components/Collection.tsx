@@ -3,7 +3,7 @@ import { Icollection } from "@/types/collection.type";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 export default async function Collection() {
-  const collection:Icollection[] = await getCollection("collection");
+  const collection: Icollection[] = await getCollection("collection");
   return (
     <>
       <div className="lx:px-0 lg:px-3 md:px-3 container mx-auto py-10 lg:py-12 max-[640px]:px-8 grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 lg:gap-6 md:gap-4 sm:gap-4 gap-4 max-[768px]:px-3">
@@ -11,12 +11,14 @@ export default async function Collection() {
           collection && collection.map((item, i) => (
             <div className="relative z-0 after:content-[''] after:absolute after:left-0 after:top-0 after:w-full after:h-full after:bg-[linear-gradient(180deg,rgba(0,0,0,0)_67.59%,rgba(0,0,0,0.32)_83.07%)]" key={i}>
               <Image
-                className="w-full h-[377px] lg:w-full lg:h-[664px] md:h-[500px] object-cover"
-                src={item?.image || ""}
-                alt={item?.name || "Collection imgae"}
                 width={548}
                 height={664}
+                src={item?.image || ""}
+                alt={item?.name || "Collection image"}
+                className="w-full h-[377px] lg:w-full lg:h-[664px] md:h-[500px] object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
+
               <div className="absolute lg:left-12 lg:bottom-12 md:left-8 md:bottom-8 left-8 bottom-8">
                 <h2 className="relative z-10 font-poppins text-[28px] text-white font-medium lg:text-[34px]">
                   {item?.name}
