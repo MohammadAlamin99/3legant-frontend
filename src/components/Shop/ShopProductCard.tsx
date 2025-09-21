@@ -16,6 +16,7 @@ const ShopProductCard = ({
   isFetchingNextPage?: boolean;
   hasNextPage: boolean;
 }) => {
+
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
