@@ -54,7 +54,7 @@ export const getAllProduct = async (page:number, limit:number) => {
       }
     );
     const data = await res.json();
-    return data.products;
+    return data;
   } catch (e) {
     return e;
   }

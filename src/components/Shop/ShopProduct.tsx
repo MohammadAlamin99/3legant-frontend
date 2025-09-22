@@ -9,13 +9,18 @@ import { useState } from "react";
 
 export default function ShopProduct() {
   const [categoryId, setCategoryId] = useState<string>("");
+  const [has, setHas] = useState<boolean>(true);
 
   // product data query
-  const limit = 9;
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const limit = 6;
+  const { data, isLoading, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["products"],
-      queryFn: ({ pageParam }) => getAllProduct(pageParam as number, limit),
+      queryFn: async ({ pageParam = 1 }) => {
+        const result = await getAllProduct(pageParam as number, limit);
+        setHas(result.totalProducts > limit * pageParam);
+        return result.products;
+      },
       initialPageParam: 1,
       getNextPageParam: (lastPage, pages) => {
         return lastPage.length === limit ? pages.length + 1 : undefined;
@@ -53,7 +58,7 @@ export default function ShopProduct() {
             products={productTshow}
             fetchNextPage={() => fetchNextPage()}
             isFetchingNextPage={isFetchingNextPage}
-            hasNextPage={hasNextPage}
+            hasNextPage={has}
           />
         </div>
       </div>
