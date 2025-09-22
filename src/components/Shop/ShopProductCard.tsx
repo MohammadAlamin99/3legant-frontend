@@ -16,7 +16,6 @@ const ShopProductCard = ({
   isFetchingNextPage?: boolean;
   hasNextPage: boolean;
 }) => {
-
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
@@ -87,26 +86,24 @@ const ShopProductCard = ({
                   />
                 ))}
                 <span className="ml-1.5 font-inter text-sm font-medium">
-                  (5.00)
+                  ({item?.rating?.average})
                 </span>
               </div>
               <h2 className="text-[16px] font-semibold text-[#141718] leading-8">
-                Demo Product title
+                {item?.title}
               </h2>
               <div className="flex items-center gap-3">
                 <p className="text-[14px] font-semibold text-[#141718]">
-                  TK. 700
+                  TK. {item?.basePrice}
                 </p>
                 <p className="text-[14px] font-normal text-[#6C7275] line-through">
-                  TK. 1000
+                  TK. {item?.compareAtPrice}
                 </p>
               </div>
             </div>
           ))}
         {isFetchingNextPage &&
-          Array.from({ length: 6 }).map((_, i) => (
-            <LoadMoreSkeleton key={i} />
-          ))}
+          Array.from({ length: 6 }).map((_, i) => <LoadMoreSkeleton key={i} />)}
       </div>
 
       {/* Load More */}
