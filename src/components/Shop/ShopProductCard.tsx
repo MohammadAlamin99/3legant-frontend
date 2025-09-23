@@ -5,21 +5,27 @@ import React from "react";
 import Image from "next/image";
 import { Product } from "@/types/product.type";
 import LoadMoreSkeleton from "../Loading/LoadMoreSkeleton";
+import { Icollection } from "@/types/collection.type";
 const ShopProductCard = ({
   products,
   fetchNextPage,
   isFetchingNextPage,
   hasNextPage,
+  categoryData,
+  categoryId
 }: {
   products: Product[];
   fetchNextPage: () => void;
   isFetchingNextPage?: boolean;
   hasNextPage: boolean;
+  categoryData: Icollection[];
+  categoryId?: string;
 }) => {
+  const filterCategory = categoryData?.find((item)=> item?._id === categoryId);
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
-        <h4 className="text-black font-inter font-semibold">All Products</h4>
+        <h4 className="text-black font-inter font-semibold">{filterCategory?.name || "All Products"}</h4>
         <select className="cursor-pointer font-inter text-[#121212] font-semibold text-[16px] w-fit focus:outline-0">
           <option>Sort by</option>
           <option>Name (Z-A)</option>
