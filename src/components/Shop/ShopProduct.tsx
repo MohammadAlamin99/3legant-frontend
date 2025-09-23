@@ -4,7 +4,7 @@ import Filter from "./Filter";
 import ShopProductCard from "./ShopProductCard";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getCollection } from "@/actions/collection.action";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import ShopProductSkeleton from "../Loading/ShopProductSkeleton";
 import CategoryListSkeleton from "../Loading/CategoryListSkeleton";
 
@@ -12,6 +12,7 @@ export default function ShopProduct() {
   const [categoryId, setCategoryId] = useState<string>("");
   const [hasNext, setHasNext] = useState<boolean>(true);
   const [hasNextCat, setHasNextCat] = useState<boolean>(true);
+  const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({ min: 0, max: Infinity });
 
   // product data query
   const limit = 9;
@@ -34,15 +35,14 @@ export default function ShopProduct() {
     queryKey: ["categorys"],
     queryFn: () => getCollection("shop_by_category"),
   });
-  const allProducts = data?.pages.flat() || [];
-
+  const allProducts = useMemo(() => data?.pages.flat() || [], [data?.pages]);
 
   // product filter by collection id query
   const { data: collectionProduct, isLoading: isCatProductLoading, fetchNextPage: catNextPage, isFetchingNextPage: isCatFatchingNextPage } = useInfiniteQuery({
     queryKey: ["collectionProduct", categoryId],
     queryFn: async ({ pageParam = 1 }) => {
       const result = await getProductByCollectionID(categoryId, pageParam, limit);
-      setHasNextCat(result.totalProducts > limit * pageParam)
+      setHasNextCat(result.totalProducts > limit * pageParam);
       return result?.products;
     },
     initialPageParam: 1,
@@ -55,7 +55,25 @@ export default function ShopProduct() {
   // cetegory handler
   const handleCategoryChange = (id: string) => {
     setCategoryId(id);
+    setPriceRange({ min: 0, max: Infinity });
   };
+
+  const displayedProducts = useMemo(() => {
+    return categoryId ? (collectionProduct?.pages.flat() || []) : allProducts
+  }, [categoryId, collectionProduct, allProducts])
+
+  // handle price range filter
+  const handlePriceChange = (min: number, max: number) => {
+    setPriceRange({ max, min })
+  }
+
+  // filter prduct by price range
+  const filteredProducts = useMemo(() => {
+    if (!priceRange) {
+      return displayedProducts
+    }
+    return displayedProducts.filter((p) => p.basePrice >= priceRange.min && p.basePrice <= priceRange.max);
+  }, [displayedProducts, priceRange])
 
   // loading animation
   if (isLoading || isCategoryLoading || isCatProductLoading) {
@@ -78,10 +96,11 @@ export default function ShopProduct() {
           categoryData={categoryData}
           handleCategoryChange={handleCategoryChange}
           categoryId={categoryId}
+          handlePriceChange={handlePriceChange}
         />
         <div className="w-full">
           <ShopProductCard
-            products={categoryId ? (collectionProduct?.pages.flat() || []) : allProducts}
+            products={filteredProducts}
             fetchNextPage={categoryId ? catNextPage : fetchNextPage}
             isFetchingNextPage={categoryId ? isCatFatchingNextPage : isFetchingNextPage}
             hasNextPage={categoryId ? hasNextCat : hasNext}
