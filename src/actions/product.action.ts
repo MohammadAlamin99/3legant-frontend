@@ -22,7 +22,6 @@ export const getProduct = async (tags: string, page: number, limit: number) => {
 };
 
 
-
 // get product by id
 export const getProductById = async (id: string) => {
   try {
@@ -35,6 +34,25 @@ export const getProductById = async (id: string) => {
     });
     const data = await res.json();
     return data.message;
+  } catch (e) {
+    return e;
+  }
+};
+
+// get product by price range
+export const getProductbyPriceRange = async (minPrice: number, maxPrice: number, page: number, limit: number) => {
+  try {
+    const res = await fetch(
+      `${baseUrl}/products/price?minPrice=${minPrice}&maxPrice=${maxPrice}&page=${page}&limit=${limit}`,
+      {
+        method: "GET",
+        headers: {
+          content: "application/json",
+        }
+      }
+    );
+    const data = await res.json();
+    return data;
   } catch (e) {
     return e;
   }
