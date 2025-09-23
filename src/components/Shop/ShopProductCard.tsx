@@ -25,7 +25,6 @@ const ShopProductCard = ({
   const filterCategory = categoryData?.find((item) => item?._id === categoryId);
 
   // shorted product 
-
   const sortedProducts = useMemo(() => {
     if (!products) {
       return [];

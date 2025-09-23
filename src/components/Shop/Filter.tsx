@@ -8,6 +8,7 @@ export default function Filter({ categoryData, handleCategoryChange, categoryId,
         { min: 0, max: 100 },
         { min: 101, max: 200 },
         { min: 201, max: 300 },
+        { min: 301, max: Infinity }
     ];
     return (
         <div className="w-full">
@@ -38,10 +39,12 @@ export default function Filter({ categoryData, handleCategoryChange, categoryId,
                             priceRanges && priceRanges.map((item, i) => (
                                 <li key={i} className="flex justify-between items-center">
                                     <label className="flex justify-between items-center w-full cursor-pointer text-[#6C7275] text-[14px] font-semibold font-inter lg:gap-0 gap-4">
-                                        TK {item?.min} - TK {item?.max}
+                                        {
+                                            item.max === Infinity ? `TK ${item?.min} +` : `TK ${item?.min} - TK ${item?.max}`
+                                        }
                                         <input
                                             type="checkbox"
-                                            onChange={() => handlePriceChange(item.min, item.max )}
+                                            onChange={() => handlePriceChange(item.min, item.max)}
                                             className="w-4 h-4 border border-gray-400 accent-black rounded"
                                         />
                                     </label>
