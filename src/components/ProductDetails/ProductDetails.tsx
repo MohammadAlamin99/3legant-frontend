@@ -4,6 +4,7 @@ import ColorVarient from "./ColorVarient";
 import ThumsSlider from "./ThumsSlider";
 import { Product } from "@/types/product.type";
 import { IProductVariant } from "@/types/variant.type";
+import ProductSizeOptions from "./ProductSizeOptions";
 
 interface ProductDetailsProps {
   product: Product;
@@ -40,10 +41,14 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
             {product?.title}
           </h1>
 
+
           {/* Description */}
           <p className="text-[#6C7275] text-[16px] font-normal font-inter leading-relaxed">
             {product?.description}
           </p>
+
+          {/* product size option */}
+          <ProductSizeOptions variants={product?.variants ? product.variants as IProductVariant[] : []}/>
 
           {/* Price */}
           <div className="flex items-center space-x-4">

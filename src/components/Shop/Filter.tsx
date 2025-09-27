@@ -15,6 +15,7 @@ export default function Filter({
   priceRange: { min: number; max: number };
 }) {
   const priceRangesData = [
+    { min: 0, max: Infinity },
     { min: 0, max: 100 },
     { min: 101, max: 200 },
     { min: 201, max: 300 },
@@ -60,13 +61,17 @@ export default function Filter({
               priceRangesData.map((item, i) => (
                 <li key={i} className="flex justify-between items-center">
                   <label className="flex justify-between items-center w-full cursor-pointer text-[#6C7275] text-[14px] font-semibold font-inter lg:gap-0 gap-4">
-                    {item.max === Infinity
+                    {item?.min === 0 && item.max === Infinity
+                      ? "All Price"
+                      : item.max === Infinity
                       ? `TK ${item?.min} +`
                       : `TK ${item?.min}.00 - ${item?.max}.00`}
+
                     <input
                       type="checkbox"
                       checked={
-                        priceRange.min === item.min && priceRange.max === item.max
+                        priceRange.min === item.min &&
+                        priceRange.max === item.max
                       }
                       onChange={() => handlePriceChange(item.min, item.max)}
                       className="w-4 h-4 border border-gray-400 accent-black rounded"

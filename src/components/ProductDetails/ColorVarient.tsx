@@ -4,7 +4,8 @@ import { ChevronRight } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
 
-export default function ColorVarient({ variants }: { variants: IProductVariant[] }) {
+export default function 
+ColorVarient({ variants }: { variants: IProductVariant[] }) {
 
   const uniqueVariants = useMemo(() => {
     const seen = new Set<string>();
@@ -17,7 +18,6 @@ export default function ColorVarient({ variants }: { variants: IProductVariant[]
   }, [variants])
 
   const [selectedVariant, setSelectedVariant] = useState<IProductVariant | null>(uniqueVariants[0] || null);
-
   return (
     <>
       {
