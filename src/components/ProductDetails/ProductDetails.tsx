@@ -48,20 +48,20 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
           </p>
 
           {/* product size option */}
-          <ProductSizeOptions variants={product?.variants ? product.variants as IProductVariant[] : []}/>
+          {/* <ProductSizeOptions variants={product?.variants ? product.variants as IProductVariant[] : []}/> */}
 
           {/* Price */}
-          <div className="flex items-center space-x-4">
+          {/* <div className="flex items-center space-x-4">
             <span className="text-[28px] font-medium text-[#121212] font-poppins">
               TK. {product?.basePrice}
             </span>
             <span className="text-[20px] font-poppins text-[#6C7275] line-through">
               TK. {product?.compareAtPrice}
             </span>
-          </div>
+          </div> */}
 
           {/* Dimensions */}
-          {
+          {/* {
             product?.dimensions && (
               <>
                 <h3 className="text-[16px] font-semibold text-[#6C7275] mb-2">
@@ -72,7 +72,7 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
                 </p>
               </>
             )
-          }
+          } */}
 
 
           {/* Color Selection */}
