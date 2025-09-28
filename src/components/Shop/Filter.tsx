@@ -42,11 +42,10 @@ export default function Filter({
                   key={i}
                   className={`mb-3 cursor-pointer
                                  hover:text-[#121212] border-b border-[#fff] 
-                                 hover:border-[#121212] w-fit transition-all duration-300 ${
-                                   categoryId === item?._id
-                                     ? "text-[#121212] border-b-[#121212]"
-                                     : ""
-                                 }`}
+                                 hover:border-[#121212] w-fit transition-all duration-300 ${categoryId === item?._id
+                      ? "text-[#121212] border-b-[#121212]"
+                      : ""
+                    }`}
                   onClick={() => handleCategoryChange(item._id)}
                 >
                   {item?.name}

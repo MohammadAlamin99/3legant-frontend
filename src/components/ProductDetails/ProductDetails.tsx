@@ -1,10 +1,9 @@
 import { Star } from "lucide-react";
 import QtyAndATC from "./QtyAndATC";
-import ColorVarient from "./ColorVarient";
+import Varients from "./Varients";
 import ThumsSlider from "./ThumsSlider";
 import { Product } from "@/types/product.type";
 import { IProductVariant } from "@/types/variant.type";
-import ProductSizeOptions from "./ProductSizeOptions";
 
 interface ProductDetailsProps {
   product: Product;
@@ -47,36 +46,8 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
             {product?.description}
           </p>
 
-          {/* product size option */}
-          {/* <ProductSizeOptions variants={product?.variants ? product.variants as IProductVariant[] : []}/> */}
-
-          {/* Price */}
-          {/* <div className="flex items-center space-x-4">
-            <span className="text-[28px] font-medium text-[#121212] font-poppins">
-              TK. {product?.basePrice}
-            </span>
-            <span className="text-[20px] font-poppins text-[#6C7275] line-through">
-              TK. {product?.compareAtPrice}
-            </span>
-          </div> */}
-
-          {/* Dimensions */}
-          {/* {
-            product?.dimensions && (
-              <>
-                <h3 className="text-[16px] font-semibold text-[#6C7275] mb-2">
-                  Dimensions
-                </h3>
-                <p className="text-black font-normal font-inter text-[20px]">
-                  L : {product?.dimensions?.l} x W : {product?.dimensions?.w} x H : {product?.dimensions?.h}
-                </p>
-              </>
-            )
-          } */}
-
-
-          {/* Color Selection */}
-          <ColorVarient variants={product?.variants ? product.variants as IProductVariant[] : []} />
+          {/* varients Selection */}
+          <Varients variants={product?.variants ? product.variants as IProductVariant[] : []} dimensions = {product?.dimensions}/>
 
           {/* Quantity and Actions */}
           <QtyAndATC />
