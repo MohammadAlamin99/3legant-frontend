@@ -15,7 +15,7 @@ import { useParams } from "next/navigation";
 
 export default function CollectionProduct() {
     const [categoryId, setCategoryId] = useState<string>("");
-    const [hasNext, setHasNext] = useState<boolean>(true);
+    // const [hasNext, setHasNext] = useState<boolean>(true);
     const [hasNextCat, setHasNextCat] = useState<boolean>(true);
     const [hasNextPRange, setHasNextPRange] = useState<boolean>(true);
     const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
@@ -175,8 +175,8 @@ export default function CollectionProduct() {
                                 categoryId
                                     ? hasNextCat
                                     : priceRange.min !== 0 || priceRange.max !== Infinity
-                                        ? hasNextPRange
-                                        : hasNext
+                                        // ? hasNextPRange
+                                        // : hasNext
                             }
                             // categoryData={categoryData}
                             categoryId={categoryId}
