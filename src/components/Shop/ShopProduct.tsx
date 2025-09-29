@@ -29,6 +29,7 @@ export default function ShopProduct() {
       queryFn: async ({ pageParam = 1 }) => {
         const result = await getAllProduct(pageParam as number, limit);
         setHasNext(result.totalProducts > limit * pageParam);
+        console.log(result.totalProducts)
         return result.products;
       },
       initialPageParam: 1,

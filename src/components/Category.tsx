@@ -15,7 +15,7 @@ export default async function Category() {
         {collection &&
           collection.map((item, id) => (
             <div className="flex items-center flex-col gap-3" key={id}>
-              <Link href={"#"}>
+              <Link href={"/collection/" + item?._id}>
                 <div className="relative lg:w-[167px] lg:h-[167px] w-[152px] h-[152px] max-[380px]:w-[120px] max-[380px]:h-[120px] rounded-full overflow-hidden">
                   <Image
                     className="object-cover"
