@@ -2,6 +2,7 @@ import { getCollection } from "@/actions/collection.action";
 import { Icollection } from "@/types/collection.type";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 export default async function Collection() {
   const collection: Icollection[] = await getCollection("collection");
   return (
@@ -25,10 +26,9 @@ export default async function Collection() {
                   {item?.name}
                 </h2>
                 <div className="w-fit">
-                  <button
-                    className="relative group items-center justify-center flex cursor-pointer gap-1 text-white text-[14px] font-semibold 
-            before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-[1px] 
-            before:w-full before:bg-white"
+                  <Link href={`/collection/${item?._id}`}>
+                  <button className="relative group items-center justify-center flex cursor-pointer gap-1 text-white text-[14px] font-semibold 
+                    before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-[1px] before:w-full before:bg-white"
                     aria-label="Shop Now"
                   >
                     Collection
@@ -40,6 +40,7 @@ export default async function Collection() {
                       strokeWidth={2}
                     />
                   </button>
+                  </Link>
                 </div>
               </div>
             </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import bannerImg from "../../public/images/Hero_banner.png"
 import Image from "next/image"
 export default function HeroBanner() {
@@ -18,7 +19,9 @@ export default function HeroBanner() {
                     Everyone needs a good winter jacket.
                     Find yours with our collection and more.
                 </p>
+                <Link href={"/shop"}>
                 <button className="px-14 py-3 bg-[#377DFF] rounded-[8px] font-inter text-[14px] md:text-[16px] lg:text-[18px] font-medium cursor-pointer">Shopping Now</button>
+                </Link>
             </div>
         </div>
     );
