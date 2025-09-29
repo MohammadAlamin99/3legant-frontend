@@ -11,6 +11,7 @@ import ShopProductSkeleton from "../Loading/ShopProductSkeleton";
 import CategoryListSkeleton from "../Loading/CategoryListSkeleton";
 import Filter from "../Shop/Filter";
 import ShopProductCard from "../Shop/ShopProductCard";
+import { useParams } from "next/navigation";
 
 export default function CollectionProduct() {
     const [categoryId, setCategoryId] = useState<string>("");
@@ -21,29 +22,32 @@ export default function CollectionProduct() {
         min: 0,
         max: Infinity,
     });
+    const id = useParams();
+    const collectionID = id?.id;
+    // console.log(id)
     // product data query
     const limit = 9;
-    const { data, isLoading, fetchNextPage, isFetchingNextPage } =
-        useInfiniteQuery({
-            queryKey: ["products"],
-            queryFn: async ({ pageParam = 1 }) => {
-                const result = await getAllProduct(pageParam as number, limit);
-                setHasNext(result.totalProducts > limit * pageParam);
-                console.log(result.totalProducts)
-                return result.products;
-            },
-            initialPageParam: 1,
-            getNextPageParam: (lastPage, pages) => {
-                return lastPage.length === limit ? pages.length + 1 : undefined;
-            },
-        });
+    // const { data, isLoading, fetchNextPage, isFetchingNextPage } =
+    //     useInfiniteQuery({
+    //         queryKey: ["products"],
+    //         queryFn: async ({ pageParam = 1 }) => {
+    //             const result = await getAllProduct(pageParam as number, limit);
+    //             setHasNext(result.totalProducts > limit * pageParam);
+    //             console.log(result.totalProducts)
+    //             return result.products;
+    //         },
+    //         initialPageParam: 1,
+    //         getNextPageParam: (lastPage, pages) => {
+    //             return lastPage.length === limit ? pages.length + 1 : undefined;
+    //         },
+    //     });
 
     // category collection query
-    const { data: categoryData, isLoading: isCategoryLoading } = useQuery({
-        queryKey: ["categorys"],
-        queryFn: () => getCollection("shop_by_category"),
-    });
-    const allProducts = useMemo(() => data?.pages.flat() || [], [data?.pages]);
+    // const { data: categoryData, isLoading: isCategoryLoading } = useQuery({
+    //     queryKey: ["categorys"],
+    //     queryFn: () => getCollection("shop_by_category"),
+    // });
+    // const allProducts = useMemo(() => data?.pages.flat() || [], [data?.pages]);
 
     // product filter by collection id query
     const {
@@ -52,10 +56,10 @@ export default function CollectionProduct() {
         fetchNextPage: catNextPage,
         isFetchingNextPage: isCatFatchingNextPage,
     } = useInfiniteQuery({
-        queryKey: ["collectionProduct", categoryId],
+        queryKey: ["collectionProduct", collectionID],
         queryFn: async ({ pageParam = 1 }) => {
             const result = await getProductByCollectionID(
-                categoryId,
+                collectionID as string,
                 pageParam,
                 limit
             );
@@ -66,8 +70,11 @@ export default function CollectionProduct() {
         getNextPageParam: (lastPage, pages) => {
             return lastPage.length === limit ? pages.length + 1 : undefined;
         },
-        enabled: !!categoryId,
+        // enabled: !!categoryId,
     });
+
+    const collectionData = collectionProduct?.pages.flat() || [];
+    console.log(collectionData)
 
     // product filter by price range query
     const {
@@ -95,10 +102,10 @@ export default function CollectionProduct() {
     });
 
     // cetegory handler
-    const handleCategoryChange = (id: string) => {
-        setCategoryId(id);
-        setPriceRange({ min: 0, max: Infinity });
-    };
+    // const handleCategoryChange = (id: string) => {
+    //     setCategoryId(id);
+    //     setPriceRange({ min: 0, max: Infinity });
+    // };
     // handle price range filter
     const handlePriceChange = (min: number, max: number) => {
         setPriceRange({ max, min });
@@ -106,24 +113,24 @@ export default function CollectionProduct() {
     };
 
     // display product
-    const displayedProducts = useMemo(() => {
-        if (categoryId) {
-            return collectionProduct?.pages.flat() || [];
-        } else if (priceRange.min !== 0 || priceRange.max !== Infinity) {
-            return priceRangeProduct?.pages.flat() || [];
-        } else {
-            return allProducts;
-        }
-    }, [
-        categoryId,
-        collectionProduct,
-        priceRange,
-        priceRangeProduct,
-        allProducts,
-    ]);
+    // const displayedProducts = useMemo(() => {
+    //     if (categoryId) {
+    //         return collectionProduct?.pages.flat() || [];
+    //     } else if (priceRange.min !== 0 || priceRange.max !== Infinity) {
+    //         return priceRangeProduct?.pages.flat() || [];
+    //     } else {
+    //         return allProducts;
+    //     }
+    // }, [
+    //     categoryId,
+    //     collectionProduct,
+    //     priceRange,
+    //     priceRangeProduct,
+    //     allProducts,
+    // ]);
 
     // loading animation
-    if (isLoading || isCategoryLoading || isCatProductLoading || isPriceRangeLoading) {
+    if ( isCatProductLoading || isPriceRangeLoading) {
         return (
             <div className="container mx-auto xl:px-3 lg:px-3 md:px-3 sm:px-3 px-8 lg:py-[60px] py-[32px]">
                 <div className="grid lg:grid-cols-[minmax(262px,_auto)_1fr] lg:gap-6 gap-0">
@@ -141,28 +148,28 @@ export default function CollectionProduct() {
             <div className="container mx-auto xl:px-3 lg:px-3 md:px-3 sm:px-3 px-8 lg:py-[60px] py-[32px]">
                 <div className="grid lg:grid-cols-[minmax(262px,_auto)_1fr] lg:gap-6 gap-0">
                     <Filter
-                        categoryData={categoryData}
-                        handleCategoryChange={handleCategoryChange}
-                        categoryId={categoryId}
+                        // categoryData={categoryData}
+                        // handleCategoryChange={handleCategoryChange}
+                        // categoryId={categoryId}
                         handlePriceChange={handlePriceChange}
                         priceRange={priceRange}
                     />
                     <div className="w-full">
                         <ShopProductCard
-                            products={displayedProducts}
+                            products={collectionData}
                             fetchNextPage={
                                 categoryId
                                     ? catNextPage
                                     : priceRange.min !== 0 || priceRange.max !== Infinity
-                                        ? priceRangeNextPage
-                                        : fetchNextPage
+                                        // ? priceRangeNextPage
+                                        // : fetchNextPage
                             }
                             isFetchingNextPage={
                                 categoryId
                                     ? isCatFatchingNextPage
                                     : priceRange.min !== 0 || priceRange.max !== Infinity
-                                        ? isPRnageFatchingNextPage
-                                        : isFetchingNextPage
+                                        // ? isPRnageFatchingNextPage
+                                        // : isFetchingNextPage
                             }
                             hasNextPage={
                                 categoryId
@@ -171,7 +178,7 @@ export default function CollectionProduct() {
                                         ? hasNextPRange
                                         : hasNext
                             }
-                            categoryData={categoryData}
+                            // categoryData={categoryData}
                             categoryId={categoryId}
                         />
                     </div>
