@@ -18,7 +18,7 @@ const ShopProductCard = ({
   fetchNextPage: () => void;
   isFetchingNextPage?: boolean;
   hasNextPage: boolean;
-  categoryData: Icollection[];
+  categoryData?: Icollection[];
   categoryId?: string;
 }) => {
   const [sortOption, setSortOption] = useState<string>("");
