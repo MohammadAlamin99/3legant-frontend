@@ -1,6 +1,6 @@
 "use client";
 import { IProductVariant } from "@/types/variant.type";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Heart, Minus, Plus } from "lucide-react";
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 
@@ -19,6 +19,12 @@ export default function ColorVariant({
 }) {
   // Initial selected variant
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+  const [qty, setQty] = useState(1);
+
+  const qtyHandler = (value: number) => {
+    if (value < 1) return;
+    setQty(value);
+  };
 
   // Get unique sizes and colors
   const uniqueSizes = useMemo(() => {
@@ -63,7 +69,7 @@ export default function ColorVariant({
           {uniqueSizes.map((v, i) => {
             const isActive =
               selectedVariant?.options?.size === v?.options?.size;
-              if (v.isActive === false) return null;
+            if (v.isActive === false) return null;
             return (
               <button
                 key={`${v.options.size}-${i}`}
@@ -145,7 +151,7 @@ export default function ColorVariant({
                       ? "border-[#141718]"
                       : variantExists
                       ? "border-transparent hover:border-gray-300"
-                      : "border-gray-200 opacity-50 cursor-not-allowed"
+                      : "border-gray-200 opacity-50"
                   }`}
                 title={
                   !variantExists
@@ -173,7 +179,6 @@ export default function ColorVariant({
                 v.options.color === c.options.color &&
                 v.options.size === selectedVariant.options.size
             );
-
             return (
               <button
                 key={`${c.options.color}-${i}`}
@@ -207,6 +212,42 @@ export default function ColorVariant({
           })}
         </div>
       )}
+
+      {/* qty and atc button */}
+      <div className="space-y-4">
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center rounded-lg bg-[#F5F5F5]">
+            <button
+              className="p-3.5 transition-colors cursor-pointer"
+              onClick={() => qtyHandler(qty - 1)}
+            >
+              <Minus width={20} height={20} />
+            </button>
+            <span className="px-4 py-2 text-gray-900 font-medium">{qty}</span>
+            <button
+              className="p-3.5 transition-colors cursor-pointer"
+              onClick={() => qtyHandler(qty + 1)}
+            >
+              <Plus width={20} height={20} />
+            </button>
+          </div>
+          <button className="w-full cursor-pointer bg-white border border-[#141718] text-[#141718] py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2">
+            <Heart className="w-5 h-5" />
+            <span>Wishlist</span>
+          </button>
+        </div>
+        <button
+          disabled={selectedVariant?.stock < qty}
+          className={`w-full font-inter text-[18px] font-medium py-4 px-6 rounded-lg transition-colors 
+    ${
+      selectedVariant?.stock >= qty
+        ? "bg-[#141718] text-white hover:bg-gray-800 cursor-pointer"
+        : "bg-gray-400 text-gray-200 cursor-not-allowed"
+    }`}
+        >
+          {selectedVariant?.stock >= qty ? "Add to Cart" : "Out of Stock"}
+        </button>
+      </div>
     </>
   );
 }
