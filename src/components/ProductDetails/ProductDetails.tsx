@@ -3,6 +3,7 @@ import Varients from "./Varients";
 import ThumsSlider from "./ThumsSlider";
 import { Product } from "@/types/product.type";
 import { IProductVariant } from "@/types/variant.type";
+import AccordionTabs from "./AccordionTabs";
 
 interface ProductDetailsProps {
   product: Product;
@@ -65,6 +66,8 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
               </span>
             </div>
           </div>
+          {/* accordion tabs */}
+          <AccordionTabs metafields={product?.metafields}/>
         </div>
       </div>
     </div>
