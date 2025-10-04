@@ -49,7 +49,7 @@ export default function AccordionTabs({
               }}
             >
               <div
-                className="font-inter text-[12px] text-[#141718] font-normal py-2"
+                className="accordion font-inter text-[12px] text-[#141718] font-normal py-2"
                 dangerouslySetInnerHTML={{ __html: item?.content }}
               />
             </div>

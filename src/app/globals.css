@@ -48,6 +48,14 @@
 .swiper-slide-thumb-active {
   border: 2px solid #141718;
 }
+.accordion ul {
+  list-style-type: disc; 
+  padding-left: 1.5rem;  
+}
+
+.accordion ul li::marker {
+  color: #141718; 
+}
 
 body .swiper {
   display: none;
