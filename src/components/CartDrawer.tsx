@@ -33,11 +33,23 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
         setQuantity(newQty);
     };
 
-    
+    const allVariants = cartData?.map((product) =>
+        product.variants?.map((variant: any) => ({
+            ...variant,
+            parentTitle: product.title,
+            parentImage: product.featureImage,
+        })) || []
+    ) || [];
+
+const filteredVariants = allVariants.filter((variant) =>
+    variantIds.includes(variant._id)
+  );
+  console.log(allVariants)
+
 
     const subtotal = 1200;
     const total = 1200;
-    console.log(cartData);
+    // console.log(cartData);
     return (
         <>
             <div className={`fixed inset-0 bg-black z-30 opacity-50 visible-0 transition-opacity duration-300 
@@ -77,7 +89,7 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                                         <h2 className="max-w-[180px] text-sm font-inter font-semibold text-[#141718] leading-6">
                                             {item?.title}
                                         </h2>
-                                        <span className="text-sm font-semibold text-[#141718]">TK. { item?.variants?.[0]?.price}</span>
+                                        <span className="text-sm font-semibold text-[#141718]">TK. {item?.variants?.[0]?.price}</span>
                                     </div>
                                     {
                                         item?.variants && item?.variants.map((v, i) => (
@@ -210,6 +222,7 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
 //   const filteredVariants = allVariants.filter((variant) =>
 //     variantIds.includes(variant._id)
 //   );
+//   console.log(allVariants)
 
 //   // 💰 Calculate total
 //   const subtotal = filteredVariants.reduce((acc, variant) => {
@@ -221,13 +234,13 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
 //     <>
 //       {/* Overlay */}
 //       <div
-//         className={`fixed inset-0 bg-black z-30 opacity-50 transition-opacity duration-300 
+//         className={`fixed inset-0 bg-black z-30 opacity-50 transition-opacity duration-300
 //           ${cartOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
 //       />
 
 //       {/* Drawer */}
 //       <div
-//         className={`fixed flex top-0 right-0 h-screen bg-white shadow-lg z-40 w-[30%] 
+//         className={`fixed flex top-0 right-0 h-screen bg-white shadow-lg z-40 w-[30%]
 //           max-[1200px]:w-[45%] max-[768px]:w-[70%] max-[575px]:w-[90%] flex-col transition-transform duration-300 p-6 ${
 //             cartOpen ? "translate-x-0" : "translate-x-full"
 //           }`}
