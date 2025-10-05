@@ -13,9 +13,11 @@ type dimensions = {
 export default function ColorVariant({
   variants,
   dimensions,
+  productId,
 }: {
   variants: IProductVariant[];
   dimensions?: dimensions;
+  productId?: string
 }) {
   // Initial selected variant
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
@@ -48,7 +50,6 @@ export default function ColorVariant({
         v.options.color === color &&
         v.options.size === selectedVariant.options.size
     );
-
     if (newVariant) {
       setSelectedVariant(newVariant);
     } else {
@@ -59,6 +60,24 @@ export default function ColorVariant({
       }
     }
   };
+
+  // set localstorage atc product
+  const handleAddToCart = (PId: string, VId: string) => {
+    if (selectedVariant?.stock < qty) return;
+    const newItem = {
+      productId: PId,
+      variantId: VId,
+      quantity: qty,
+    };
+      const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const existingIndex = existingCart.findIndex((item: { productId: string; variantId: string; quantity: number })=> item.productId === newItem.productId && item.variantId === newItem.variantId);
+      if(existingIndex !== -1){
+        existingCart[existingIndex].quantity += qty;
+      } else {
+        existingCart.push(newItem);
+      }
+      localStorage.setItem("cart", JSON.stringify(existingCart));
+  }
 
   return (
     <>
@@ -75,10 +94,9 @@ export default function ColorVariant({
                 key={`${v.options.size}-${i}`}
                 onClick={() => handleSizeSelect(v)}
                 className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all cursor-pointer
-                  ${
-                    isActive
-                      ? "border-black bg-[#141718] text-white shadow-md"
-                      : "border-gray-300 bg-white text-gray-700 hover:border-black hover:bg-gray-50"
+                  ${isActive
+                    ? "border-black bg-[#141718] text-white shadow-md"
+                    : "border-gray-300 bg-white text-gray-700 hover:border-black hover:bg-gray-50"
                   }`}
               >
                 {v.options.size}
@@ -146,10 +164,9 @@ export default function ColorVariant({
                     : undefined
                 }
                 className={`w-16 h-16 flex items-center justify-center transition relative border-2 cursor-pointer
-                  ${
-                    isActive
-                      ? "border-[#141718]"
-                      : variantExists
+                  ${isActive
+                    ? "border-[#141718]"
+                    : variantExists
                       ? "border-transparent hover:border-gray-300"
                       : "border-gray-200 opacity-50"
                   }`}
@@ -188,10 +205,9 @@ export default function ColorVariant({
                 disabled={!variantExists}
                 className={`
                   relative w-8 h-8 rounded-full border-2 transition-all duration-200
-                  ${
-                    isActive
-                      ? "ring-2 ring-offset-2 ring-black border-white shadow-md"
-                      : variantExists
+                  ${isActive
+                    ? "ring-2 ring-offset-2 ring-black border-white shadow-md"
+                    : variantExists
                       ? "border-gray-200 hover:scale-105 hover:shadow-md cursor-pointer"
                       : "border-gray-200 opacity-50 cursor-not-allowed"
                   }`}
@@ -238,13 +254,12 @@ export default function ColorVariant({
         </div>
         <button
           disabled={selectedVariant?.stock < qty}
+          onClick={() => handleAddToCart(productId || "", selectedVariant?._id || "")}
           className={`w-full font-inter text-[18px] font-medium py-4 px-6 rounded-lg transition-colors 
-    ${
-      selectedVariant?.stock >= qty
-        ? "bg-[#141718] text-white hover:bg-gray-800 cursor-pointer"
-        : "bg-gray-400 text-gray-200 cursor-not-allowed"
-    }`}
-        >
+          ${selectedVariant?.stock >= qty
+              ? "bg-[#141718] text-white hover:bg-gray-800 cursor-pointer"
+              : "bg-gray-400 text-gray-200 cursor-not-allowed"
+            }`}>
           {selectedVariant?.stock >= qty ? "Add to Cart" : "Out of Stock"}
         </button>
       </div>

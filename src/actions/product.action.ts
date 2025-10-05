@@ -58,6 +58,28 @@ export const getProductbyPriceRange = async (minPrice: number, maxPrice: number,
   }
 };
 
+
+// get product by ids
+export const getProductsByIds = async (variantIds: string[]) => {
+  try {
+    const res = await fetch(`${baseUrl}/products/ids`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ variantIds }),
+      }
+    );
+    const data = await res.json();
+    return data?.data;
+  } catch (e) {
+    return e;
+  }
+}
+
+
+
 // get product by collection id
 export const getProductByCollectionID = async (id: string, page: number, limit: number) => {
   try {

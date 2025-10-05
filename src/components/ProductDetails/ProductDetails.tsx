@@ -47,7 +47,7 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
           </p>
 
           {/* varients Selection */}
-          <Varients variants={product?.variants ? product.variants as IProductVariant[] : []} dimensions = {product?.dimensions}/>
+          <Varients variants={product?.variants ? product.variants as IProductVariant[] : []} dimensions = {product?.dimensions} productId={product?._id}/>
 
           {/* Product Info */}
           <div className="space-y-2 pt-4 border-t border-gray-200">
