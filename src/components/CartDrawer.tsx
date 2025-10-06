@@ -3,11 +3,11 @@ import Image from "next/image";
 import { getProductsByIds } from "@/actions/product.action";
 import { useQuery } from "@tanstack/react-query";
 import { Minus, Plus, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface CartDrawerProps {
     cartOpen: boolean;
-    onClose?: () => void;
+    onClose: () => void;
 }
 export interface Variant {
     _id: string;
@@ -45,12 +45,18 @@ export interface CartItem {
 export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     useEffect(() => {
-        const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
-        setCartItems(storedCart);
+        const updateCart = () => {
+            const stored = JSON.parse(localStorage.getItem("cart") || "[]");
+            setCartItems(stored);
+        };
+        updateCart();
+        window.addEventListener("cart-updated", updateCart);
+        return () => window.removeEventListener("cart-updated", updateCart);
     }, [cartOpen]);
 
+
     // get porducts by ids
-    const variantIds = cartItems.map((item: { productId: string; variantId?: string }) => item?.variantId || "")
+    const variantIds = useMemo(() => cartItems.map((i) => i.variantId), [cartItems])
     const { data: cartData } = useQuery({
         queryKey: ['cartData', variantIds],
         queryFn: () => getProductsByIds(variantIds),
@@ -73,6 +79,7 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
         );
         setCartItems(updated);
         localStorage.setItem("cart", JSON.stringify(updated));
+        window.dispatchEvent(new Event("cart-updated"));
     };
 
     // remove item form cart
@@ -80,18 +87,30 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
         const updated = cartItems.filter((item) => item?.variantId !== variantId);
         setCartItems(updated);
         localStorage.setItem("cart", JSON.stringify(updated));
+        window.dispatchEvent(new Event("cart-updated"));
     }
 
     // calculate subtotal
-    const subtotal = allVariants.reduce((accumulator: number, currentValue: Variant) => {
-        const cartItem = cartItems.find((c) => c.variantId === currentValue?._id);
-        return accumulator + currentValue?.price * (cartItem?.quantity || 1);
-    }, 0)
+    const cartMap = useMemo(
+        () => new Map(cartItems.map((i) => [i.variantId, i.quantity])),
+        [cartItems]
+    );
 
+    const subtotal = allVariants.reduce((acc: number, curr: Variant) => {
+        const qty = cartMap.get(curr._id) || 1;
+        return acc + curr.price * qty;
+    }, 0);
+
+
+    const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    };
     return (
         <>
             <div className={`fixed inset-0 bg-black z-30 opacity-50 visible-0 transition-opacity duration-300 
-                ${cartOpen ? 'opcacity-100 visible' : 'opacity-0 invisible'}`} />
+                ${cartOpen ? 'opacity-50 visible' : 'opacity-0 invisible'}`} onClick={handleOverlayClick} />
             <div className={`fixed flex top-0 right-0 h-screen bg-white shadow-lg z-40 w-[30%] 
                 max-[1200px]:w-[45%] max-[768px]:w-[70%] max-[575px]:w-[90%] flex-col transition-transform duration-300 p-6 ${cartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <div className="flex justify-between items-center mb-4">
