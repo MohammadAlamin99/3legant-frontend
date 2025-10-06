@@ -6,13 +6,15 @@ import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import { useEffect, useState } from "react";
 import CartSvg from "./svg/CartSvg";
-import CartDrawer from "./CartDrawer";
+import CartDrawer, { CartItem } from "./CartDrawer";
 import { usePathname } from "next/navigation";
+import { useCart } from "./context/CartContext";
 export default function NavMenu() {
   const [mobileMenu, setMobileMenu] = useState<boolean>(false);
-  const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [stickyMenu, setStickyMenu] = useState<boolean>(false);
+  const [cartItemsCount, setCartItemsCount] = useState<number>(0);
   const pathname = usePathname();
+  const { cartOpen, setCartOpen } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +25,12 @@ export default function NavMenu() {
       window.removeEventListener("scroll", handleScroll);
     }
   }, [])
+
+  useEffect(() => {
+    const cartData = JSON.parse(localStorage.getItem("cart") || "[]");
+    const cartItemsCount = cartData?.reduce((acc: number, item: CartItem) => acc + item.quantity, 0) || 0;
+    setCartItemsCount(cartItemsCount)
+  }, [cartOpen])
 
   return (
     <>
@@ -82,7 +90,7 @@ export default function NavMenu() {
                 <CartSvg />
               </button>
               <span className="font-inter text-[#fff] font-bold text-[12px] w-5 h-5 bg-[#141718] rounded-[50%] flex items-center justify-center">
-                3
+                {cartItemsCount}
               </span>
             </div>
           </div>

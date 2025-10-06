@@ -3,6 +3,7 @@ import { IProductVariant } from "@/types/variant.type";
 import { ChevronRight, Heart, Minus, Plus } from "lucide-react";
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
+import { useCart } from "../context/CartContext";
 
 type dimensions = {
   l?: number;
@@ -22,6 +23,7 @@ export default function ColorVariant({
   // Initial selected variant
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
   const [qty, setQty] = useState(1);
+  const { setCartOpen } = useCart();
 
   const qtyHandler = (value: number) => {
     if (value < 1) return;
@@ -69,14 +71,15 @@ export default function ColorVariant({
       variantId: VId,
       quantity: qty,
     };
-      const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const existingIndex = existingCart.findIndex((item: { productId: string; variantId: string; quantity: number })=> item.productId === newItem.productId && item.variantId === newItem.variantId);
-      if(existingIndex !== -1){
-        existingCart[existingIndex].quantity += qty;
-      } else {
-        existingCart.push(newItem);
-      }
-      localStorage.setItem("cart", JSON.stringify(existingCart));
+    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const existingIndex = existingCart.findIndex((item: { productId: string; variantId: string; quantity: number }) => item.productId === newItem.productId && item.variantId === newItem.variantId);
+    if (existingIndex !== -1) {
+      existingCart[existingIndex].quantity += qty;
+    } else {
+      existingCart.push(newItem);
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    setCartOpen(true);
   }
 
   return (

@@ -47,7 +47,7 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
     useEffect(() => {
         const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
         setCartItems(storedCart);
-    }, []);
+    }, [cartOpen]);
 
     // get porducts by ids
     const variantIds = cartItems.map((item: { productId: string; variantId?: string }) => item?.variantId || "")
@@ -83,7 +83,7 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
     }
 
     // calculate subtotal
-    const subtotal = allVariants.reduce((accumulator:number, currentValue:Variant) => {
+    const subtotal = allVariants.reduce((accumulator: number, currentValue: Variant) => {
         const cartItem = cartItems.find((c) => c.variantId === currentValue?._id);
         return accumulator + currentValue?.price * (cartItem?.quantity || 1);
     }, 0)
@@ -168,11 +168,11 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                 <div className="mt-6 border-t border-[#E8ECEF] pt-4">
                     <div className="flex justify-between py-3 border-b border-[#E8ECEF]">
                         <span className="text-base text-[#141718]">Subtotal</span>
-                        <span className="text-base font-semibold text-[#141718]">TK.{subtotal}/=</span>
+                        <span className="text-base font-semibold text-[#141718]">TK.{subtotal.toFixed(2)}/=</span>
                     </div>
                     <div className="flex justify-between py-3 text-lg font-medium">
                         <span>Total</span>
-                        <span>TK.{subtotal}/=</span>
+                        <span>TK.{subtotal.toFixed(2)}/=</span>
                     </div>
                 </div>
 
