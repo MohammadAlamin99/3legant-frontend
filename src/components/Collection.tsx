@@ -21,7 +21,7 @@ export default async function Collection() {
                 />
               </div>
 
-              <div className="absolute z-50 lg:left-12 lg:bottom-12 md:left-8 md:bottom-8 left-8 bottom-8">
+              <div className="absolute z-10 lg:left-12 lg:bottom-12 md:left-8 md:bottom-8 left-8 bottom-8">
                 <h2 className="font-poppins text-[28px] text-white font-medium lg:text-[34px]">
                   {item?.name}
                 </h2>

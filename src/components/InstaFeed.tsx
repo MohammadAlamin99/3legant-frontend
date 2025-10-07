@@ -1,5 +1,6 @@
 import Image from "next/image";
 import img from "../../public/images/promotion_video_Thummbnailbanner.jpg";
+import Link from "next/link";
 
 export default function InstaFeed() {
   return (
@@ -17,19 +18,28 @@ export default function InstaFeed() {
         @3legant_official
       </p>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-6">
-        <div className="w-full lg:h-[262px]">
-            <Image src={img} alt="instagram image" />
+        <div className="w-full lg:h-[262px] relative">
+          <Link href={"https://www.instagram.com/reel/DPG4nt2j5LG/?utm_source=ig_web_copy_link"}>
+            <Image src={img} className="object-cover" fill alt="instagram image" />
+          </Link>
         </div>
-        <div className="w-full lg:h-[262px]">
-            <Image src={img} alt="instagram image" />
+        <div className="w-full lg:h-[262px] relative">
+          <Link href={"https://www.instagram.com/reel/DPG4nt2j5LG/?utm_source=ig_web_copy_link"}>
+            <Image src={img} className="object-cover" fill alt="instagram image" />
+          </Link>
         </div>
-        <div className="w-full lg:h-[262px]">
-            <Image src={img} alt="instagram image" />
+        <div className="w-full lg:h-[262px] relative">
+          <Link href={"https://www.instagram.com/reel/DPG4nt2j5LG/?utm_source=ig_web_copy_link"}>
+            <Image src={img} className="object-cover" fill alt="instagram image" />
+          </Link>
         </div>
-        <div className="w-full lg:h-[262px]">
-            <Image src={img} alt="instagram image" />
+        <div className="w-full lg:h-[262px] relative">
+          <Link href={"https://www.instagram.com/reel/DPG4nt2j5LG/?utm_source=ig_web_copy_link"}>
+            <Image src={img} className="object-cover" fill alt="instagram image" />
+          </Link>
         </div>
       </div>
     </div>
   );
 }
+

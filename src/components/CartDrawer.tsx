@@ -4,6 +4,7 @@ import { getProductsByIds } from "@/actions/product.action";
 import { useQuery } from "@tanstack/react-query";
 import { Minus, Plus, ShoppingCart, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 
 interface CartDrawerProps {
     cartOpen: boolean;
@@ -211,8 +212,8 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                         // Empty Cart Message
                         <div className="flex flex-col items-center gap-1 justify-center text-center text-[#6C7275] my-auto">
                             <ShoppingCart width={40} height={40} />
-                            <p className="text-lg font-medium">Your cart is empty</p>
-                            <p className="text-sm text-[#9CA3AF]">Add some items to get started!</p>
+                            <p className="font-inter text-lg font-medium">Your cart is empty</p>
+                            <p className="font-inter text-sm text-[#9CA3AF]">Add some items to get started!</p>
                         </div>
                     )}
                 </div>
@@ -236,7 +237,9 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                         Checkout
                     </div>
                     <div className="text-sm font-semibold text-[#121212] border-b border-[#121212]">
-                        View Cart
+                        <Link href="/cart">
+                            View Cart
+                        </Link>
                     </div>
                 </div>
             </div>
