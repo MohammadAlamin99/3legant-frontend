@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
-import { Minus, Plus, ShoppingCart, X } from "lucide-react";
+import { ChevronLeft, Minus, Plus, ShoppingCart, X } from "lucide-react";
 import { getProductsByIds } from "@/actions/product.action";
 import { useCart } from "../context/CartContext";
+import { useRouter } from "next/navigation";
 
 export interface CartItem {
     productId: string;
@@ -31,6 +32,7 @@ export interface Product {
 export default function CartDetails() {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [cartData, setCartData] = useState<Product[]>([]);
+    const router = useRouter();
 
     const { setCartOpen } = useCart();
     useEffect(() => { setCartOpen(false) }, [setCartOpen]);
@@ -92,6 +94,10 @@ export default function CartDetails() {
         <div className="py-10 md:py-20">
             <div className="lg:px-3 md:px-3 sm:px-3 container mx-auto px-8">
                 {/* Title */}
+                <button onClick={() => router.back()} className="text-[#605F5F] font-medium text-base font-inter flex md:hidden">
+                    <ChevronLeft />
+                    back
+                </button>
                 <h1 className="font-poppins text-center text-black text-[40px] md:text-[54px] font-medium leading-[58px] tracking-[-1px] mb-6 md:mb-10">
                     Cart
                 </h1>
@@ -133,9 +139,9 @@ export default function CartDetails() {
                             allVariants.map((item, i) => {
                                 const qty = cartMap.get(item._id) || 1;
                                 return (
-                                    <div key={i} className="grid grid-cols-3 md:grid-cols-[2fr_1fr_1fr_1fr] items-center border-b border-gray-200 py-6">
-                                        <div className="flex items-center gap-4 col-span-2 md:col-span-1">
-                                            <div className="w-20 h-24 bg-gray-100 overflow-hidden flex items-center justify-center">
+                                    <div key={i} className="grid grid-cols-[3fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] items-center border-b border-gray-200 py-6">
+                                        <div className="flex items-center gap-4 col-span-1 md:col-span-1">
+                                            <div className="w-20 h-24 bg-gray-100 overflow-hidden flex items-center justify-center shrink-0">
                                                 <Image
                                                     src={item.parentImage || "/images/sample-product.jpg"}
                                                     alt={item.parentTitle || "Product"}
@@ -144,24 +150,40 @@ export default function CartDetails() {
                                                     className="object-contain"
                                                 />
                                             </div>
-                                            <div className="flex flex-col gap-0.5">
+                                            <div className="flex flex-col gap-2 md:gap-0.5">
                                                 <p className="font-semibold text-[#141718]">{item.parentTitle}</p>
                                                 <p className="text-xs text-[#6C7275] font-inter">
                                                     Color: {item.options?.color || "-"} | Size: {item.options?.size || "-"}
                                                 </p>
                                                 <button
-                                                    className="cursor-pointer flex items-center text-sm text-[#6C7275]"
+                                                    className="cursor-pointer items-center text-sm text-[#6C7275] hidden md:flex"
                                                     onClick={() => handleRemoveCart(item._id)}
                                                 >
                                                     <X color="#6C7275" width={16} height={16} />
                                                     Remove
                                                 </button>
+                                                <div className="items-center justify-between border w-[80px] border-[#6C7275] rounded-md p-2 flex md:hidden">
+                                                    <button onClick={() => handleQuantityChange(item._id, qty - 1)}>
+                                                        <Minus color="#121212" width={16} height={16} />
+                                                    </button>
+                                                    <span className="text-[12px] text-[#121212] font-semibold">{qty}</span>
+                                                    <button onClick={() => handleQuantityChange(item._id, qty + 1)}>
+                                                        <Plus color="#121212" width={16} height={16} />
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
 
                                         {/* Quantity */}
-                                        <div className="flex justify-end">
-                                            <div className="flex items-center justify-between border w-[80px] border-[#6C7275] rounded-md p-2 ">
+                                        <div className="flex md:justify-end flex-col">
+                                            <div className="text-right text-gray-800 block md:hidden">TK. {item.price}</div>
+                                            <button
+                                                className="cursor-pointer items-center justify-end text-sm text-[#6C7275] flex md:hidden mt-2"
+                                                onClick={() => handleRemoveCart(item._id)}
+                                            >
+                                                <X color="#6C7275" width={24} height={24} />
+                                            </button>
+                                            <div className="items-center justify-between border w-[80px] border-[#6C7275] rounded-md p-2 hidden md:flex">
                                                 <button onClick={() => handleQuantityChange(item._id, qty - 1)}>
                                                     <Minus color="#121212" width={16} height={16} />
                                                 </button>
@@ -173,7 +195,7 @@ export default function CartDetails() {
                                         </div>
 
                                         {/* Price */}
-                                        <div className="text-right text-gray-800">TK. {item.price}</div>
+                                        <div className="text-right text-gray-800 hidden md:block">TK. {item.price}</div>
 
                                         {/* Subtotal */}
                                         <div className="text-right text-gray-900 font-semibold hidden md:block">
@@ -208,7 +230,9 @@ export default function CartDetails() {
                         </div>
 
                         {/* Checkout Button */}
-                        <button className="w-full bg-[#141718] font-inter text-white rounded-md py-3 mt-6 font-medium hover:bg-gray-800 transition">
+                        <button className="cursor-pointer w-full bg-[#141718] font-inter
+                         text-white rounded-md py-3 mt-6 font-medium hover:bg-gray-800 
+                         transition" onClick={() => router.push("/checkout")}>
                             Checkout
                         </button>
                     </div>
