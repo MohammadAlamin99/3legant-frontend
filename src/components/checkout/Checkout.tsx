@@ -4,6 +4,8 @@ import Image from "next/image";
 import { ChevronLeft, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getProductsByIds } from "@/actions/product.action";
+import { useCart } from "../context/CartContext";
+import SignUp from "../authentication/SignUp";
 
 interface CartItem {
     productId: string;
@@ -32,7 +34,10 @@ const CheckOut = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [cartData, setCartData] = useState<Product[]>([]);
     const [shippingCost] = useState<number>(110);
+    const [showSignUp, setShowSignUp] = useState(false);
     const router = useRouter();
+    const { setCartOpen } = useCart();
+    useEffect(() => { setCartOpen(false) }, [setCartOpen]);
 
     // Load cart items from localStorage
     useEffect(() => {
@@ -96,6 +101,15 @@ const CheckOut = () => {
         );
         setCartItems(updated);
         localStorage.setItem("cart", JSON.stringify(updated));
+    };
+
+    // log in
+    const handleCheckout = () => {
+        const isLoggedIn = false;
+        if (!isLoggedIn) {
+            setShowSignUp(true);
+            return;
+        }
     };
 
     const handlePlaceOrder = () => {
@@ -180,6 +194,7 @@ const CheckOut = () => {
                             <h3 className="text-[16px] md:text-[14px] font-medium mb-4 font-poppins text-[#141718]">
                                 Shipping Address
                             </h3>
+                            <span className="font-bold text-sm text-[#6C7275] mb-3 block font-inter uppercase">Full Address *</span>
                             <input
                                 type="text"
                                 placeholder="Full Address"
@@ -191,7 +206,7 @@ const CheckOut = () => {
                         {allVariants.length > 0 && (
                             <div className="hidden md:block">
                                 <button
-                                    onClick={handlePlaceOrder}
+                                    onClick={handleCheckout}
                                     className="w-full bg-[#141718] text-white rounded-lg py-3 font-medium font-inter cursor-pointer"
                                 >
                                     Place Order
@@ -235,21 +250,21 @@ const CheckOut = () => {
                                                     </p>
                                                     <div className="flex items-center border border-gray-300 rounded-md p-2 w-fit gap-2">
                                                         <button
-                                                            className="p-1"
+                                                            className="p-1 cursor-pointer"
                                                             onClick={() =>
                                                                 handleQuantityChange(item._id, qty - 1)
                                                             }
                                                         >
-                                                            <Minus size={12} />
+                                                            <Minus size={16} />
                                                         </button>
-                                                        <span className="text-xs">{qty}</span>
+                                                        <span className="text-[12px] font-inter font-semibold">{qty}</span>
                                                         <button
-                                                            className="p-1"
+                                                            className="p-1 cursor-pointer"
                                                             onClick={() =>
                                                                 handleQuantityChange(item._id, qty + 1)
                                                             }
                                                         >
-                                                            <Plus size={12} />
+                                                            <Plus size={16} />
                                                         </button>
                                                     </div>
                                                 </div>
@@ -305,6 +320,7 @@ const CheckOut = () => {
                     </div>
                 </div>
             </div>
+            {showSignUp && <SignUp onClose={() => setShowSignUp(false)}/>}
         </div>
     );
 };

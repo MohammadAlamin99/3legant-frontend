@@ -234,7 +234,9 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                 {/* Actions */}
                 <div className="mt-4 flex flex-col items-center">
                     <div className="w-full py-3 mb-4 rounded-md bg-[#141718] text-white text-lg font-medium text-center">
-                        Checkout
+                        <Link href={"/checkout"}>
+                            Checkout
+                        </Link>
                     </div>
                     <div className="text-sm font-semibold text-[#121212] border-b border-[#121212]">
                         <Link href="/cart">
