@@ -114,3 +114,23 @@ export const getAllProduct = async (page: number, limit: number) => {
     return e;
   }
 };
+
+
+// search by keyword
+export const searchProductByKeyword = async (keyword: string, page: number, limit: number) => {
+  try {
+    const res = await fetch(
+      `${baseUrl}/products/search?keyword=${keyword}&page=${page}&limit=${limit}`,
+      {
+        method: "GET",
+        headers: {
+          content: "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    return e;
+  }
+}

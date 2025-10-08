@@ -5,7 +5,7 @@ export interface Product {
   badge?: string;
   basePrice: number;
   compareAtPrice?: number;
-  attributes?: Record<string, string> | any; 
+  attributes?: Record<string, string> | unknown; 
   status?: "active" | "draft";
   isTaxable?: boolean;
   shippingRequired?: boolean;
@@ -34,9 +34,9 @@ export interface Product {
     image?: string;
     stock?: number;
     isActive?: boolean;
-    [key: string]: any;
+    [key: string]: unknown;
   }>;
   createdAt?: string;
   updatedAt?: string;
-  [key: string]: any; 
+  [key: string]: unknown; 
 }

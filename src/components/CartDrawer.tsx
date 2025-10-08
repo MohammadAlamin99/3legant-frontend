@@ -48,7 +48,10 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     useEffect(() => {
         const updateCart = () => {
-            const stored = JSON.parse(localStorage.getItem("cart") || "[]");
+            const stored = JSON.parse(localStorage.getItem("cart") || "[]").map((item: CartItem) => ({
+                ...item,
+                quantity: Number(item.quantity)
+            }));
             setCartItems(stored);
         };
         updateCart();

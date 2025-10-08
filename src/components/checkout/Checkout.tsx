@@ -269,7 +269,7 @@ const CheckOut = () => {
                                                     </div>
                                                 </div>
                                                 <div className="text-[#121212] font-semibold font-inter text-[14px] md:text-[16px]">
-                                                    TK. {item.price * qty}
+                                                    TK. {(item.price * qty).toFixed(2)}
                                                 </div>
                                             </div>
                                         );
@@ -300,7 +300,7 @@ const CheckOut = () => {
                                     </div>
                                     <div className="flex justify-between font-semibold text-[#141718] font-inter text-base pt-2">
                                         <span>Total</span>
-                                        <span>TK. {total}</span>
+                                        <span>TK. {total.toFixed(2)}</span>
                                     </div>
                                 </div>
                             )}
