@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Heart, OctagonAlert, Star, Loader2 } from "lucide-react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { searchProductByKeyword } from "@/actions/product.action";
 import { Product } from "@/types/product.type";
+import SearchBar from "./SearchBar";
 
 interface SearchResponse {
     data: Product[];
@@ -20,8 +21,24 @@ interface SearchResponse {
 const SearchComonent = () => {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [keyword, setKeyword] = useState<string>("");
+    const [debouncedTerm, setDebouncedTerm] = useState<string>("");
     const limit = 9;
 
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedTerm(searchTerm);
+        }, 400);
+        return () => clearTimeout(handler);
+    }, [searchTerm]);
+
+    // Fetch api for predictions
+    const { data: predictionData } = useQuery({
+        queryKey: ["search-predictions", debouncedTerm],
+        queryFn: async () => await searchProductByKeyword(debouncedTerm, 1, 5),
+        enabled: debouncedTerm.length >= 2,
+    });
+
+    const predictions: Product[] = predictionData?.data || [];
     const {
         data: searchData,
         hasNextPage,
@@ -52,31 +69,24 @@ const SearchComonent = () => {
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
+        if (e.key === "Enter") {
             handleSearch();
         }
     };
 
     return (
-        <div className="container mx-auto py-8 md:px-3 sm:px-3 px-8">
+        <div className="container mx-auto py-8 md:px-3 sm:px-3 px-8 relative">
             {/* Search Bar */}
-            <div className="flex gap-2 mb-8 justify-center">
-                <input
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    type="text"
-                    placeholder="Search products..."
-                    className="w-full max-w-md px-4 font-inter py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#141718]"
-                />
-                <button
-                    className="bg-[#141718] text-white px-6 py-2 rounded-md font-semibold font-inter cursor-pointer disabled:opacity-50"
-                    onClick={handleSearch}
-                    disabled={!searchTerm.trim() || isLoading}
-                >
-                    {isLoading ? "Searching..." : "Search"}
-                </button>
-            </div>
+            <SearchBar
+                handleKeyPress={handleKeyPress}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                isLoading={isLoading}
+                handleSearch={handleSearch}
+                predictions={predictions}
+                setKeyword={setKeyword}
+                setDebouncedTerm={setDebouncedTerm}
+            />
 
             {/* Loading State */}
             {isLoading && (
@@ -91,7 +101,6 @@ const SearchComonent = () => {
             {/* Results State */}
             {!isLoading && keyword && (
                 <>
-                    {/* Show products if we have any */}
                     {finaldata.length > 0 ? (
                         <>
                             <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-6">
@@ -131,7 +140,8 @@ const SearchComonent = () => {
                                                     alt={item.title}
                                                 />
                                             </Link>
-                                            <Link href={`/product/${item._id}`}
+                                            <Link
+                                                href={`/product/${item._id}`}
                                                 className="font-inter flex justify-center text-[#FEFEFE] text-[16px] font-medium bg-[#141718] cursor-pointer leading-[28px] py-2.5 w-[80%] rounded-[8px] absolute bottom-4 left-[50%] translate-x-[-50%] opacity-0 group-hover:opacity-100 transition-all duration-300"
                                             >
                                                 Order Now
@@ -186,7 +196,6 @@ const SearchComonent = () => {
                             )}
                         </>
                     ) : (
-                        // No products found
                         <div className="flex flex-col gap-1 items-center justify-center w-full py-20 text-center">
                             <OctagonAlert size={30} />
                             <h2 className="text-xl font-poppins font-semibold text-[#141718] mb-2">
@@ -194,15 +203,16 @@ const SearchComonent = () => {
                             </h2>
                             <p className="text-gray-500 max-w-md text-base font-inter">
                                 We could not find any products matching{" "}
-                                <span className="font-medium text-[#141718]">&ldquo;{keyword}&rdquo;</span>.
-                                Try a different keyword or check your spelling.
+                                <span className="font-medium text-[#141718]">
+                                    &ldquo;{keyword}&rdquo;
+                                </span>
+                                . Try a different keyword or check your spelling.
                             </p>
                         </div>
                     )}
                 </>
             )}
 
-            {/* Initial State - No search performed yet */}
             {!isLoading && !keyword && (
                 <div className="flex flex-col items-center justify-center py-20 text-center">
                     <p className="text-gray-500 text-lg font-inter">
