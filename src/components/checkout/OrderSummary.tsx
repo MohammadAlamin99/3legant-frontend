@@ -4,8 +4,34 @@ import Image from "next/image";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { Variant } from '../CartDrawer';
 
-export default function OrderSummary({ allVariants, cartMap, subtotal, shippingCost, total, handleQuantityChange, handlePlaceOrder }:
-    { allVariants: Variant[], cartMap: Map<string, number>, subtotal: number, shippingCost: number, total: number, handleQuantityChange: (variantId: string, quantity: number) => void, handlePlaceOrder: () => void }) {
+export default function OrderSummary({ allVariants,
+    cartMap,
+    subtotal,
+    shippingCost,
+    total,
+    handleQuantityChange,
+    handlePlaceOrder,
+    handleOrder }:
+    {
+        allVariants: Variant[],
+        cartMap: Map<string, number>,
+        subtotal: number,
+        shippingCost: number,
+        total: number,
+        handleQuantityChange:
+        (variantId: string, quantity: number) => void,
+        handlePlaceOrder: () => void,
+        handleOrder: () => void
+    }) {
+
+    const handlePlaceOrderClick = () => {
+        const token = localStorage.getItem("userToken");
+        if (!token) {
+            handlePlaceOrder(true);
+        } else {
+            handleOrder();
+        }
+    };
     return (
         <>
             <div className="md:w-5/12 space-y-6">
@@ -102,7 +128,7 @@ export default function OrderSummary({ allVariants, cartMap, subtotal, shippingC
                 {allVariants.length > 0 && (
                     <div className="block md:hidden">
                         <button
-                            onClick={handlePlaceOrder}
+                            onClick={handlePlaceOrderClick}
                             className="w-full bg-[#141718] text-white rounded-lg py-3 font-medium"
                         >
                             Place Order

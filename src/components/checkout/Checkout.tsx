@@ -9,6 +9,8 @@ import SignUp from "../authentication/SignUp";
 import Progress from "./Progress";
 import ContactInfo from "./ContactInfo";
 import OrderSummary from "./OrderSummary";
+import { useQuery } from "@tanstack/react-query";
+import { createOrder } from "@/actions/order.action";
 
 interface CartItem {
     productId: string;
@@ -38,6 +40,7 @@ const CheckOut = () => {
     const [cartData, setCartData] = useState<Product[]>([]);
     const [shippingCost] = useState<number>(110);
     const [showSignUp, setShowSignUp] = useState(false);
+    const [enabled, setEnabled] = useState<boolean>(false);
     const router = useRouter();
     const { setCartOpen } = useCart();
     useEffect(() => { setCartOpen(false) }, [setCartOpen]);
@@ -119,6 +122,41 @@ const CheckOut = () => {
         router.push("/order-complete");
     };
 
+    // create order api
+    const userid = "68b07b0041d28c5335804e0b";
+    const shippingAddress = {
+        name: "Egypt",
+        address: "Cairo",
+    };
+    const contact = {
+        email: "john@example.com",
+        phone: "+8801712345678",
+    };
+    const payment = {
+        method:"COD"
+    }
+    const note = "Please deliver the order before 3 PM.";
+    const { data, refetch, isLoading } = useQuery({
+        queryKey: ['order'],
+        queryFn: () => createOrder({
+            userid,
+            cartItems,
+            shippingAddress,
+            contact,
+            payment,
+            note,
+        }),
+        enabled: enabled,
+    });
+
+    const handleOrder = () => {
+        setEnabled(true);
+        refetch();
+    }
+
+    console.log(data)
+
+
     return (
         <div className="py-10 md:py-20">
             <div className="container mx-auto px-4">
@@ -149,7 +187,8 @@ const CheckOut = () => {
                         shippingCost={shippingCost}
                         total={total}
                         handleQuantityChange={handleQuantityChange}
-                        handlePlaceOrder={handlePlaceOrder} />
+                        handlePlaceOrder={handlePlaceOrder}
+                        handleOrder={handleOrder} />
                 </div>
             </div>
             {showSignUp && <SignUp onClose={() => setShowSignUp(false)} />}

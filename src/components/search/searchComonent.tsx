@@ -17,7 +17,6 @@ interface SearchResponse {
         totalPages: number;
     };
 }
-
 const SearchComonent = () => {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [keyword, setKeyword] = useState<string>("");
