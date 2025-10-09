@@ -78,8 +78,6 @@ export const getProductsByIds = async (variantIds: string[]) => {
   }
 }
 
-
-
 // get product by collection id
 export const getProductByCollectionID = async (id: string, page: number, limit: number) => {
   try {
@@ -115,8 +113,8 @@ export const getAllProduct = async (page: number, limit: number) => {
   }
 };
 
-
 // search by keyword
+
 export const searchProductByKeyword = async (keyword: string, page: number, limit: number) => {
   try {
     const res = await fetch(
