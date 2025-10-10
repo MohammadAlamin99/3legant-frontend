@@ -133,7 +133,6 @@ const CheckOut = () => {
       const contact = { email: "john@example.com", phone: "+8801712345678" };
       const payment = { method: "BKASH" };
       const note = "Please deliver the order before 3 PM.";
-      console.log(cartItems)
       const order = await createOrder(
         userid,
         cartItems,
@@ -174,6 +173,7 @@ const CheckOut = () => {
           <ContactInfo
             handleCheckout={handleCheckout}
             allVariants={allVariants}
+            handleOrder={handleOrder}
           />
           {/* Right Section */}
           <OrderSummary
