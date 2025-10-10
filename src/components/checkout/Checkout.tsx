@@ -126,27 +126,51 @@ const CheckOut = () => {
   };
 
   // Place order
-  const handleOrder = async () => {
-    try {
-      const userid:string = "68b7287a7542a49bce675d37";
-      const shippingAddress = { name: "Egypt", address: "Cairo" };
-      const contact = { email: "john@example.com", phone: "+8801712345678" };
-      const payment = { method: "BKASH" };
-      const note = "Please deliver the order before 3 PM.";
-      const order = await createOrder(
-        userid,
-        cartItems,
-        shippingAddress,
-        contact,
-        payment,
-        note
-      );
-      console.log("Order created:", order);
-      //   router.push("/order-complete");
-    } catch (err) {
-      console.error("Failed to create order:", err);
-    }
-  };
+  // const handleOrder = async () => {
+  //   try {
+  //     const userid:string = "68b7287a7542a49bce675d37";
+  //     const shippingAddress = { name: "Egypt", address: "Cairo" };
+  //     const contact = { email: "john@example.com", phone: "+8801712345678" };
+  //     const payment = { method: "BKASH" };
+  //     const note = "Please deliver the order before 3 PM.";
+  //     const order = await createOrder(
+  //       userid,
+  //       cartItems,
+  //       shippingAddress,
+  //       contact,
+  //       payment,
+  //       note
+  //     );
+  //     console.log("Order created:", order);
+  //     //   router.push("/order-complete");
+  //   } catch (err) {
+  //     console.error("Failed to create order:", err);
+  //   }
+  // };
+
+  const handleOrder = async (formData: { name: string; phone: string; email: string; address: string }) => {
+  try {
+    const userId = "68b7287a7542a49bce675d37"; // replace with actual logged-in user's ID
+    const shippingAddress = { name: formData.name, address: formData.address };
+    const contact = { email: formData.email, phone: formData.phone };
+    const payment = { method: "BKASH" };
+    const note = "Please deliver soon";
+
+    const order = await createOrder(
+      userId,
+      cartItems,
+      shippingAddress,
+      contact,
+      payment,
+      note
+    );
+
+    console.log("✅ Order created:", order);
+    router.push("/order-complete");
+  } catch (err) {
+    console.error("❌ Failed to create order:", err);
+  }
+};
 
   return (
     <div className="py-10 md:py-20">
