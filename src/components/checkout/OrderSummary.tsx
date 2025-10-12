@@ -24,8 +24,12 @@ export default function OrderSummary({
   handleOrder: () => void;
   handleCheckout: (showLogin?: boolean) => void;
 }) {
+    const getToken = () => {
+    const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
+    return match ? match[2] : null;
+  };
   const handlePlaceOrderClick = () => {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) {
       handleCheckout(true);
     } else {

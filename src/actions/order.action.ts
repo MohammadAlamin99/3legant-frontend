@@ -1,28 +1,43 @@
 const baseUrl = "https://3legant-backend-zeta.vercel.app/api/v1";
-import unauth from "../utility/auth";
-const verifyUser = localStorage.getItem("token");
+let token = "";
+if (typeof window !== "undefined") {
+  token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+}
+interface CartItem {
+  productId: string;
+  variantId: string;
+  quantity: number;
+}
+
+interface ShippingAddress {
+  name: string;
+  address: string;
+}
+
+interface Contact {
+  email: string;
+  phone: string;
+}
+
+interface Payment {
+  method: string;
+}
 
 export const createOrder = async (
-  userId: string,
-  items: [],
-  shippingAddress: string,
-  contact: string,
-  payment: string,
+  items: CartItem[],
+  shippingAddress: ShippingAddress,
+  contact: Contact,
+  payment: Payment,
   notes: string
 ) => {
   try {
-    if (!verifyUser) {
-      unauth("unathurized");
-      return;
-    }
     const res = await fetch(`${baseUrl}/order`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        token: verifyUser,
+        token: token,
       },
       body: JSON.stringify({
-        userId,
         items,
         shippingAddress,
         contact,
@@ -30,63 +45,28 @@ export const createOrder = async (
         notes,
       }),
     });
-
-    if (res.status === 401 || res.status === 403) {
-      unauth("unathurized");
-      return;
-    }
     const data = await res.json();
-    console.log(data);
     return data;
   } catch (e) {
     return e;
   }
 };
 
-// const baseUrl = "https://3legant-backend-zeta.vercel.app/api/v1";
-// import unauth from "../utility/auth";
 
-// export const createOrder = async (
-//   userId: string,
-//   items: [],
-//   shippingAddress: string,
-//   contact: string,
-//   payment: string,
-//   notes: string
-// ) => {
-//   try {
-//     const token = localStorage.getItem("token"); // read token inside the function
-//     if (!token) {
-//       unauth("unauthorized");
-//       return;
-//     }
+// order get
+export const getOrder = async (id: string) => {
+  try {
+    const res = await fetch(`${baseUrl}/order/?id=${id}`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        token: token,
+      },
+    });
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    return e;
+  }
+};
 
-//     const res = await fetch(`${baseUrl}/order`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         "Authorization": `${token}`, // send token to backend
-//       },
-//       body: JSON.stringify({
-//         userId,
-//         items,
-//         shippingAddress,
-//         contact,
-//         payment,
-//         notes,
-//       }),
-//     });
-
-//     if (res.status === 401 || res.status === 403) {
-//       unauth("unauthorized");
-//       return;
-//     }
-
-//     const data = await res.json();
-//     console.log(data);
-//     return data;
-//   } catch (e) {
-//     console.error(e);
-//     return e;
-//   }
-// };

@@ -21,11 +21,15 @@ const SignUpModal = ({ onClose }: { onClose: () => void }) => {
     if (e.target === e.currentTarget) onClose();
   };
 
+   const setSessionCookie = (name: string, value: string) => {
+    document.cookie = `${name}=${value}; path=/; SameSite=Lax;`;
+  };
+
   const { mutate, isPending, isError, isSuccess, data } = useMutation({
     mutationFn: () => userSignUp(email, password),
     onSuccess: (data) => {
       if (data?.status === "success" && data?.token) {
-        localStorage.setItem("token", data.token);
+        setSessionCookie("token", data.token);
         onClose();
       }
     },
