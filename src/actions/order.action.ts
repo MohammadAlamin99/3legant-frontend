@@ -54,9 +54,9 @@ export const createOrder = async (
 
 
 // order get
-export const getOrder = async (id: string) => {
+export const getOrder = async (id: string, token: string) => {
   try {
-    const res = await fetch(`${baseUrl}/order/?id=${id}`, {
+    const res = await fetch(`${baseUrl}/order/${id}`, {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -69,4 +69,3 @@ export const getOrder = async (id: string) => {
     return e;
   }
 };
-

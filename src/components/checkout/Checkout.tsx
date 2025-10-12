@@ -137,14 +137,16 @@ const CheckOut = () => {
       const contact = { email: formData.email, phone: formData.phone };
       const payment = { method: "COD" };
       const note = formData.note || "";
-      await createOrder(
+      const createdOrder = await createOrder(
         cartItems,
         shippingAddress,
         contact,
         payment,
         note
       );
-      router.push("/order-complete");
+      if (createdOrder && createdOrder?.order?._id) {
+        await router.push(`/order-complete/${createdOrder?.order?._id}`);
+      }
     } catch (err) {
       console.error("Failed to create order:", err);
     }

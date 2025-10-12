@@ -1,12 +1,17 @@
+
 import { ChevronLeft } from "lucide-react";
 import OrderProgress from "./OrderProgress";
 import Link from "next/link";
 import OrderHistory from "./OrderHistory";
 import { getOrder } from "@/actions/order.action";
+import { cookies } from 'next/headers';
 
-export default async function OrderComplete() {
-const order = await getOrder("655845");
-console.log(order)
+export default async function OrderComplete({ id }: { id: string }) {
+    const cookieStore = cookies();
+    const tokenCookie = (await cookieStore).get("token")?.value || "";
+    const order = await getOrder(id, tokenCookie);
+    const orderData = order?.order
+    console.log(orderData)
     return (
         <div className="py-20 px-4 sm:px-6">
             <div className="max-w-5xl mx-auto">
@@ -36,7 +41,7 @@ console.log(order)
                                 </h2>
                             </div>
                             {/* Order Details */}
-                            <OrderHistory />
+                            <OrderHistory orderData={orderData}/>
                         </div>
                     </div>
                 </div>

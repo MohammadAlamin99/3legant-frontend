@@ -4,12 +4,13 @@ import NavMenu from '@/components/NavMenu';
 import OrderComplete from '@/components/order-complete/OrderComplete';
 import React from 'react';
 
-export default function Page(){
+export default function Page({params}:{params:{id:string}}){
+    const id = params.id;
     return (
         <>
          <Announcedbar/>
          <NavMenu/>
-         <OrderComplete/>
+         <OrderComplete id={id}/>
          <Footer/>   
         </>
     );
