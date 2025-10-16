@@ -4,11 +4,11 @@ import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getProductsByIds } from "@/actions/product.action";
 import { useCart } from "../context/CartContext";
-import SignUp from "../authentication/SignUp";
 import Progress from "./Progress";
 import ContactInfo from "./ContactInfo";
 import OrderSummary from "./OrderSummary";
 import { createOrder } from "@/actions/order.action";
+import SignInModal from "../authentication/SignIn";
 
 
 interface CartItem {
@@ -199,7 +199,7 @@ const CheckOut = () => {
           />
         </div>
       </div>
-      {showSignUp && <SignUp onClose={() => setShowSignUp(false)} />}
+      {showSignUp && <SignInModal onClose={() => setShowSignUp(false)} />}
     </div>
   );
 };
