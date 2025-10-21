@@ -27,19 +27,19 @@ export default async function Collection() {
                 </h2>
                 <div className="w-fit">
                   <Link href={`/collection/${item?._id}`}>
-                  <button className="relative group items-center justify-center flex cursor-pointer gap-1 text-white text-[14px] font-semibold 
+                    <button className="relative group items-center justify-center flex cursor-pointer gap-1 text-white text-[14px] font-semibold 
                     before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-[1px] before:w-full before:bg-white"
-                    aria-label="Shop Now"
-                  >
-                    Collection
-                    <ArrowRight
-                      className="transition-transform duration-300 group-hover:-rotate-45"
-                      color="#FFFFFF"
-                      width={18}
-                      height={18}
-                      strokeWidth={2}
-                    />
-                  </button>
+                      aria-label="Shop Now"
+                    >
+                      Collection
+                      <ArrowRight
+                        className="transition-transform duration-300 group-hover:-rotate-45"
+                        color="#FFFFFF"
+                        width={18}
+                        height={18}
+                        strokeWidth={2}
+                      />
+                    </button>
                   </Link>
                 </div>
               </div>

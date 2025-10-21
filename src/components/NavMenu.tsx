@@ -232,12 +232,14 @@ export default function NavMenu() {
               color="#141718"
               strokeWidth={1.5}
             />
-            <CircleUser
-              className="hidden lg:block md:block cursor-pointer"
-              size={24}
-              color="#141718"
-              strokeWidth={1.5}
-            />
+            <Link href="/profile">
+              <CircleUser
+                className="hidden lg:block md:block cursor-pointer"
+                size={24}
+                color="#141718"
+                strokeWidth={1.5}
+              />
+            </Link>
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setCartOpen(true)}

@@ -9,7 +9,7 @@ interface SignUpModalProps {
   onSwitchToSignIn?: () => void;
 }
 
-const SignUpModal = ({ onClose, onSwitchToSignIn }: SignUpModalProps) => {
+export default function SignUpModal({ onClose, onSwitchToSignIn }: SignUpModalProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
@@ -153,5 +153,3 @@ const SignUpModal = ({ onClose, onSwitchToSignIn }: SignUpModalProps) => {
     </div>
   );
 };
-
-export default SignUpModal;
