@@ -4,10 +4,14 @@ import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import { useState, useEffect } from "react";
 
-const SignUpModal = ({ onClose }: { onClose: () => void }) => {
+interface SignUpModalProps {
+  onClose: () => void;
+  onSwitchToSignIn?: () => void;
+}
+
+const SignUpModal = ({ onClose, onSwitchToSignIn }: SignUpModalProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,7 +25,7 @@ const SignUpModal = ({ onClose }: { onClose: () => void }) => {
     if (e.target === e.currentTarget) onClose();
   };
 
-   const setSessionCookie = (name: string, value: string) => {
+  const setSessionCookie = (name: string, value: string) => {
     document.cookie = `${name}=${value}; path=/; SameSite=Lax;`;
   };
 
@@ -31,6 +35,7 @@ const SignUpModal = ({ onClose }: { onClose: () => void }) => {
       if (data?.status === "success" && data?.token) {
         setSessionCookie("token", data.token);
         onClose();
+        window.location.reload();
       }
     },
     onError: (err) => {
@@ -45,6 +50,11 @@ const SignUpModal = ({ onClose }: { onClose: () => void }) => {
       return;
     }
     mutate();
+  };
+
+  const handleSwitchToSignIn = () => {
+    onClose();
+    onSwitchToSignIn?.();
   };
 
   return (
@@ -67,10 +77,7 @@ const SignUpModal = ({ onClose }: { onClose: () => void }) => {
         >
           &times;
         </button>
-
-        {/* Signup content */}
         <div className="flex flex-col lg:flex-row min-h-screen lg:min-h-[500px]">
-          {/* Left Side Image */}
           <div className="lg:w-1/2 bg-gray-100 flex items-center justify-center relative p-4">
             <h4 className="absolute top-8 left-1/2 -translate-x-1/2 text-black text-xl font-semibold">
               3legant.
@@ -81,19 +88,21 @@ const SignUpModal = ({ onClose }: { onClose: () => void }) => {
               className="w-96 h-auto object-cover"
             /> */}
           </div>
-
-          {/* Right Side Form */}
           <div className="lg:w-1/2 flex items-center justify-center px-8 sm:px-6 py-8 lg:py-0">
             <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6">
               <h2 className="text-[40px] font-medium text-[#141718] mb-4 font-poppins">
                 Sign up
               </h2>
-              <p className="mb-8 text-[#6C7275] text-[16px] font-inter font-normal">
+              <div className="mb-8 text-[#6C7275] text-[16px] font-inter font-normal">
                 Already have an account?{" "}
-                <a href="/signin" className="underline text-[#38CB89]">
+                <button
+                  type="button"
+                  onClick={handleSwitchToSignIn}
+                  className="underline text-[#38CB89] cursor-pointer"
+                >
                   Sign in
-                </a>
-              </p>
+                </button>
+              </div>
 
               <input
                 type="email"
@@ -102,8 +111,6 @@ const SignUpModal = ({ onClose }: { onClose: () => void }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full border-b font-inter font-normal border-gray-300 focus:outline-none py-3 placeholder-gray-500"
               />
-
-              {/* Password field */}
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}

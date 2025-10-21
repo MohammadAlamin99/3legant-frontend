@@ -143,17 +143,17 @@ export default function CartDetails() {
                                         <div className="flex items-center gap-4 col-span-1 md:col-span-1">
                                             <div className="w-20 h-24 bg-gray-100 overflow-hidden flex items-center justify-center shrink-0">
                                                 <Image
-                                                    src={item.parentImage || "/images/sample-product.jpg"}
-                                                    alt={item.parentTitle || "Product"}
+                                                    src={item?.image || "/images/sample-product.jpg"}
+                                                    alt={item?.parentTitle || "Product"}
                                                     width={80}
                                                     height={96}
                                                     className="object-contain"
                                                 />
                                             </div>
                                             <div className="flex flex-col gap-2 md:gap-0.5">
-                                                <p className="font-semibold text-[#141718]">{item.parentTitle}</p>
+                                                <p className="font-semibold text-[#141718]">{item?.parentTitle}</p>
                                                 <p className="text-xs text-[#6C7275] font-inter">
-                                                    Color: {item.options?.color || "-"} | Size: {item.options?.size || "-"}
+                                                    Color: {item?.options?.color || "-"} | Size: {item.options?.size || "-"}
                                                 </p>
                                                 <button
                                                     className="cursor-pointer items-center text-sm text-[#6C7275] hidden md:flex"

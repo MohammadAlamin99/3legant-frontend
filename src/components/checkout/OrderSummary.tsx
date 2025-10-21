@@ -55,8 +55,8 @@ export default function OrderSummary({
                   >
                     <div className="w-20 h-24 bg-gray-100 flex items-center justify-center">
                       <Image
-                        src={item.parentImage || "/images/sample-product.jpg"}
-                        alt={item.parentTitle || "Product"}
+                        src={item?.image || "/images/sample-product.jpg"}
+                        alt={item?.parentTitle || "Product"}
                         width={80}
                         height={96}
                         className="object-contain"

@@ -143,7 +143,7 @@ export default function ColorVariant({
         <ChevronRight className="w-5 h-5 text-gray-400" />
       </div>
       <span className="text-[20px] font-inter font-normal text-black mb-4 block">
-        {selectedVariant.options.color}
+        {selectedVariant?.options?.color}
       </span>
 
       {/* Color Selection - Show ALL colors always */}

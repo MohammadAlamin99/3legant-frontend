@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import Varients from "./Varients";
+import ColorVarients from "./ColorVarients";
 import ThumsSlider from "./ThumsSlider";
 import { Product } from "@/types/product.type";
 import { IProductVariant } from "@/types/variant.type";
@@ -47,7 +47,15 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
           </p>
 
           {/* varients Selection */}
-          <Varients variants={product?.variants ? product.variants as IProductVariant[] : []} dimensions = {product?.dimensions} productId={product?._id}/>
+          <ColorVarients
+            variants={
+              product?.variants
+                ? (product.variants as unknown as IProductVariant[])
+                : []
+            }
+            dimensions={product?.dimensions}
+            productId={product?._id}
+          />
 
           {/* Product Info */}
           <div className="space-y-2 pt-4 border-t border-gray-200">

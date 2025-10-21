@@ -9,7 +9,7 @@ import ContactInfo from "./ContactInfo";
 import OrderSummary from "./OrderSummary";
 import { createOrder } from "@/actions/order.action";
 import SignInModal from "../authentication/SignIn";
-
+import SignUpModal from "../authentication/SignUp";
 
 interface CartItem {
   productId: string;
@@ -42,9 +42,11 @@ const CheckOut = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartData, setCartData] = useState<Product[]>([]);
   const [shippingCost] = useState<number>(110);
+  const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const router = useRouter();
   const { setCartOpen } = useCart();
+
   useEffect(() => {
     setCartOpen(false);
   }, [setCartOpen]);
@@ -113,7 +115,7 @@ const CheckOut = () => {
     localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  // log in
+  // Authentication
   const getToken = () => {
     const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
     return match ? match[2] : null;
@@ -122,7 +124,7 @@ const CheckOut = () => {
   const handleCheckout = () => {
     const token = getToken();
     if (!token) {
-      setShowSignUp(true);
+      setShowSignIn(true);
       return;
     }
   };
@@ -150,6 +152,17 @@ const CheckOut = () => {
     } catch (err) {
       console.error("Failed to create order:", err);
     }
+  };
+
+  // signin and signup handler
+  const handleSwitchToSignUp = () => {
+    setShowSignIn(false);
+    setShowSignUp(true);
+  };
+
+  const handleSwitchToSignIn = () => {
+    setShowSignUp(false);
+    setShowSignIn(true);
   };
 
   return (
@@ -199,7 +212,21 @@ const CheckOut = () => {
           />
         </div>
       </div>
-      {showSignUp && <SignInModal onClose={() => setShowSignUp(false)} />}
+
+      {/* Modals */}
+      {showSignIn && (
+        <SignInModal
+          onClose={() => setShowSignIn(false)}
+          onSwitchToSignUp={handleSwitchToSignUp}
+        />
+      )}
+
+      {showSignUp && (
+        <SignUpModal
+          onClose={() => setShowSignUp(false)}
+          onSwitchToSignIn={handleSwitchToSignIn}
+        />
+      )}
     </div>
   );
 };

@@ -38,5 +38,6 @@ export interface Product {
   }>;
   createdAt?: string;
   updatedAt?: string;
+  metafields:[];
   [key: string]: unknown; 
 }

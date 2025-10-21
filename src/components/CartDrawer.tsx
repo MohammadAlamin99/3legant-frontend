@@ -144,7 +144,7 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                                 >
                                     <div className="w-20 aspect-[80/96] bg-[#F3F5F7] mr-4 flex-shrink-0">
                                         <Image
-                                            src={item?.parentImage || "/placeholder.png"}
+                                            src={item?.image || "/placeholder.png"}
                                             alt={item?.parentTitle || "Product image"}
                                             className="w-full h-full object-contain"
                                             width={80}

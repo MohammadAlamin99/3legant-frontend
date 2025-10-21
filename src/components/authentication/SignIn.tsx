@@ -4,13 +4,16 @@ import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import { useState, useEffect } from "react";
 
-export default function SignInModal({ onClose }: { onClose: () => void }){
+interface SignInModalProps {
+  onClose: () => void;
+  onSwitchToSignUp?: () => void;
+}
+
+export default function SignInModal({ onClose, onSwitchToSignUp }: SignInModalProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const togglePassword = () => setShowPassword((prev) => !prev);
 
   useEffect(() => {
@@ -21,7 +24,7 @@ export default function SignInModal({ onClose }: { onClose: () => void }){
     if (e.target === e.currentTarget) onClose();
   };
 
-   const setSessionCookie = (name: string, value: string) => {
+  const setSessionCookie = (name: string, value: string) => {
     document.cookie = `${name}=${value}; path=/; SameSite=Lax;`;
   };
 
@@ -31,6 +34,7 @@ export default function SignInModal({ onClose }: { onClose: () => void }){
       if (data?.status === "success" && data?.token) {
         setSessionCookie("token", data.token);
         onClose();
+        window.location.reload();
       }
     },
     onError: (err) => {
@@ -45,6 +49,11 @@ export default function SignInModal({ onClose }: { onClose: () => void }){
       return;
     }
     mutate();
+  };
+
+  const handleSwitchToSignUp = () => {
+    onClose();
+    onSwitchToSignUp?.();
   };
 
   return (
@@ -68,9 +77,7 @@ export default function SignInModal({ onClose }: { onClose: () => void }){
           &times;
         </button>
 
-        {/* Signup content */}
         <div className="flex flex-col lg:flex-row min-h-screen lg:min-h-[500px]">
-          {/* Left Side Image */}
           <div className="lg:w-1/2 bg-gray-100 flex items-center justify-center relative p-4">
             <h4 className="absolute top-8 left-1/2 -translate-x-1/2 text-black text-xl font-semibold">
               3legant.
@@ -88,12 +95,16 @@ export default function SignInModal({ onClose }: { onClose: () => void }){
               <h2 className="text-[40px] font-medium text-[#141718] mb-4 font-poppins">
                 Sign In
               </h2>
-              <p className="mb-8 text-[#6C7275] text-[16px] font-inter font-normal">
-                Already have an account?{" "}
-                <a href="/signin" className="underline text-[#38CB89]">
+              <div className="mb-8 text-[#6C7275] text-[16px] font-inter font-normal">
+                Don&apos;t have an account?{" "}
+                <button
+                  type="button"
+                  onClick={handleSwitchToSignUp}
+                  className="underline text-[#38CB89] cursor-pointer"
+                >
                   Sign Up
-                </a>
-              </p>
+                </button>
+              </div>
 
               <input
                 type="email"
@@ -102,8 +113,6 @@ export default function SignInModal({ onClose }: { onClose: () => void }){
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full border-b font-inter font-normal border-gray-300 focus:outline-none py-3 placeholder-gray-500"
               />
-
-              {/* Password field */}
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -131,12 +140,12 @@ export default function SignInModal({ onClose }: { onClose: () => void }){
 
               {isError && (
                 <p className="text-red-500 text-sm mt-2">
-                  Signup failed. Please try again.
+                  Sign in failed. Please try again.
                 </p>
               )}
               {isSuccess && data?.status === "success" && (
                 <p className="text-green-500 text-sm mt-2">
-                  Signup successful! Token saved.
+                  Sign in successful! Token saved.
                 </p>
               )}
             </form>
@@ -145,5 +154,4 @@ export default function SignInModal({ onClose }: { onClose: () => void }){
       </div>
     </div>
   );
-};
-
+}
