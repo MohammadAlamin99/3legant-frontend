@@ -1,4 +1,4 @@
-const baseUrl = "https://3legant-backend-zeta.vercel.app/api/v1";
+const baseUrl = "https://3legant-backend-five.vercel.app/api/v1";
 let token = "";
 if (typeof window !== "undefined") {
   token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1");

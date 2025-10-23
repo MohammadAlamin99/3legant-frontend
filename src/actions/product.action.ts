@@ -1,5 +1,5 @@
 
-const baseUrl = "https://3legant-backend-zeta.vercel.app/api/v1";
+const baseUrl = "https://3legant-backend-five.vercel.app/api/v1";
 
 // get product by tag
 export const getProduct = async (tags: string, page: number, limit: number) => {
