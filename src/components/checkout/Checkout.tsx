@@ -129,9 +129,9 @@ const CheckOut = () => {
     }
   };
 
-  const handlePlaceOrder = () => {
-    router.push("/order-complete");
-  };
+  // const handlePlaceOrder = () => {
+  //   router.push("/order-complete");
+  // };
 
   const handleOrder = async (formData: { name: string; phone: string; email: string; address: string, note: string }) => {
     try {
@@ -147,7 +147,8 @@ const CheckOut = () => {
         note
       );
       if (createdOrder && createdOrder?.order?._id) {
-        await router.push(`/order-complete/${createdOrder?.order?._id}`);
+        // await router.push(`/order-complete/${createdOrder?.order?._id}`);
+        router.push(`/payment/${createdOrder.order._id}`);
       }
     } catch (err) {
       console.error("Failed to create order:", err);
@@ -191,6 +192,7 @@ const CheckOut = () => {
             handleCheckout={handleCheckout}
             allVariants={allVariants}
             handleOrder={handleOrder}
+            total={total}
           />
           {/* Right Section */}
           <OrderSummary
@@ -200,7 +202,7 @@ const CheckOut = () => {
             shippingCost={shippingCost}
             total={total}
             handleQuantityChange={handleQuantityChange}
-            handlePlaceOrder={handlePlaceOrder}
+            // handlePlaceOrder={handlePlaceOrder}
             handleOrder={() => handleOrder({
               name: "",
               phone: "",

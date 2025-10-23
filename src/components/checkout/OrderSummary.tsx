@@ -20,7 +20,7 @@ export default function OrderSummary({
   shippingCost: number;
   total: number;
   handleQuantityChange: (variantId: string, quantity: number) => void;
-  handlePlaceOrder: () => void;
+  // handlePlaceOrder: () => void;
   handleOrder: () => void;
   handleCheckout: (showLogin?: boolean) => void;
 }) {

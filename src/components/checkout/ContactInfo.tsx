@@ -7,6 +7,7 @@ export default function ContactInfo({
   handleCheckout,
   allVariants,
   handleOrder,
+  total
 }: {
   handleCheckout: (showLogin?: boolean) => void;
   allVariants: Variant[];
@@ -17,6 +18,7 @@ export default function ContactInfo({
     address: string;
     note: string;
   }) => void;
+  total: number;
 }) {
   // Refs for each input field
   const nameRef = useRef<HTMLInputElement>(null);
@@ -62,9 +64,7 @@ export default function ContactInfo({
       {/* Contact Info */}
       <div className="bg-white border border-[#6C7275] rounded-lg p-6">
         <h3 className="text-[16px] md:text-[14px] font-medium mb-4 font-poppins">
-          Contact Information
         </h3>
-
         <div className="space-y-4">
           {/* Name */}
           <div>

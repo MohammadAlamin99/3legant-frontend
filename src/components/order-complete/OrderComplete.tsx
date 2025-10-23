@@ -11,7 +11,6 @@ export default async function OrderComplete({ id }: { id: string }) {
     const tokenCookie = (await cookieStore).get("token")?.value || "";
     const order = await getOrder(id, tokenCookie);
     const orderData = order?.order
-    console.log(orderData)
     return (
         <div className="py-20 px-4 sm:px-6">
             <div className="max-w-5xl mx-auto">
@@ -41,7 +40,7 @@ export default async function OrderComplete({ id }: { id: string }) {
                                 </h2>
                             </div>
                             {/* Order Details */}
-                            <OrderHistory orderData={orderData}/>
+                            <OrderHistory orderData={orderData} />
                         </div>
                     </div>
                 </div>
