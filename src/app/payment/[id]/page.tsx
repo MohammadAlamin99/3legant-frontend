@@ -1,10 +1,14 @@
-import PaymentPage from '@/components/payment/PaymentForm'
-import React from 'react'
 
-export default function page() {
+import PaymentForm from '@/components/payment/PaymentForm';
+import React from 'react'
+interface PageProps {
+  params: { id: string };
+}
+export default async function Page({params}:PageProps) {
+   const { id } = await params;
     return (
         <>
-            <PaymentPage />
+            <PaymentForm orderId={id as string} />
         </>
     )
 }
