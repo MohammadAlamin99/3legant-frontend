@@ -10,15 +10,12 @@ export default function BestSellerSkeleton() {
                     <div key={i} className="animate-pulse">
                         {/* image skeleton */}
                         <div className="w-full aspect-[300/349] bg-gray-200 rounded-md" />
-
                         {/* rating skeleton */}
                         <div className="flex items-center gap-2 mt-3">
                             <div className="h-4 w-24 bg-gray-200 rounded" />
                         </div>
-
                         {/* title skeleton */}
                         <div className="h-5 w-3/4 bg-gray-300 rounded mt-2" />
-
                         {/* price skeleton */}
                         <div className="flex gap-3 mt-2">
                             <div className="h-4 w-16 bg-gray-200 rounded" />

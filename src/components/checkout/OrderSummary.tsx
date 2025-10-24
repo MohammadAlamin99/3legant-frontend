@@ -24,7 +24,7 @@ export default function OrderSummary({
   handleOrder: () => void;
   handleCheckout: (showLogin?: boolean) => void;
 }) {
-    const getToken = () => {
+  const getToken = () => {
     const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
     return match ? match[2] : null;
   };
@@ -43,7 +43,6 @@ export default function OrderSummary({
           <h3 className="md:text-[28px] text-[20px] font-medium md:mb-6 mb-4 font-poppins">
             Order summary
           </h3>
-
           {allVariants.length > 0 ? (
             <div className="space-y-6">
               {allVariants.map((item, i) => {
