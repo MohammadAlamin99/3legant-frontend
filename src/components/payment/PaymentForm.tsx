@@ -12,8 +12,8 @@ export default function PaymentPageWrapper({ orderId, order }: { orderId: string
     return (
         <div className="py-10 md:py-20">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-10">
-                    <h2 className="text-3xl md:text-4xl font-semibold">Complete Your Payment</h2>
+                <div className="text-center mb-14">
+                    <h2 className="text-[54px] md:text-[40px] font-medium font-poppins">Payment Method</h2>
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-6">
