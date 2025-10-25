@@ -1,5 +1,13 @@
+
+"use client";
 import React, { FormEvent, useState } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import {
+    CardNumberElement,
+    CardExpiryElement,
+    CardCvcElement,
+    useStripe,
+    useElements,
+} from "@stripe/react-stripe-js";
 import { IOrderData } from "@/types/order.type";
 import { CreditCard } from "lucide-react";
 
@@ -14,7 +22,7 @@ export default function PaymentSummary({
     const elements = useElements();
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<string>("");
-    const [isSuccess, setIsSuccess] = useState<boolean | null>(null); // ✅ track success/error
+    const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
 
     const totalPayableBalance = order?.order[0]?.totals?.grandTotal;
 
@@ -46,8 +54,8 @@ export default function PaymentSummary({
                 return;
             }
 
-            const cardElement = elements.getElement(CardElement);
-            if (!cardElement) {
+            const cardNumberElement = elements.getElement(CardNumberElement);
+            if (!cardNumberElement) {
                 setMessage("Card information is missing.");
                 setIsSuccess(false);
                 setLoading(false);
@@ -58,7 +66,7 @@ export default function PaymentSummary({
                 clientSecret,
                 {
                     payment_method: {
-                        card: cardElement,
+                        card: cardNumberElement,
                         billing_details: {
                             name: order?.order[0]?.shippingAddress?.name || "Customer",
                         },
@@ -91,8 +99,6 @@ export default function PaymentSummary({
                 fontFamily: "'Inter', sans-serif",
                 fontSmoothing: "antialiased",
                 "::placeholder": { color: "#9ca3af" },
-                backgroundColor: "#f9fafb",
-                padding: "12px",
             },
             invalid: {
                 color: "#ef4444",
@@ -114,12 +120,34 @@ export default function PaymentSummary({
                 <span>Secure Payment</span>
             </h3>
 
-            <div className="mb-5">
+            {/* --- Card Number --- */}
+            <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2 font-inter">
-                    Card Details
+                    Card Number
                 </label>
                 <div className="border border-gray-300 rounded-xl p-3 bg-gray-50 focus-within:border-blue-500 transition">
-                    <CardElement options={cardStyle} />
+                    <CardNumberElement options={cardStyle} />
+                </div>
+            </div>
+
+            {/* --- Expiry and CVC side by side --- */}
+            <div className="flex gap-3 mb-5">
+                <div className="w-1/2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2 font-inter">
+                        Expiry Date
+                    </label>
+                    <div className="border border-gray-300 rounded-xl p-3 bg-gray-50 focus-within:border-blue-500 transition">
+                        <CardExpiryElement options={cardStyle} />
+                    </div>
+                </div>
+
+                <div className="w-1/2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2 font-inter">
+                        CVC
+                    </label>
+                    <div className="border border-gray-300 rounded-xl p-3 bg-gray-50 focus-within:border-blue-500 transition">
+                        <CardCvcElement options={cardStyle} />
+                    </div>
                 </div>
             </div>
 
@@ -134,9 +162,7 @@ export default function PaymentSummary({
 
             {message && (
                 <p
-                    className={`mt-4 text-center text-sm font-inter font-medium transition-all duration-300 ${isSuccess
-                        ? "text-green-600"
-                        : "text-red-600"
+                    className={`mt-4 text-center text-sm font-inter font-medium transition-all duration-300 ${isSuccess ? "text-green-600" : "text-red-600"
                         }`}
                 >
                     {message}
