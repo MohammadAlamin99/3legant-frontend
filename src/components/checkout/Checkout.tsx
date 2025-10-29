@@ -38,7 +38,7 @@ interface Product {
   variants: Variant[];
 }
 
-const CheckOut = () => {
+export default function CheckOut() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartData, setCartData] = useState<Product[]>([]);
   const [shippingCost] = useState<number>(110);
@@ -232,5 +232,3 @@ const CheckOut = () => {
     </div>
   );
 };
-
-export default CheckOut;
