@@ -1,9 +1,8 @@
 import React from 'react';
-import StateCard from './StateCard';
 import RecentOrder from './RecentOrder';
 import DashboardHeader from './DashboardHeader';
 import Sidebar from './Sidebar';
-const Sales: React.FC = () => {
+export default function Sales() {
     const recentOrders = [
         { id: 1, name: 'Samrt watch', category: 'Watch', price: '250' },
         { id: 2, name: 'Samrt watch', category: 'Watch', price: '250' },
@@ -40,5 +39,3 @@ const Sales: React.FC = () => {
         </div>
     );
 };
-
-export default Sales;
