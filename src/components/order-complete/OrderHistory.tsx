@@ -1,11 +1,11 @@
 import { IOrderData } from '@/types/order.type';
 import React from 'react';
 import Image from "next/image";
-const OrderHistory = ({ orderData }: { orderData: IOrderData }) => {
+export default function OrderHistory({ orderData }: { orderData: IOrderData }) {
     return (
         <div>
             {
-                orderData && Array.isArray(orderData) && orderData.map((item: IOrderData, i: number) => (
+                orderData?.order?.map((item, i) => (
                     <div key={i}>
                         <div className="flex justify-center gap-14 sm:gap-6 mb-10">
                             {
@@ -77,4 +77,3 @@ const OrderHistory = ({ orderData }: { orderData: IOrderData }) => {
     );
 }
 
-export default OrderHistory;

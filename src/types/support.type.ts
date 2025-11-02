@@ -1,5 +1,5 @@
 export type ISupport = {
   title: string;
   subtitle: string;
-  icon: any;
+  icon: React.ReactNode;
 };

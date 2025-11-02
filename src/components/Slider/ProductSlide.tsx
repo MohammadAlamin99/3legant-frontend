@@ -15,6 +15,7 @@ interface SliderClientProps {
 export default function ProductSlider({ products }: SliderClientProps) {
 
   const [data, setData] = useState<string>();
+  console.log(data);
   const addToCart = (id: string) => {
     setData(id);
   };

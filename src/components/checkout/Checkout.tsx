@@ -192,7 +192,7 @@ export default function CheckOut() {
             handleCheckout={handleCheckout}
             allVariants={allVariants}
             handleOrder={handleOrder}
-            total={total}
+          // total={total}
           />
           {/* Right Section */}
           <OrderSummary

@@ -28,9 +28,8 @@ export default function AccordionTabs({
                 {item?.title}
               </h4>
               <ChevronDown
-                className={`transition-transform duration-300 ${
-                  openIndex === i ? "rotate-180" : "rotate-0"
-                }`}
+                className={`transition-transform duration-300 ${openIndex === i ? "rotate-180" : "rotate-0"
+                  }`}
               />
             </div>
 
@@ -50,7 +49,7 @@ export default function AccordionTabs({
             >
               <div
                 className="accordion font-inter text-[12px] text-[#141718] font-normal py-2"
-                dangerouslySetInnerHTML={{ __html: item?.content }}
+                dangerouslySetInnerHTML={{ __html: String(item?.content ?? "") }}
               />
             </div>
           </div>

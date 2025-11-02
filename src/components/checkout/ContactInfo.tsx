@@ -7,7 +7,6 @@ export default function ContactInfo({
   handleCheckout,
   allVariants,
   handleOrder,
-  total
 }: {
   handleCheckout: (showLogin?: boolean) => void;
   allVariants: Variant[];
@@ -18,7 +17,6 @@ export default function ContactInfo({
     address: string;
     note: string;
   }) => void;
-  total: number;
 }) {
   // Refs for each input field
   const nameRef = useRef<HTMLInputElement>(null);
