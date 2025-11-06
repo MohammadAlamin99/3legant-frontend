@@ -24,6 +24,13 @@ export default function ProductSlider({ products }: SliderClientProps) {
       spaceBetween={16}
       slidesPerView={1.5}
       modules={[Pagination]}
+      pagination={{
+        el: "#main_bullets",
+        clickable: true,
+        renderBullet: function (index, className) {
+          return `<span class="custom-bullet ${className}"></span>`;
+        },
+      }}
       breakpoints={{
         640: { slidesPerView: 1.5, spaceBetween: 16 },
         768: { slidesPerView: 2.5, spaceBetween: 24 },

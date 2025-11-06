@@ -3,6 +3,7 @@ import { userLogin } from "@/actions/user.action";
 import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 interface SignInModalProps {
   onClose: () => void;
@@ -82,11 +83,13 @@ export default function SignInModal({ onClose, onSwitchToSignUp }: SignInModalPr
             <h4 className="absolute top-8 left-1/2 -translate-x-1/2 text-black text-xl font-semibold">
               3legant.
             </h4>
-            {/* <img
-              src="https://res.cloudinary.com/dankquy0f/image/upload/v1736502598/freepik_br_60a78106-e398-4b7a-8ef9-c48decf049ca_pn3tlf.png"
+            <Image
+              src="/images/promotion_video_Thummbnailbanner.jpg"
               alt="Signup Illustration"
+              fill
               className="w-96 h-auto object-cover"
-            /> */}
+            />
+
           </div>
 
           {/* Right Side Form */}
