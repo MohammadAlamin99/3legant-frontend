@@ -8,9 +8,14 @@ import Image from "next/image";
 interface SignInModalProps {
   onClose: () => void;
   onSwitchToSignUp?: () => void;
+  onLoginSuccess?: () => void;
 }
 
-export default function SignInModal({ onClose, onSwitchToSignUp }: SignInModalProps) {
+export default function SignInModal({
+  onClose,
+  onSwitchToSignUp,
+  onLoginSuccess,
+}: SignInModalProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
@@ -35,7 +40,9 @@ export default function SignInModal({ onClose, onSwitchToSignUp }: SignInModalPr
       if (data?.status === "success" && data?.token) {
         setSessionCookie("token", data.token);
         onClose();
-        window.location.reload();
+        if (onLoginSuccess) {
+          onLoginSuccess();
+        }
       }
     },
     onError: (err) => {
@@ -89,7 +96,6 @@ export default function SignInModal({ onClose, onSwitchToSignUp }: SignInModalPr
               fill
               className="w-96 h-auto object-cover"
             />
-
           </div>
 
           {/* Right Side Form */}

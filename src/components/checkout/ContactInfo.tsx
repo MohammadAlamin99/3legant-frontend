@@ -1,7 +1,6 @@
-
 "use client";
 import React, { useRef } from "react";
-import { Variant } from "../CartDrawer";
+import { IProductVariant } from "@/types/variant.type";
 
 export default function ContactInfo({
   handleCheckout,
@@ -9,7 +8,7 @@ export default function ContactInfo({
   handleOrder,
 }: {
   handleCheckout: (showLogin?: boolean) => void;
-  allVariants: Variant[];
+  allVariants: IProductVariant[];
   handleOrder: (formData: {
     name: string;
     phone: string;
@@ -43,7 +42,7 @@ export default function ContactInfo({
   // Place Order
 
   const getToken = () => {
-    const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
+    const match = document.cookie.match(new RegExp("(^| )token=([^;]+)"));
     return match ? match[2] : null;
   };
   const handlePlaceOrderClick = () => {
@@ -61,8 +60,7 @@ export default function ContactInfo({
     <div className="md:w-7/12 space-y-6">
       {/* Contact Info */}
       <div className="bg-white border border-[#6C7275] rounded-lg p-6">
-        <h3 className="text-[16px] md:text-[14px] font-medium mb-4 font-poppins">
-        </h3>
+        <h3 className="text-[16px] md:text-[14px] font-medium mb-4 font-poppins"></h3>
         <div className="space-y-4">
           {/* Name */}
           <div>

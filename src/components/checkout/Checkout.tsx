@@ -10,36 +10,11 @@ import OrderSummary from "./OrderSummary";
 import { createOrder } from "@/actions/order.action";
 import SignInModal from "../authentication/SignIn";
 import SignUpModal from "../authentication/SignUp";
-
-interface CartItem {
-  productId: string;
-  variantId: string;
-  quantity: number;
-}
-
-interface Variant {
-  _id: string;
-  title?: string;
-  parentTitle?: string;
-  image?: string;
-  parentImage?: string;
-  options?: {
-    color?: string;
-    size?: string;
-    [key: string]: string | undefined;
-  };
-  price: number;
-}
-
-interface Product {
-  _id: string;
-  title: string;
-  featureImage: string;
-  variants: Variant[];
-}
-
+import { updateCartItemQuantity } from "@/helper/QuantityChange";
+import { ICartItem } from "@/types/cartItem.type";
+import { IProductVariant, Product } from "@/types/variant.type";
 export default function CheckOut() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<ICartItem[]>([]);
   const [cartData, setCartData] = useState<Product[]>([]);
   const [shippingCost] = useState<number>(110);
   const [showSignIn, setShowSignIn] = useState(false);
@@ -70,7 +45,7 @@ export default function CheckOut() {
   }, [cartItems]);
 
   // Combine variant + product info
-  const allVariants: Variant[] = useMemo(() => {
+  const allVariants: IProductVariant[] = useMemo(() => {
     return cartItems.map((item) => {
       const product = cartData.find((p) =>
         p.variants.some((v) => v._id === item.variantId)
@@ -78,17 +53,17 @@ export default function CheckOut() {
       const variant = product?.variants.find((v) => v._id === item.variantId);
       return variant
         ? {
-          ...variant,
-          parentTitle: product?.title,
-          parentImage: product?.featureImage,
-        }
+            ...variant,
+            parentTitle: product?.title,
+            parentImage: product?.featureImage,
+          }
         : {
-          _id: item.variantId,
-          price: 0,
-          options: {},
-          parentTitle: "",
-          parentImage: "",
-        };
+            _id: item.variantId,
+            price: 0,
+            options: {},
+            parentTitle: "",
+            parentImage: "",
+          };
     });
   }, [cartItems, cartData]);
 
@@ -107,17 +82,13 @@ export default function CheckOut() {
 
   // Quantity handlers
   const handleQuantityChange = (variantId: string, newQty: number) => {
-    if (newQty < 1) return;
-    const updated = cartItems.map((item) =>
-      item.variantId === variantId ? { ...item, quantity: newQty } : item
-    );
+    const updated = updateCartItemQuantity(cartItems, variantId, newQty);
     setCartItems(updated);
-    localStorage.setItem("cart", JSON.stringify(updated));
   };
 
   // Authentication
   const getToken = () => {
-    const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
+    const match = document.cookie.match(new RegExp("(^| )token=([^;]+)"));
     return match ? match[2] : null;
   };
 
@@ -133,9 +104,18 @@ export default function CheckOut() {
   //   router.push("/order-complete");
   // };
 
-  const handleOrder = async (formData: { name: string; phone: string; email: string; address: string, note: string }) => {
+  const handleOrder = async (formData: {
+    name: string;
+    phone: string;
+    email: string;
+    address: string;
+    note: string;
+  }) => {
     try {
-      const shippingAddress = { name: formData.name, address: formData.address };
+      const shippingAddress = {
+        name: formData.name,
+        address: formData.address,
+      };
       const contact = { email: formData.email, phone: formData.phone };
       const payment = { method: "COD" };
       const note = formData.note || "";
@@ -166,6 +146,11 @@ export default function CheckOut() {
     setShowSignIn(true);
   };
 
+  const handleLoginSuccess = () => {
+    setShowSignIn(false);
+    window.location.reload();
+  };
+
   return (
     <div className="py-10 md:py-20">
       <div className="container mx-auto px-4">
@@ -192,7 +177,7 @@ export default function CheckOut() {
             handleCheckout={handleCheckout}
             allVariants={allVariants}
             handleOrder={handleOrder}
-          // total={total}
+            // total={total}
           />
           {/* Right Section */}
           <OrderSummary
@@ -203,13 +188,15 @@ export default function CheckOut() {
             total={total}
             handleQuantityChange={handleQuantityChange}
             // handlePlaceOrder={handlePlaceOrder}
-            handleOrder={() => handleOrder({
-              name: "",
-              phone: "",
-              email: "",
-              address: "",
-              note: ""
-            })}
+            handleOrder={() =>
+              handleOrder({
+                name: "",
+                phone: "",
+                email: "",
+                address: "",
+                note: "",
+              })
+            }
             handleCheckout={handleCheckout}
           />
         </div>
@@ -220,6 +207,7 @@ export default function CheckOut() {
         <SignInModal
           onClose={() => setShowSignIn(false)}
           onSwitchToSignUp={handleSwitchToSignUp}
+          onLoginSuccess={handleLoginSuccess}
         />
       )}
 
@@ -231,4 +219,4 @@ export default function CheckOut() {
       )}
     </div>
   );
-};
+}

@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 
-import { Minus, Plus, ShoppingCart } from "lucide-react";
-import { Variant } from "../CartDrawer";
+import { ShoppingCart } from "lucide-react";
+
+import QuantityButton from "../cart/QuantityButton";
+import { IProductVariant } from "@/types/variant.type";
 
 export default function OrderSummary({
   allVariants,
@@ -14,7 +16,7 @@ export default function OrderSummary({
   handleOrder,
   handleCheckout,
 }: {
-  allVariants: Variant[];
+  allVariants: IProductVariant[];
   cartMap: Map<string, number>;
   subtotal: number;
   shippingCost: number;
@@ -25,7 +27,7 @@ export default function OrderSummary({
   handleCheckout: (showLogin?: boolean) => void;
 }) {
   const getToken = () => {
-    const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
+    const match = document.cookie.match(new RegExp("(^| )token=([^;]+)"));
     return match ? match[2] : null;
   };
   const handlePlaceOrderClick = () => {
@@ -71,27 +73,11 @@ export default function OrderSummary({
                       <p className="text-xs text-[#6C7275] font-inter">
                         Size: {item.options?.size || "-"}
                       </p>
-                      <div className="flex items-center border border-gray-300 rounded-md p-2 w-fit gap-2">
-                        <button
-                          className="p-1 cursor-pointer"
-                          onClick={() =>
-                            handleQuantityChange(item._id, qty - 1)
-                          }
-                        >
-                          <Minus size={16} />
-                        </button>
-                        <span className="text-[12px] font-inter font-semibold">
-                          {qty}
-                        </span>
-                        <button
-                          className="p-1 cursor-pointer"
-                          onClick={() =>
-                            handleQuantityChange(item._id, qty + 1)
-                          }
-                        >
-                          <Plus size={16} />
-                        </button>
-                      </div>
+                      <QuantityButton
+                        item={item}
+                        qty={qty}
+                        handleQuantityChange={handleQuantityChange}
+                      />
                     </div>
                     <div className="text-[#121212] font-semibold font-inter text-[14px] md:text-[16px]">
                       TK. {(item.price * qty).toFixed(2)}
