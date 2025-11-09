@@ -99,7 +99,7 @@ export default function CheckOut() {
       return;
     }
   };
-
+  
   // const handlePlaceOrder = () => {
   //   router.push("/order-complete");
   // };

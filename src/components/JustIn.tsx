@@ -7,7 +7,7 @@ import ProductSliderSkeleton from "./Loading/ProductSliderSkeleton";
 
 async function ProductSliderWrapper() {
   const products = await getProduct("justin", 1, 10);
-  return <ProductSlider products={products} />
+  return <ProductSlider products={products} />;
 }
 export default function JustIn() {
   return (
