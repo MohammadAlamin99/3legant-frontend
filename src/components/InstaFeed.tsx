@@ -6,23 +6,23 @@ export default function InstaFeed() {
   const instaPosts = [
     {
       id: 1,
-      link: "https://www.instagram.com/reel/DPG4nt2j5LG/?utm_source=ig_web_copy_link",
-      image: img,
+      link: "https://www.instagram.com/p/DQ4AvjHk0yJ/",
+      image: "/images/insta1.jpg",
     },
     {
       id: 2,
-      link: "https://www.instagram.com/reel/DPG4nt2j5LG/?utm_source=ig_web_copy_link",
-      image: img,
+      link: "https://www.instagram.com/p/DQ4VavPD2rr/",
+      image: "/images/insta2.jpg",
     },
     {
       id: 3,
-      link: "https://www.instagram.com/reel/DPG4nt2j5LG/?utm_source=ig_web_copy_link",
-      image: img,
+      link: "https://www.instagram.com/p/DQ3sJmDD_Mq/",
+      image: "/images/insta3.jpg",
     },
     {
       id: 4,
-      link: "https://www.instagram.com/reel/DPG4nt2j5LG/?utm_source=ig_web_copy_link",
-      image: img,
+      link: "https://www.instagram.com/p/DQ3XgzREpN1/",
+      image: "/images/insta4.jpg",
     },
   ];
 
@@ -43,15 +43,15 @@ export default function InstaFeed() {
 
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-6">
         {instaPosts.map((post) => (
-          <div key={post.id} className="w-full lg:h-[262px]">
-            <Link href={post.link} target="_blank">
+          <div key={post?.id} className="w-full lg:h-[262px]">
+            <Link href={post?.link} target="_blank">
               <div className="group relative w-full h-full overflow-hidden">
                 <Image
-                src={post.image}
-                alt="Instagram image"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
-              />
+                  src={post?.image}
+                  alt="Instagram image"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                />
               </div>
             </Link>
           </div>
