@@ -1,7 +1,7 @@
 "use client";
-import { ArrowRight, TicketPercent, X } from "lucide-react";
-import Link from "next/link";
+import { TicketPercent, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import CommonButton from "./button/CommonButton";
 
 export default function Announcedbar() {
   const [isOpen, setIsOpen] = useState<boolean | null>(null);
@@ -26,27 +26,7 @@ export default function Announcedbar() {
         <h4 className="text-white text-[14px] lg:text-[16px] font-semibold font-inter tex-center">
           30% off storewide — Limited time!
         </h4>
-        <div className="relative overflow-hidden">
-          <Link href={"/shop"}>
-            <button
-              className="group items-center justify-center hidden lg:flex cursor-pointer gap-1 
-                        text-white text-[14px] font-semibold 
-                        before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-[1px] 
-                        before:w-0 before:bg-white before:transition-all before:duration-300 
-                        hover:before:w-full"
-              aria-label="Shop Now"
-            >
-              Shop Now
-              <ArrowRight
-                className="transition-transform duration-300 group-hover:-rotate-45"
-                color="#FFFFFF"
-                width={18}
-                height={18}
-                strokeWidth={2}
-              />
-            </button>
-          </Link>
-        </div>
+        <CommonButton />
       </div>
       <button
         className="cursor-pointer mr-4"

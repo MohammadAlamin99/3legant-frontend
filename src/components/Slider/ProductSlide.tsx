@@ -7,17 +7,11 @@ import Image from "next/image";
 import { Heart, Star } from "lucide-react";
 import Link from "next/link";
 import { Product } from "@/types/product.type";
-import { useState } from "react";
 
 interface SliderClientProps {
   products: Product[];
 }
 export default function ProductSlider({ products }: SliderClientProps) {
-  const [data, setData] = useState<string>();
-  console.log(data);
-  const addToCart = (id: string) => {
-    setData(id);
-  };
   return (
     <Swiper
       spaceBetween={16}
@@ -68,9 +62,9 @@ export default function ProductSlider({ products }: SliderClientProps) {
                 )}
               </div>
               <Link href={`product/${item?._id}`}>
-                <div className="relative w-full h-[308px] lg:h-[349px] md:h-[320px] sm:h-[310px]">
+                <div className="group overflow-hidden relative w-full h-[308px] lg:h-[349px] md:h-[320px] sm:h-[310px]">
                   <Image
-                    className="object-cover"
+                    className="object-cover group-hover:scale-110 transition-transform duration-300 ease-in-out"
                     src={item.featureImage}
                     fill
                     alt={item.title}
@@ -78,15 +72,15 @@ export default function ProductSlider({ products }: SliderClientProps) {
                   />
                 </div>
               </Link>
-
-              <button
-                onClick={() => addToCart(item?._id)}
-                className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
+              <Link href={`product/${item?._id}`}>
+                <button
+                  className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
                 cursor-pointer leading-[28px] py-2.5 w-[80%] rounded-[8px] 
                 absolute bottom-4 left-[50%] translate-x-[-50%] opacity-0 group-hover:opacity-100 transition-all duration-300"
-              >
-                Add to cart
-              </button>
+                >
+                  View More
+                </button>
+              </Link>
             </div>
 
             <div className="flex items-center gap-0.5 mt-3 mb-1">

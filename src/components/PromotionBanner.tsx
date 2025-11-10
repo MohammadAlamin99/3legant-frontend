@@ -1,7 +1,6 @@
 import Image from "next/image";
 import img from "../../public/images/promotion_banner.jpg";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import CommonButton2 from "./button/CommonButton2";
 export default function PromotionBanner() {
   return (
     <div>
@@ -26,23 +25,12 @@ export default function PromotionBanner() {
             Hurry up!!! Winter is coming!
           </p>
           <div className="relative z-10 w-fit">
-            <Link href={"/shop"}>
-              <button
-                className="group items-center justify-center flex cursor-pointer gap-1 text-[#141718] text-[14px] font-semibold 
-                        before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-[1px] 
-                        before:w-full before:bg-[#141718]"
-                aria-label="Shop Now"
-              >
-                Shop Now
-                <ArrowRight
-                  className="transition-transform duration-300 group-hover:-rotate-45"
-                  color="#141718"
-                  width={18}
-                  height={18}
-                  strokeWidth={2}
-                />
-              </button>
-            </Link>
+            <CommonButton2
+              url="/shop"
+              buttonText="Shop Now"
+              color="#141718"
+              bgColor="#141718"
+            />
           </div>
         </div>
       </div>

@@ -199,7 +199,7 @@ export default function NavMenu() {
               />
             </Link>
           </div>
-          <ul className="hidden items-center justify-center gap-10 font-space-grotesk text-[14px] font-medium md:flex">
+          <ul className="group hidden items-center justify-center gap-10 font-space-grotesk text-[14px] font-medium md:flex">
             {[
               { label: "Home", href: "/" },
               { label: "Shop", href: "/shop" },
@@ -209,9 +209,9 @@ export default function NavMenu() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={
+                  className={`${
                     pathname === link.href ? "text-[#141718]" : "text-[#6C7275]"
-                  }
+                  } hover:text-[#141718] transition-all duration-300`}
                 >
                   {link.label}
                 </Link>
@@ -222,7 +222,7 @@ export default function NavMenu() {
           <div className="flex items-center gap-4">
             <Search
               onClick={() => setSearchOpen(true)}
-              className="hidden lg:block md:block cursor-pointer hover:opacity-70 transition-opacity"
+              className="hidden lg:block md:block cursor-pointer"
               size={26}
               color="#141718"
               strokeWidth={1.5}
