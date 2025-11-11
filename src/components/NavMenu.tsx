@@ -204,7 +204,7 @@ export default function NavMenu() {
               { label: "Home", href: "/" },
               { label: "Shop", href: "/shop" },
               { label: "Product", href: "/product" },
-              { label: "Contact Us", href: "/contact-us" },
+              { label: "Contact Us", href: "/contact" },
             ].map((link) => (
               <li key={link.href}>
                 <Link
