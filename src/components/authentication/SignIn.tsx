@@ -1,9 +1,10 @@
 "use client";
 import { userLogin } from "@/actions/user.action";
 import { useMutation } from "@tanstack/react-query";
-import { Eye, EyeOff } from "lucide-react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { ToastContainer, toast } from "react-toastify";
+import AuthenticationForm from "./AuthenticationForm";
 
 interface SignInModalProps {
   onClose: () => void;
@@ -34,13 +35,14 @@ export default function SignInModal({
     document.cookie = `${name}=${value}; path=/; SameSite=Lax;`;
   };
 
-  const { mutate, isPending, isError, isSuccess, data } = useMutation({
+  const { mutate, isPending, data } = useMutation({
     mutationFn: () => userLogin(email, password),
     onSuccess: (data) => {
       if (data?.status === "success" && data?.token) {
         setSessionCookie("token", data.token);
         onClose();
         if (onLoginSuccess) {
+          toast.success("Login successful!");
           onLoginSuccess();
         }
       }
@@ -53,7 +55,7 @@ export default function SignInModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      alert("Please fill out all fields!");
+      toast.error("Please fill out all fields!");
       return;
     }
     mutate();
@@ -100,67 +102,24 @@ export default function SignInModal({
 
           {/* Right Side Form */}
           <div className="lg:w-1/2 flex items-center justify-center px-8 sm:px-6 py-8 lg:py-0">
-            <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6">
-              <h2 className="text-[40px] font-medium text-[#141718] mb-4 font-poppins">
-                Sign In
-              </h2>
-              <div className="mb-8 text-[#6C7275] text-[16px] font-inter font-normal">
-                Don&apos;t have an account?{" "}
-                <button
-                  type="button"
-                  onClick={handleSwitchToSignUp}
-                  className="underline text-[#38CB89] cursor-pointer"
-                >
-                  Sign Up
-                </button>
-              </div>
-
-              <input
-                type="email"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border-b font-inter font-normal border-gray-300 focus:outline-none py-3 placeholder-gray-500"
-              />
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border-b border-gray-300 focus:outline-none py-3 placeholder-gray-500 font-inter font-normal"
-                />
-                <button
-                  type="button"
-                  onClick={togglePassword}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 p-2 text-gray-500 cursor-pointer"
-                >
-                  {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
-                </button>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isPending}
-                className="w-full cursor-pointer font-inter bg-gray-900 text-white py-3 rounded-lg text-center font-medium hover:bg-gray-800 transition disabled:opacity-60"
-              >
-                {isPending ? "Signing In..." : "Sign In"}
-              </button>
-
-              {isError && (
-                <p className="text-red-500 text-sm mt-2">
-                  Sign in failed. Please try again.
-                </p>
-              )}
-              {isSuccess && data?.status === "success" && (
-                <p className="text-green-500 text-sm mt-2">
-                  Sign in successful! Token saved.
-                </p>
-              )}
-            </form>
+            <AuthenticationForm
+              title="Sign In"
+              button="Sign Up"
+              handleSubmit={handleSubmit}
+              handleSwitchToSignUp={handleSwitchToSignUp}
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+              togglePassword={togglePassword}
+              showPassword={showPassword}
+              isPending={isPending}
+              data={data}
+            />
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

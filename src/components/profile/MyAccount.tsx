@@ -6,9 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getProfile, updateProfile } from "@/actions/user.action";
 import { getCookie } from "@/helper/Token";
 import MyProfileSkeleton from "../Loading/MyProfileSkeleton";
+import AccountDetails from "./AccountDetails";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function MyAccountPage() {
   const [activeTab, setActiveTab] = useState("Account");
+  const [isUpdating, setIsUpdating] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -65,9 +68,9 @@ export default function MyAccountPage() {
   }, [userProfile]);
 
   // update profile
-
   const updateUserProfile = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsUpdating(true);
     try {
       const form = new FormData();
       if (formData.name) form.append("name", formData.name);
@@ -85,13 +88,16 @@ export default function MyAccountPage() {
       );
 
       if (res.status === "success") {
-        alert("Profile updated successfully!");
+        toast.success("Profile updated successfully!");
       } else {
-        alert(res.message || "Failed to update profile");
+        toast.error(res.message || "Failed to update profile");
       }
-    } catch (err) {
-      console.error(err);
-      alert("An error occurred while updating profile");
+    } catch (err: unknown) {
+      toast.error(
+        (err as Error).message || "An error occurred while updating profile"
+      );
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -163,104 +169,15 @@ export default function MyAccountPage() {
           </div>
 
           {/* Main content */}
-          <div className="lg:col-span-3">
-            <form onSubmit={updateUserProfile}>
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-6 font-inter text-black">
-                  Account Details
-                </h2>
-                <div className="space-y-5">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm text-[#6c7275] font-inter font-bold mb-2"
-                    >
-                      NAME
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm text-[#6c7275] font-inter font-bold mb-2"
-                    >
-                      EMAIL
-                    </label>
-                    <input
-                      disabled
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Password Section */}
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-6 font-inter text-black">
-                  Password
-                </h2>
-                <div className="space-y-5">
-                  <div>
-                    <label
-                      htmlFor="oldPassword"
-                      className="block text-sm text-[#6c7275] font-inter font-bold mb-2"
-                    >
-                      OLD PASSWORD
-                    </label>
-                    <input
-                      type="password"
-                      id="oldPassword"
-                      name="oldPassword"
-                      placeholder="Old Password"
-                      value={formData.oldPassword}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition placeholder-gray-400"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="newPassword"
-                      className="block text-sm text-[#6c7275] font-inter font-bold mb-2"
-                    >
-                      NEW PASSWORD
-                    </label>
-                    <input
-                      type="password"
-                      id="newPassword"
-                      name="newPassword"
-                      placeholder="New Password"
-                      value={formData.newPassword}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition placeholder-gray-400"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="bg-gray-900 font-inter text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors cursor-pointer"
-              >
-                Save changes
-              </button>
-            </form>
-          </div>
+          <AccountDetails
+            isUpdating={isUpdating}
+            updateUserProfile={updateUserProfile}
+            formData={formData}
+            handleInputChange={handleInputChange}
+          />
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
