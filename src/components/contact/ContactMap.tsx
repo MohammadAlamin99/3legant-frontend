@@ -1,16 +1,33 @@
-import React from "react";
+"use client";
+import dynamic from "next/dynamic";
+import React, { useEffect, useState } from "react";
+import "leaflet/dist/leaflet.css";
+import type { Icon } from "leaflet";
 
-export default function ContactMap() {
+const Map = dynamic(() => import("./Map"), { ssr: false });
+
+const ContactMap: React.FC = () => {
+  const [customIcon, setCustomIcon] = useState<Icon | null>(null);
+
+  useEffect(() => {
+    import("leaflet").then((L) => {
+      const icon = L.icon({
+        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+      });
+      setCustomIcon(icon);
+    });
+  }, []);
+
+  if (!customIcon) return null;
+
+  const position: [number, number] = [23.642916703521273, 90.487981159607];
   return (
-    <div>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d116959.07385814075!2d90.4257746!3d23.6412075!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b10812a520a3%3A0x6d3af4457bec4c90!2z4LiZ4Liy4Lij4Liy4Lii4Lix4LiT4LiE4Lix4LiN4LiK4LmMIOC4muC4seC4h-C4geC4peC4suC5gOC4l-C4qA!5e0!3m2!1sth!2sth!4v1745647932946!5m2!1sth!2sth"
-        width="100%"
-        height="450"
-        className="rounded-md border-0"
-        allowFullScreen
-        loading="lazy"
-      ></iframe>
+    <div className="rounded-md overflow-hidden shadow-md">
+      <Map customIcon={customIcon} position={position} />
     </div>
   );
-}
+};
+
+export default ContactMap;
