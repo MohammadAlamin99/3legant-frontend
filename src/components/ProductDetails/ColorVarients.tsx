@@ -1,9 +1,12 @@
 "use client";
 import { IProductVariant } from "@/types/variant.type";
-import { ChevronRight, Heart, Minus, Plus } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { useCart } from "../context/CartContext";
+import DetailsButton from "./DetailsButton";
+import Dimensions from "./Dimensions";
+import Price from "./Price";
 
 type dimensions = {
   l?: number;
@@ -18,14 +21,16 @@ export default function ColorVariant({
 }: {
   variants: IProductVariant[];
   dimensions?: dimensions;
-  productId?: string;
+  productId: string;
 }) {
-  console.log(variants);
-  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
-  console.log(selectedVariant, "dff");
+  // states
+  const [selectedVariant, setSelectedVariant] = useState<IProductVariant>(
+    variants[0]
+  );
   const [qty, setQty] = useState(1);
   const { setCartOpen } = useCart();
 
+  // qty handler
   const qtyHandler = (value: number) => {
     if (value < 1) return;
     setQty(value);
@@ -47,7 +52,6 @@ export default function ColorVariant({
 
   // Handle color selection
   const handleColorSelect = (color: string) => {
-    // Find a variant with the selected color and current size
     const newVariant = variants.find(
       (v) =>
         v?.options?.color === color &&
@@ -56,7 +60,6 @@ export default function ColorVariant({
     if (newVariant) {
       setSelectedVariant(newVariant);
     } else {
-      // If no variant with current size and selected color, find first variant with the color
       const fallbackVariant = variants.find((v) => v?.options?.color === color);
       if (fallbackVariant) {
         setSelectedVariant(fallbackVariant);
@@ -120,26 +123,10 @@ export default function ColorVariant({
       </div>
 
       {/* Price */}
-      <div className="flex items-center space-x-4">
-        <span className="text-[28px] font-medium text-[#121212] font-poppins">
-          TK {selectedVariant?.price}
-        </span>
-        <span className="text-[20px] font-poppins text-[#6C7275] line-through">
-          TK {selectedVariant?.compareAtPrice}
-        </span>
-      </div>
+      <Price selectedVariant={selectedVariant} />
 
       {/* Dimensions */}
-      {dimensions && (
-        <>
-          <h3 className="text-[16px] font-semibold text-[#6C7275] mb-2">
-            Dimensions
-          </h3>
-          <p className="text-black font-normal font-inter text-[20px]">
-            L : {dimensions?.l} x W : {dimensions?.w} x H : {dimensions?.h}
-          </p>
-        </>
-      )}
+      <Dimensions dimensions={dimensions} />
 
       {/* Color Variants */}
       <div className="flex items-center gap-1 mb-2">
@@ -169,7 +156,7 @@ export default function ColorVariant({
                 key={`${item?.options?.color}-${i}`}
                 onClick={
                   variantExists
-                    ? () => handleColorSelect(item?.options?.color)
+                    ? () => handleColorSelect(item?.options?.color || "")
                     : undefined
                 }
                 className={`w-16 h-16 flex items-center justify-center transition relative border-2 cursor-pointer
@@ -210,7 +197,7 @@ export default function ColorVariant({
               <button
                 key={`${c?.options?.color}-${i}`}
                 onClick={() =>
-                  variantExists && handleColorSelect(c?.options?.color)
+                  variantExists && handleColorSelect(c?.options?.color || "")
                 }
                 disabled={!variantExists}
                 className={`
@@ -241,51 +228,13 @@ export default function ColorVariant({
       )}
 
       {/* qty and atc button */}
-      <div className="space-y-4">
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center rounded-lg bg-[#F5F5F5]">
-            <button
-              className="p-3.5 transition-colors cursor-pointer"
-              onClick={() => qtyHandler(qty - 1)}
-            >
-              <Minus width={20} height={20} />
-            </button>
-            <span className="px-4 py-2 text-gray-900 font-medium">{qty}</span>
-            <button
-              className="p-3.5 transition-colors cursor-pointer"
-              onClick={() => qtyHandler(qty + 1)}
-            >
-              <Plus width={20} height={20} />
-            </button>
-          </div>
-          <button className="w-full cursor-pointer bg-white border border-[#141718] text-[#141718] py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2">
-            <Heart className="w-5 h-5" />
-            <span>Wishlist</span>
-          </button>
-        </div>
-
-        <button
-          disabled={selectedVariant?.stock < qty}
-          onClick={() =>
-            handleAddToCart(productId || "", selectedVariant?._id || "")
-          }
-          className={`w-full font-inter text-[18px] font-medium py-4 px-6 rounded-lg transition-colors relative overflow-hidden group ${
-            selectedVariant?.stock >= qty
-              ? "bg-[#141718] text-white cursor-pointer"
-              : "bg-gray-400 text-gray-200 cursor-not-allowed"
-          }`}
-        >
-          <span className="relative z-10">
-            {selectedVariant?.stock >= qty ? "Add to Cart" : "Out of Stock"}
-          </span>
-          {selectedVariant?.stock >= qty && (
-            <>
-              <span className="absolute inset-0 bg-white/20 backdrop-blur-md border border-white/30 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out z-0"></span>
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out z-0"></span>
-            </>
-          )}
-        </button>
-      </div>
+      <DetailsButton
+        qtyHandler={qtyHandler}
+        qty={qty}
+        selectedVariant={selectedVariant}
+        productId={productId}
+        handleAddToCart={handleAddToCart}
+      />
     </>
   );
 }

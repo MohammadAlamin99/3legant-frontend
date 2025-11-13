@@ -13,7 +13,7 @@ export interface IProductVariant {
   };
   price: number;
   compareAtPrice?: number;
-  stock?: number;
+  stock: number;
   isActive?: boolean;
 }
 
