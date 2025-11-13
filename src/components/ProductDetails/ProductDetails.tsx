@@ -18,17 +18,29 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
         <div className="space-y-6">
           <div className="flex items-center space-x-2">
             <div className="flex space-x-1">
-              {Array.from({ length: Math.floor(product?.rating?.average || 0) }).map(
-                (_, index) => (
-                  <Star width={16} height={16} key={index} className="text-[#343839] fill-[#343839]" />
-                )
-              )}
+              {Array.from({
+                length: Math.floor(product?.rating?.average || 0),
+              }).map((_, index) => (
+                <Star
+                  width={16}
+                  height={16}
+                  key={index}
+                  className="text-[#343839] fill-[#343839]"
+                />
+              ))}
               {Array.from({
                 length: 5 - Math.floor(product?.rating?.average || 0),
               }).map((_, index) => (
-                <Star width={16} height={16} key={index} className="text-[#6C7275] fill-[#6C7275]" />
+                <Star
+                  width={16}
+                  height={16}
+                  key={index}
+                  className="text-[#6C7275] fill-[#6C7275]"
+                />
               ))}
-              <span className="ml-1.5 font-inter text-sm font-medium">({product?.rating?.average})</span>
+              <span className="ml-1.5 font-inter text-sm font-medium">
+                ({product?.rating?.average})
+              </span>
             </div>
             <span className="text-[#141718] text-[12px] font-inter font-normal">
               11 Reviews
@@ -39,7 +51,6 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
           <h1 className="text-[40px] font-medium font-poppins">
             {product?.title}
           </h1>
-
 
           {/* Description */}
           <p className="text-[#6C7275] text-[16px] font-normal font-inter leading-relaxed">
@@ -75,7 +86,7 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
             </div>
           </div>
           {/* accordion tabs */}
-          <AccordionTabs metafields={product?.metafields}/>
+          <AccordionTabs metafields={product?.metafields} />
         </div>
       </div>
     </div>

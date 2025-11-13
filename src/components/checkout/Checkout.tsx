@@ -19,6 +19,7 @@ export default function CheckOut() {
   const [shippingCost] = useState<number>(110);
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const { setCartOpen } = useCart();
 
@@ -99,11 +100,6 @@ export default function CheckOut() {
       return;
     }
   };
-  
-  // const handlePlaceOrder = () => {
-  //   router.push("/order-complete");
-  // };
-
   const handleOrder = async (formData: {
     name: string;
     phone: string;
@@ -112,6 +108,7 @@ export default function CheckOut() {
     note: string;
   }) => {
     try {
+      setIsLoading(true);
       const shippingAddress = {
         name: formData.name,
         address: formData.address,
@@ -126,8 +123,8 @@ export default function CheckOut() {
         payment,
         note
       );
+      setIsLoading(false);
       if (createdOrder && createdOrder?.order?._id) {
-        // await router.push(`/order-complete/${createdOrder?.order?._id}`);
         router.push(`/payment/${createdOrder.order._id}`);
       }
     } catch (err) {
@@ -172,13 +169,13 @@ export default function CheckOut() {
 
         {/* Layout */}
         <div className="flex flex-col md:flex-row gap-6">
-          {/* Left Section */}
           <ContactInfo
             handleCheckout={handleCheckout}
             allVariants={allVariants}
             handleOrder={handleOrder}
-            // total={total}
+            isLoading={isLoading}
           />
+
           {/* Right Section */}
           <OrderSummary
             allVariants={allVariants}

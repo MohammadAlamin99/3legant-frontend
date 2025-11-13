@@ -1,11 +1,13 @@
 "use client";
 import React, { useRef } from "react";
 import { IProductVariant } from "@/types/variant.type";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function ContactInfo({
   handleCheckout,
   allVariants,
   handleOrder,
+  isLoading,
 }: {
   handleCheckout: (showLogin?: boolean) => void;
   allVariants: IProductVariant[];
@@ -16,6 +18,7 @@ export default function ContactInfo({
     address: string;
     note: string;
   }) => void;
+  isLoading: boolean;
 }) {
   // Refs for each input field
   const nameRef = useRef<HTMLInputElement>(null);
@@ -33,14 +36,13 @@ export default function ContactInfo({
     const note = noteRef.current?.value.trim() || "";
 
     if (!name || !phone || !email || !address) {
-      alert("Please fill in all required fields!");
+      toast.error("Please fill in all required fields!");
       return false;
     }
     return { name, phone, email, address, note };
   };
 
   // Place Order
-
   const getToken = () => {
     const match = document.cookie.match(new RegExp("(^| )token=([^;]+)"));
     return match ? match[2] : null;
@@ -139,10 +141,11 @@ export default function ContactInfo({
             onClick={handlePlaceOrderClick}
             className="w-full bg-[#141718] text-white rounded-lg py-3 font-medium font-inter cursor-pointer"
           >
-            Place Order
+            {isLoading ? "Placing Order..." : "Place Order"}
           </button>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 }

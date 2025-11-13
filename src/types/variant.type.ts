@@ -17,16 +17,19 @@ export interface IProductVariant {
   isActive?: boolean;
 }
 
-
 export type Variant = {
   _id: string;
   title?: string;
   parentTitle?: string;
   image?: string;
   parentImage?: string;
-  options?: { color?: string; size?: string;[key: string]: string | undefined };
+  options?: {
+    color?: string;
+    size?: string;
+    [key: string]: string | undefined;
+  };
   price: number;
-}
+};
 
 export interface Product {
   _id: string;

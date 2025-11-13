@@ -1,8 +1,8 @@
 "use client";
 import { IProductVariant } from "@/types/variant.type";
 import { ChevronRight, Heart, Minus, Plus } from "lucide-react";
-import React, { useState, useMemo } from "react";
 import Image from "next/image";
+import { useMemo, useState } from "react";
 import { useCart } from "../context/CartContext";
 
 type dimensions = {
@@ -18,10 +18,11 @@ export default function ColorVariant({
 }: {
   variants: IProductVariant[];
   dimensions?: dimensions;
-  productId?: string
+  productId?: string;
 }) {
-  // Initial selected variant
+  console.log(variants);
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+  console.log(selectedVariant, "dff");
   const [qty, setQty] = useState(1);
   const { setCartOpen } = useCart();
 
@@ -32,11 +33,11 @@ export default function ColorVariant({
 
   // Get unique sizes and colors
   const uniqueSizes = useMemo(() => {
-    return [...new Map(variants?.map((v) => [v.options.size, v])).values()];
+    return [...new Map(variants?.map((v) => [v?.options?.size, v])).values()];
   }, [variants]);
 
   const uniqueColors = useMemo(() => {
-    return [...new Map(variants?.map((v) => [v.options.color, v])).values()];
+    return [...new Map(variants?.map((v) => [v?.options?.color, v])).values()];
   }, [variants]);
 
   // Handle size selection
@@ -49,14 +50,14 @@ export default function ColorVariant({
     // Find a variant with the selected color and current size
     const newVariant = variants.find(
       (v) =>
-        v.options.color === color &&
-        v.options.size === selectedVariant.options.size
+        v?.options?.color === color &&
+        v?.options?.size === selectedVariant?.options?.size
     );
     if (newVariant) {
       setSelectedVariant(newVariant);
     } else {
       // If no variant with current size and selected color, find first variant with the color
-      const fallbackVariant = variants.find((v) => v.options.color === color);
+      const fallbackVariant = variants.find((v) => v?.options?.color === color);
       if (fallbackVariant) {
         setSelectedVariant(fallbackVariant);
       }
@@ -72,7 +73,11 @@ export default function ColorVariant({
       quantity: qty,
     };
     const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const existingIndex = existingCart.findIndex((item: { productId: string; variantId: string; quantity: number }) => item.productId === newItem.productId && item.variantId === newItem.variantId);
+    const existingIndex = existingCart.findIndex(
+      (item: { productId: string; variantId: string; quantity: number }) =>
+        item.productId === newItem.productId &&
+        item.variantId === newItem.variantId
+    );
     if (existingIndex !== -1) {
       existingCart[existingIndex].quantity += qty;
     } else {
@@ -80,7 +85,7 @@ export default function ColorVariant({
     }
     localStorage.setItem("cart", JSON.stringify(existingCart));
     setCartOpen(true);
-  }
+  };
 
   return (
     <>
@@ -94,15 +99,16 @@ export default function ColorVariant({
             if (v.isActive === false) return null;
             return (
               <button
-                key={`${v.options.size}-${i}`}
+                key={`${v?.options?.size}-${i}`}
                 onClick={() => handleSizeSelect(v)}
                 className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all cursor-pointer
-                  ${isActive
-                    ? "border-black bg-[#141718] text-white shadow-md"
-                    : "border-gray-300 bg-white text-gray-700 hover:border-black hover:bg-gray-50"
+                  ${
+                    isActive
+                      ? "border-black bg-[#141718] text-white shadow-md"
+                      : "border-gray-300 bg-white text-gray-700 hover:border-black hover:bg-gray-50"
                   }`}
               >
-                {v.options.size}
+                {v?.options?.size}
               </button>
             );
           })}
@@ -154,34 +160,35 @@ export default function ColorVariant({
               selectedVariant?.options?.color === item?.options?.color;
             const variantExists = variants.some(
               (v) =>
-                v.options.color === item.options.color &&
-                v.options.size === selectedVariant.options.size
+                v?.options?.color === item?.options?.color &&
+                v?.options?.size === selectedVariant?.options?.size
             );
 
             return (
               <div
-                key={`${item.options.color}-${i}`}
+                key={`${item?.options?.color}-${i}`}
                 onClick={
                   variantExists
-                    ? () => handleColorSelect(item.options.color)
+                    ? () => handleColorSelect(item?.options?.color)
                     : undefined
                 }
                 className={`w-16 h-16 flex items-center justify-center transition relative border-2 cursor-pointer
-                  ${isActive
-                    ? "border-[#141718]"
-                    : variantExists
+                  ${
+                    isActive
+                      ? "border-[#141718]"
+                      : variantExists
                       ? "border-transparent hover:border-gray-300"
                       : "border-gray-200 opacity-50"
                   }`}
                 title={
                   !variantExists
-                    ? `${item.options.color} not available in ${selectedVariant.options.size} size`
-                    : item.options.color
+                    ? `${item?.options?.color} not available in ${selectedVariant?.options?.size} size`
+                    : item?.options?.color
                 }
               >
                 <Image
                   src={item?.image || ""}
-                  alt={item?.title}
+                  alt={item?.title || "alt_image"}
                   fill
                   className="object-cover"
                 />
@@ -193,32 +200,33 @@ export default function ColorVariant({
         <div className="flex flex-wrap gap-3">
           {uniqueColors.map((c, i) => {
             const isActive =
-              selectedVariant.options.color === c?.options?.color;
+              selectedVariant?.options?.color === c?.options?.color;
             const variantExists = variants.some(
               (v) =>
-                v.options.color === c.options.color &&
-                v.options.size === selectedVariant.options.size
+                v?.options?.color === c?.options?.color &&
+                v?.options?.size === selectedVariant?.options?.size
             );
             return (
               <button
-                key={`${c.options.color}-${i}`}
+                key={`${c?.options?.color}-${i}`}
                 onClick={() =>
-                  variantExists && handleColorSelect(c.options.color)
+                  variantExists && handleColorSelect(c?.options?.color)
                 }
                 disabled={!variantExists}
                 className={`
                   relative w-8 h-8 rounded-full border-2 transition-all duration-200
-                  ${isActive
-                    ? "ring-2 ring-offset-2 ring-black border-white shadow-md"
-                    : variantExists
+                  ${
+                    isActive
+                      ? "ring-2 ring-offset-2 ring-black border-white shadow-md"
+                      : variantExists
                       ? "border-gray-200 hover:scale-105 hover:shadow-md cursor-pointer"
                       : "border-gray-200 opacity-50 cursor-not-allowed"
                   }`}
                 style={{ backgroundColor: c?.options?.color?.toLowerCase() }}
                 title={
                   !variantExists
-                    ? `${c.options.color} not available in ${selectedVariant.options.size} size`
-                    : c.options.color
+                    ? `${c?.options?.color} not available in ${selectedVariant?.options?.size} size`
+                    : c?.options?.color
                 }
               >
                 {isActive && (
@@ -255,15 +263,27 @@ export default function ColorVariant({
             <span>Wishlist</span>
           </button>
         </div>
+
         <button
           disabled={selectedVariant?.stock < qty}
-          onClick={() => handleAddToCart(productId || "", selectedVariant?._id || "")}
-          className={`w-full font-inter text-[18px] font-medium py-4 px-6 rounded-lg transition-colors 
-          ${selectedVariant?.stock >= qty
-              ? "bg-[#141718] text-white hover:bg-gray-800 cursor-pointer"
+          onClick={() =>
+            handleAddToCart(productId || "", selectedVariant?._id || "")
+          }
+          className={`w-full font-inter text-[18px] font-medium py-4 px-6 rounded-lg transition-colors relative overflow-hidden group ${
+            selectedVariant?.stock >= qty
+              ? "bg-[#141718] text-white cursor-pointer"
               : "bg-gray-400 text-gray-200 cursor-not-allowed"
-            }`}>
-          {selectedVariant?.stock >= qty ? "Add to Cart" : "Out of Stock"}
+          }`}
+        >
+          <span className="relative z-10">
+            {selectedVariant?.stock >= qty ? "Add to Cart" : "Out of Stock"}
+          </span>
+          {selectedVariant?.stock >= qty && (
+            <>
+              <span className="absolute inset-0 bg-white/20 backdrop-blur-md border border-white/30 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out z-0"></span>
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out z-0"></span>
+            </>
+          )}
         </button>
       </div>
     </>
