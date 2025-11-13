@@ -55,12 +55,14 @@ export default function CheckOut() {
       return variant
         ? {
             ...variant,
+            stock: 1,
             parentTitle: product?.title,
             parentImage: product?.featureImage,
           }
         : {
             _id: item.variantId,
             price: 0,
+            stock: 0,
             options: {},
             parentTitle: "",
             parentImage: "",

@@ -8,6 +8,7 @@ import ContactCard from "./ContactCard";
 import ContactMap from "./ContactMap";
 import Support from "../Support";
 import { createContact } from "@/actions/contact.action";
+import { ToastContainer, toast } from "react-toastify";
 
 const Contact = () => {
   const nameRef = useRef<HTMLInputElement | null>(null);
@@ -16,7 +17,7 @@ const Contact = () => {
   const messageRef = useRef<HTMLTextAreaElement | null>(null);
 
   // Query mutation
-  const { mutate, isPending, isSuccess, isError } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (): Promise<void> => {
       const name = nameRef.current?.value.trim() || "";
       const email = emailRef.current?.value.trim() || "";
@@ -24,14 +25,16 @@ const Contact = () => {
       const message = messageRef.current?.value.trim() || "";
 
       if (!name || !email || !subject || !message) {
-        throw new Error("Please fill in all fields.");
+        toast.error("Please fill in all fields!");
       }
 
       const result = await createContact(name, email, subject, message);
+      if (result?.status === "success") {
+        toast.success("Message sent successfully!");
+      }
       console.log(result);
     },
     onSuccess: () => {
-      console.log("✅ Message sent successfully!");
       if (nameRef.current) nameRef.current.value = "";
       if (emailRef.current) emailRef.current.value = "";
       if (subjectRef.current) subjectRef.current.value = "";
@@ -122,18 +125,6 @@ const Contact = () => {
                     {isPending ? "Sending..." : "Send Message"}
                   </button>
                 </form>
-
-                {/* Feedback Messages */}
-                {isSuccess && (
-                  <p className="text-green-600 mt-3 font-inter">
-                    ✅ Message sent successfully!
-                  </p>
-                )}
-                {isError && (
-                  <p className="text-red-600 mt-3 font-inter">
-                    ❌ please try again.
-                  </p>
-                )}
               </div>
 
               {/* Map Section */}
@@ -146,6 +137,7 @@ const Contact = () => {
       </main>
 
       <Support />
+      <ToastContainer />
     </>
   );
 };
