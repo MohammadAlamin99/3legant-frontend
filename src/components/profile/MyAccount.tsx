@@ -10,6 +10,7 @@ import AccountDetails from "./AccountDetails";
 import { ToastContainer, toast } from "react-toastify";
 import AccountMenu from "./AccountMenu";
 
+
 export default function MyAccountPage() {
   const [activeTab, setActiveTab] = useState("Account");
   const [isUpdating, setIsUpdating] = useState(false);
