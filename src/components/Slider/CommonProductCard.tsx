@@ -1,23 +1,86 @@
+"use client";
 import { Heart, Star } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Product } from "@/types/product.type";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCookie } from "@/helper/Token";
+import { addToWishlist, getWishlist } from "@/actions/wishlist.action";
+import { IWishlist } from "@/types/wishlist.type";
 
 interface SliderClientProps {
   item: Product;
 }
 export default function CommonProductCard({ item }: SliderClientProps) {
+  const [isWished, setIsWished] = useState(false);
+  const queryClient = useQueryClient();
+
+  // get userid from token
+  const token: string | undefined = getCookie("token");
+  function base64UrlDecode(str: string) {
+    str = str.replace(/-/g, "+").replace(/_/g, "/");
+    while (str.length % 4) str += "=";
+    return decodeURIComponent(
+      atob(str)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+  }
+  const payload = token
+    ? JSON.parse(base64UrlDecode(token.split(".")[1]))
+    : null;
+
+  // create wishlisht
+  const { mutate } = useMutation({
+    mutationFn: (productId: string) =>
+      addToWishlist(token || "", payload?.userId, productId),
+    onSuccess: (createWish) => {
+      if (createWish.status === "success") {
+        setIsWished(!isWished);
+        queryClient.invalidateQueries({ queryKey: ["wishlist"] });
+      }
+    },
+    onError: (err: unknown) => {
+      console.error(err);
+    },
+  });
+
+  // get wishlist
+  const { data: wishlistData } = useQuery({
+    queryKey: ["wishlist"],
+    queryFn: () => getWishlist(token || "", payload?.userId),
+  });
+  // check if product is wished
+  useEffect(() => {
+    if (wishlistData?.data?.length > 0) {
+      const wishedProducts = wishlistData.data[0].products.map(
+        (p: IWishlist) => p._id
+      );
+      setIsWished(wishedProducts.includes(item?._id));
+    }
+  }, [wishlistData, item?._id]);
+
+  const onWishHandler = () => {
+    mutate(item?._id);
+  };
   return (
     <>
       <div className="relative group">
         <Heart
+          onClick={onWishHandler}
           width={32}
           height={32}
-          color="#6C7275"
-          className="bg-white rounded-[50%] p-1.5 
-                absolute top-4 z-30 right-4 opacity-0 group-hover:opacity-100 transition-all
-                duration-300"
+          color={isWished ? "#EF4444" : "#6C7275"}
+          fill={isWished ? "#EF4444" : "none"}
+          className={`
+            rounded-[50%] p-1.5 cursor-pointer absolute top-4 right-4 z-30
+            transition-all duration-300
+            group-hover:opacity-100 opacity-0
+            ${isWished ? "bg-red-100" : "bg-white"}
+            group-hover:bg-gray-100
+          `}
         />
         <div className="absolute top-4 left-4 z-10">
           {item?.badge && (
