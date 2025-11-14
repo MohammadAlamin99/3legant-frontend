@@ -51,16 +51,17 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
     const variant: IProductVariant | undefined = product?.variants.find(
       (v: IProductVariant) => v._id === item?.variantId
     );
-
     return variant
       ? {
           ...variant,
+          stock: 0,
           parentTitle: product.title,
           parentImage: product.featureImage,
         }
       : {
           _id: item.variantId,
           price: 0,
+          stock: 0,
           options: {},
           parentTitle: "",
           parentImage: "",
