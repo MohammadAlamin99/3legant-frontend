@@ -1,6 +1,12 @@
 import { IProductVariant } from "@/types/variant.type";
 import { Heart, Minus, Plus } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
+import { addToWishlist } from "@/actions/wishlist.action";
+import { getCookie } from "@/helper/Token";
+import SignInModal from "../authentication/SignIn";
+import SignUpModal from "../authentication/SignUp";
 
 interface DetailsButtonProps {
   qtyHandler: (value: number) => void;
@@ -17,6 +23,68 @@ export default function DetailsButton({
   selectedVariant,
   handleAddToCart,
 }: DetailsButtonProps) {
+  // state
+  const [showSignIn, setShowSignIn] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [isWished, setIsWished] = useState(false);
+
+  // get userid from token
+  const token: string | undefined = getCookie("token");
+  function base64UrlDecode(str: string) {
+    str = str.replace(/-/g, "+").replace(/_/g, "/");
+    while (str.length % 4) str += "=";
+    return decodeURIComponent(
+      atob(str)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+  }
+  const payload = token
+    ? JSON.parse(base64UrlDecode(token.split(".")[1]))
+    : null;
+
+  // create wishlisht
+  const {
+    mutate,
+    isPending,
+    data: createWish,
+  } = useMutation({
+    mutationFn: () => addToWishlist(token || "", payload?.userId, productId),
+    onSuccess: (createWish) => {
+      if (createWish.status === "success") {
+        toast.success("Product added to wishlist");
+        setIsWished(true);
+      }
+    },
+    onError: (err: unknown) => {
+      toast.error((err as Error).message || "Failed to add to wishlist");
+    },
+  });
+
+  const onWishHandler = () => {
+    if (!token) {
+      setShowSignIn(true);
+      return;
+    }
+    mutate();
+  };
+
+  // authentication
+  const handleSwitchToSignUp = () => {
+    setShowSignIn(false);
+    setShowSignUp(true);
+  };
+
+  const handleSwitchToSignIn = () => {
+    setShowSignUp(false);
+    setShowSignIn(true);
+  };
+
+  const handleLoginSuccess = () => {
+    setShowSignIn(false);
+  };
+
   return (
     <>
       <div className="space-y-4">
@@ -36,9 +104,21 @@ export default function DetailsButton({
               <Plus width={20} height={20} />
             </button>
           </div>
-          <button className="w-full cursor-pointer bg-white border border-[#141718] text-[#141718] py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2">
-            <Heart className="w-5 h-5" />
-            <span>Wishlist</span>
+          <button
+            onClick={!isWished ? onWishHandler : undefined}
+            disabled={isWished}
+            className={`
+    w-full cursor-pointer py-3 px-6 rounded-lg transition-colors flex items-center justify-center space-x-2
+    border 
+    ${
+      isWished
+        ? "bg-red-500 border-red-600 text-white cursor-not-allowed hover:bg-red-600"
+        : "bg-white border-[#141718] text-[#141718] hover:bg-gray-100"
+    }
+  `}
+          >
+            <Heart className={`w-5 h-5 ${isWished ? "fill-white" : ""}`} />
+            <span>{isWished ? "Wishlisted" : "Wishlist"}</span>
           </button>
         </div>
 
@@ -64,6 +144,22 @@ export default function DetailsButton({
           )}
         </button>
       </div>
+      <ToastContainer />
+      {/* Modals */}
+      {showSignIn && (
+        <SignInModal
+          onClose={() => setShowSignIn(false)}
+          onSwitchToSignUp={handleSwitchToSignUp}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      )}
+
+      {showSignUp && (
+        <SignUpModal
+          onClose={() => setShowSignUp(false)}
+          onSwitchToSignIn={handleSwitchToSignIn}
+        />
+      )}
     </>
   );
 }

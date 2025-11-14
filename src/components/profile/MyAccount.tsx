@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { User, MapPin, ShoppingBag, Heart, LogOut, Camera } from "lucide-react";
+import { User, Heart, LogOut, Camera } from "lucide-react";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile, updateProfile } from "@/actions/user.action";
@@ -8,6 +8,7 @@ import { getCookie } from "@/helper/Token";
 import MyProfileSkeleton from "../Loading/MyProfileSkeleton";
 import AccountDetails from "./AccountDetails";
 import { ToastContainer, toast } from "react-toastify";
+import AccountMenu from "./AccountMenu";
 
 export default function MyAccountPage() {
   const [activeTab, setActiveTab] = useState("Account");
@@ -22,10 +23,8 @@ export default function MyAccountPage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const menuItems = [
-    { name: "Account", icon: User },
-    { name: "Address", icon: MapPin },
-    { name: "Orders", icon: ShoppingBag },
-    { name: "Wishlist", icon: Heart },
+    { name: "Account", icon: User, link: "/profile" },
+    { name: "Wishlist", icon: Heart, link: "/wishlist" },
     { name: "Log Out", icon: LogOut },
   ];
 
@@ -118,7 +117,7 @@ export default function MyAccountPage() {
               <div className="flex flex-col items-center mb-6 pb-6 relative">
                 <div className="relative mb-4 group">
                   <Image
-                    src={previewUrl || "/images/Logo.png"}
+                    src={previewUrl || "/images/userProfile.jpg"}
                     width={96}
                     height={96}
                     alt="User"
@@ -145,26 +144,12 @@ export default function MyAccountPage() {
                   {userProfile?.data.name || "User Name"}
                 </h2>
               </div>
-
-              <nav className="space-y-1">
-                {menuItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.name}
-                      onClick={() => setActiveTab(item.name)}
-                      className={`w-full flex items-center font-inter cursor-pointer gap-3 px-4 py-3 text-left transition-colors ${
-                        activeTab === item.name
-                          ? "border-b text-[#141718] border-[#141718]"
-                          : "text-[#6c7275]"
-                      }`}
-                    >
-                      <Icon className="w-5 h-5" />
-                      {item.name}
-                    </button>
-                  );
-                })}
-              </nav>
+              {/* left menu */}
+              <AccountMenu
+                menuItems={menuItems}
+                setActiveTab={setActiveTab}
+                activeTab={activeTab}
+              />
             </div>
           </div>
 
