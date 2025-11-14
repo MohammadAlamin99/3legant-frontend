@@ -23,3 +23,20 @@ export const addToWishlist = async (
     return e;
   }
 };
+
+// wishlist get
+export const getWishlist = async (token: string, userId: string) => {
+  try {
+    const result = await fetch(`${baseUrl}/wishlist?userId=${userId}`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        token: token,
+      },
+    });
+    const data = await result.json();
+    return data;
+  } catch (err) {
+    return err;
+  }
+};

@@ -1,30 +1,56 @@
 "use client";
-
+import { addToWishlist, getWishlist } from "@/actions/wishlist.action";
+import { getCookie } from "@/helper/Token";
+import { IWishlist } from "@/types/wishlist.type";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { toast, ToastContainer } from "react-toastify";
+import EmptyWishlist from "./EmptyWishlist";
 
 export default function WishlistMainContent() {
-  // Static demo data (no logic)
-  const wishlist = [
-    {
-      id: 1,
-      product: {
-        image: "/images/insta2.jpg",
-        title: "Modern Shirt",
-        price: 2500,
-      },
-      color: "Navy",
+  const queryClient = useQueryClient();
+  const token: string | undefined = getCookie("token");
+  function base64UrlDecode(str: string) {
+    str = str.replace(/-/g, "+").replace(/_/g, "/");
+    while (str.length % 4) str += "=";
+    return decodeURIComponent(
+      atob(str)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+  }
+  const payload = token
+    ? JSON.parse(base64UrlDecode(token.split(".")[1]))
+    : null;
+
+  const { data: wishlistData } = useQuery({
+    queryKey: ["wishlist"],
+    queryFn: () => getWishlist(token || "", payload?.userId),
+  });
+
+  const wishlist = wishlistData?.data[0]?.products || [];
+
+  // update wishlist
+  const { mutate } = useMutation({
+    mutationFn: (productId: string) =>
+      addToWishlist(token || "", payload?.userId, productId),
+    onSuccess: (createWish) => {
+      if (createWish.status === "success") {
+        toast.success(createWish.message);
+        queryClient.invalidateQueries({ queryKey: ["wishlist"] });
+      }
     },
-    {
-      id: 2,
-      product: {
-        image: "/images/insta2.jpg",
-        title: "Casual Pants",
-        price: 3200,
-      },
-      color: "Gray",
+    onError: (err: unknown) => {
+      toast.error((err as Error).message || "Failed to add to wishlist");
     },
-  ];
+  });
+
+  const onRemoveHandler = (productId: string) => {
+    mutate(productId);
+  };
 
   return (
     <div className="lg:col-span-3">
@@ -35,28 +61,30 @@ export default function WishlistMainContent() {
 
         <div className="w-full">
           {/* Header */}
-          <div className="hidden md:grid grid-cols-3 border-b border-gray-200 pb-2 mb-2 font-inter">
+          <div className="hidden md:grid grid-cols-2 border-b border-gray-200 pb-2 mb-2 font-inter">
             <div className="text-sm text-gray-500 font-medium">Product</div>
-            <div className="text-sm text-gray-500 font-medium">Price</div>
             <div className="text-sm text-gray-500 font-medium">Action</div>
           </div>
 
           {/* Items */}
-          {wishlist.map((item) => (
+          {wishlist.map((item: IWishlist, index: number) => (
             <div
-              key={item.id}
-              className="grid md:grid-cols-3 items-center py-6 border-b border-gray-200 md:gap-0 gap-4"
+              key={index}
+              className="grid md:grid-cols-2 items-center py-6 border-b border-gray-200 md:gap-0 gap-4"
             >
               {/* Product Info */}
               <div className="flex items-center space-x-4">
                 {/* Remove Icon (no action) */}
-                <X className="w-5 h-5 text-gray-500 hover:text-gray-700 cursor-pointer" />
+                <X
+                  onClick={() => onRemoveHandler(item._id)}
+                  className="w-5 h-5 text-gray-500 hover:text-gray-700 cursor-pointer"
+                />
 
                 {/* Product Image */}
                 <div className="w-[60px] h-[72px] bg-gray-100 overflow-hidden flex items-center justify-center">
                   <Image
-                    src={item.product.image}
-                    alt={item.product.title}
+                    src={item.featureImage}
+                    alt={item.featureImage || "Product image"}
                     width={60}
                     height={72}
                     className="object-contain"
@@ -66,39 +94,28 @@ export default function WishlistMainContent() {
                 {/* Details */}
                 <div className="flex flex-col gap-1">
                   <h3 className="text-[14px] font-semibold text-gray-900 font-inter">
-                    {item.product.title}
+                    {item.title}
                   </h3>
-                  <p className="text-[12px] text-gray-500 font-inter">
-                    Color: {item.color}
-                  </p>
                 </div>
               </div>
-
-              {/* Price */}
-              <div className="text-[14px] text-gray-800 font-medium md:text-left text-center font-inter">
-                TK. {item.product.price}
-              </div>
-
               {/* Action */}
               <div className="md:text-left text-center">
-                <button
+                <Link
+                  href={`/product/${item._id}`}
                   type="button"
                   className="bg-gray-900 font-inter cursor-pointer text-white text-[14px] font-medium px-6 py-2 rounded-lg"
                 >
                   Order Now
-                </button>
+                </Link>
               </div>
             </div>
           ))}
 
           {/* Empty State */}
-          {wishlist.length === 0 && (
-            <p className="text-gray-500 text-sm mt-4">
-              Your wishlist is empty.
-            </p>
-          )}
+          {wishlist.length === 0 && <EmptyWishlist />}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

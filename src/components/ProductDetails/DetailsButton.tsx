@@ -1,12 +1,13 @@
 import { IProductVariant } from "@/types/variant.type";
 import { Heart, Minus, Plus } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { useMutation } from "@tanstack/react-query";
-import { addToWishlist } from "@/actions/wishlist.action";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { addToWishlist, getWishlist } from "@/actions/wishlist.action";
 import { getCookie } from "@/helper/Token";
 import SignInModal from "../authentication/SignIn";
 import SignUpModal from "../authentication/SignUp";
+import { IWishlist } from "@/types/wishlist.type";
 
 interface DetailsButtonProps {
   qtyHandler: (value: number) => void;
@@ -27,6 +28,7 @@ export default function DetailsButton({
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [isWished, setIsWished] = useState(false);
+  const queryClient = useQueryClient();
 
   // get userid from token
   const token: string | undefined = getCookie("token");
@@ -45,22 +47,34 @@ export default function DetailsButton({
     : null;
 
   // create wishlisht
-  const {
-    mutate,
-    isPending,
-    data: createWish,
-  } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: () => addToWishlist(token || "", payload?.userId, productId),
     onSuccess: (createWish) => {
       if (createWish.status === "success") {
-        toast.success("Product added to wishlist");
-        setIsWished(true);
+        setIsWished(!isWished);
+        toast.success(createWish.message);
+        queryClient.invalidateQueries({ queryKey: ["wishlist"] });
       }
     },
     onError: (err: unknown) => {
       toast.error((err as Error).message || "Failed to add to wishlist");
     },
   });
+
+  // get wishlist
+  const { data: wishlistData, isLoading } = useQuery({
+    queryKey: ["wishlist"],
+    queryFn: () => getWishlist(token || "", payload?.userId),
+  });
+  // check if product is wished
+  useEffect(() => {
+    if (wishlistData?.data?.length > 0) {
+      const wishedProducts = wishlistData.data[0].products.map(
+        (p: IWishlist) => p._id
+      );
+      setIsWished(wishedProducts.includes(productId));
+    }
+  }, [wishlistData, productId]);
 
   const onWishHandler = () => {
     if (!token) {
@@ -105,14 +119,14 @@ export default function DetailsButton({
             </button>
           </div>
           <button
-            onClick={!isWished ? onWishHandler : undefined}
-            disabled={isWished}
+            onClick={onWishHandler}
+            disabled={isLoading}
             className={`
     w-full cursor-pointer py-3 px-6 rounded-lg transition-colors flex items-center justify-center space-x-2
     border 
     ${
       isWished
-        ? "bg-red-500 border-red-600 text-white cursor-not-allowed hover:bg-red-600"
+        ? "bg-red-500 border-red-600 text-white hover:bg-red-600"
         : "bg-white border-[#141718] text-[#141718] hover:bg-gray-100"
     }
   `}
