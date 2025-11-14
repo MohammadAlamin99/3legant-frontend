@@ -4,6 +4,7 @@ import Link from "next/link";
 import OrderHistory from "./OrderHistory";
 import { getOrder } from "@/actions/order.action";
 import { cookies } from "next/headers";
+import ClearCart from "./ClearCart";
 
 export default async function OrderComplete({ id }: { id: string }) {
   const cookieStore = cookies();
@@ -12,6 +13,7 @@ export default async function OrderComplete({ id }: { id: string }) {
   const orderData = order?.order;
   return (
     <div className="py-20 px-4 sm:px-6">
+      <ClearCart />
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center gap-2 mb-10 sm:hidden">
           <ChevronLeft />
