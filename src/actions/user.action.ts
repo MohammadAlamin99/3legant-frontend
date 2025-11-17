@@ -84,3 +84,21 @@ export const updateProfile = async (
     return e;
   }
 };
+
+// create product
+
+export const createProduct = async (token: string, formData: FormData) => {
+  try {
+    const res = await fetch(`${baseUrl}/products`, {
+      method: "POST",
+      headers: {
+        token: token,
+      },
+      body: formData,
+    });
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    return e;
+  }
+};
