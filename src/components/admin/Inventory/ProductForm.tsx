@@ -1,9 +1,9 @@
 "use client";
-
 import React, { useState, FormEvent, useEffect } from "react";
 import Image from "next/image";
 import { createProduct } from "@/actions/user.action";
 import { getCookie } from "@/helper/Token";
+import { IProductForm } from "@/types/productForm.type";
 
 type VariantOption = { key: string; value: string };
 type Variant = {
@@ -18,29 +18,8 @@ type Variant = {
   isActive: boolean;
 };
 
-type Metafield = { title: string; content: string };
-
-type ProductFormState = {
-  title: string;
-  description: string;
-  collections: string;
-  images: File[];
-  featureImage: File | null;
-  tags: string[];
-  badge: string;
-  basePrice: number | "";
-  compareAtPrice: number | "";
-  attributes: { key: string; value: string }[];
-  metafields: Metafield[];
-  status: "draft" | "active";
-  isTaxable: boolean;
-  shippingRequired: boolean;
-  weight: number | "";
-  dimensions: { l: number | ""; w: number | ""; h: number | "" };
-};
-
 export default function ProductFormFull() {
-  const [product, setProduct] = useState<ProductFormState>({
+  const [product, setProduct] = useState<IProductForm>({
     title: "",
     description: "",
     collections: "",
@@ -79,11 +58,10 @@ export default function ProductFormFull() {
     variants.map(() => null)
   );
 
-  // ---------------- Handlers ----------------
-  const updateProductField = <K extends keyof ProductFormState>(
-    field: K,
-    value: ProductFormState[K]
-  ) => setProduct((p) => ({ ...p, [field]: value }));
+  // Handlers
+  const updateProductField = <K extends keyof IProductForm>(field:K, value:IProductForm[K])=>{
+    setProduct((p)=>({...p, [field]:value}))
+  }
 
   const handleImagesChange = (files: FileList | null) => {
     if (!files) return;
@@ -107,6 +85,7 @@ export default function ProductFormFull() {
       e.currentTarget.value = "";
     }
   };
+
 
   const removeTag = (idx: number) =>
     setProduct((p) => ({ ...p, tags: p.tags.filter((_, i) => i !== idx) }));
@@ -163,13 +142,13 @@ export default function ProductFormFull() {
     ]);
   const removeVariant = (idx: number) =>
     setVariants((v) => v.filter((_, i) => i !== idx));
-  const updateVariantField = (
+  const updateVariantField = <K extends keyof Variant>(
     idx: number,
-    field: keyof Variant,
-    value: any
+    field: K,
+    value: Variant[K]
   ) => {
     const v = [...variants];
-    (v[idx] as any)[field] = value;
+    v[idx] = { ...v[idx], [field]: value };
     setVariants(v);
   };
   const addVariantOption = (idx: number) => {
@@ -209,7 +188,6 @@ export default function ProductFormFull() {
     });
   }, [variants.length]);
 
-  // ---------------- Submit ----------------
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
@@ -274,15 +252,13 @@ export default function ProductFormFull() {
       alert("Product created successfully");
       console.log("Created product:", data);
     } catch (err) {
-      console.error(err);
       alert(
         "Create product failed: " +
-          (err instanceof Error ? err.message : String(err))
+        (err instanceof Error ? err.message : String(err))
       );
     }
   };
 
-  // ---------------- Render ----------------
   return (
     <form onSubmit={handleSubmit} className="p-6 max-w-5xl mx-auto space-y-6">
       <h2 className="text-2xl font-semibold">Create Product</h2>
@@ -296,11 +272,12 @@ export default function ProductFormFull() {
           onChange={(e) => updateProductField("title", e.target.value)}
         />
       </div>
+
       <div>
         <label>Description</label>
         <textarea
           className="w-full border rounded p-2 mt-1"
-          rows={4}
+          rows={6}
           value={product.description}
           onChange={(e) => updateProductField("description", e.target.value)}
         />
