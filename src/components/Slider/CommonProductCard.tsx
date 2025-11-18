@@ -1,6 +1,5 @@
 "use client";
 import { Heart, Star } from "lucide-react";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Product } from "@/types/product.type";
@@ -9,6 +8,7 @@ import { getCookie } from "@/helper/Token";
 import { addToWishlist, getWishlist } from "@/actions/wishlist.action";
 import { IWishlist } from "@/types/wishlist.type";
 import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface SliderClientProps {
   item: Product;
@@ -16,7 +16,7 @@ interface SliderClientProps {
 export default function CommonProductCard({ item }: SliderClientProps) {
   const [isWished, setIsWished] = useState(false);
   const queryClient = useQueryClient();
-
+  const router = useRouter();
   // get userid from token
   const token: string | undefined = getCookie("token");
   function base64UrlDecode(str: string) {
@@ -71,6 +71,11 @@ export default function CommonProductCard({ item }: SliderClientProps) {
     }
     mutate(item?._id);
   };
+
+  // Route push handler
+  const onRoutePushHandler = () => {
+    router.push(`/product/${item._id}`);
+  };
   return (
     <>
       <div>
@@ -107,26 +112,25 @@ export default function CommonProductCard({ item }: SliderClientProps) {
               </div>
             )}
           </div>
-          <Link href={`product/${item?._id}`}>
-            <div className="group overflow-hidden relative w-full h-[308px] lg:h-[349px] md:h-[320px] sm:h-[310px]">
-              <Image
-                className="object-cover group-hover:scale-110 transition-transform duration-300 ease-in-out"
-                src={item.featureImage}
-                fill
-                alt={item.title}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-            </div>
-          </Link>
-          <Link href={`product/${item?._id}`}>
-            <button
-              className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
+          <div className="group overflow-hidden relative w-full h-[308px] lg:h-[349px] md:h-[320px] sm:h-[310px]">
+            <Image
+              className="object-cover group-hover:scale-110 transition-transform duration-300 ease-in-out"
+              src={item.featureImage}
+              fill
+              alt={item.title}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </div>
+          {/* <Link href={`product/${item?._id}`}> */}
+          <button
+            onClick={onRoutePushHandler}
+            className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
                 cursor-pointer leading-[28px] py-2.5 w-[80%] rounded-[8px] 
                 absolute bottom-4 left-[50%] translate-x-[-50%] opacity-0 group-hover:opacity-100 transition-all duration-300"
-            >
-              View More
-            </button>
-          </Link>
+          >
+            Order Now
+          </button>
+          {/* </Link> */}
         </div>
 
         <div className="flex items-center gap-0.5 mt-3 mb-1">

@@ -98,6 +98,7 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
       onClose();
     }
   };
+
   return (
     <>
       <div
@@ -137,14 +138,18 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                   className="flex items-center border-b border-[#E8ECEF] py-6"
                 >
                   <div className="w-20 aspect-[80/96] bg-[#F3F5F7] mr-4 flex-shrink-0">
-                    <Image
-                      src={item?.image || "/placeholder.png"}
-                      alt={item?.parentTitle || "Product image"}
-                      className="w-full h-full object-contain"
-                      width={80}
-                      height={96}
-                      sizes="(max-width: 768px) 80px, 100px"
-                    />
+                    <div className="w-20 aspect-[80/96] bg-[#F3F5F7] mr-4 flex-shrink-0">
+                      {item?.image || item?.parentImage ? (
+                        <Image
+                          src={item.image || item.parentImage!}
+                          alt={item.parentTitle || "Product image"}
+                          className="w-full h-full object-contain"
+                          width={80}
+                          height={96}
+                          sizes="(max-width: 768px) 80px, 100px"
+                        />
+                      ) : null}
+                    </div>
                   </div>
 
                   <div className="flex flex-col flex-1">

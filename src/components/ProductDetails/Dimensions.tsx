@@ -7,7 +7,7 @@ export default function Dimensions({
 }) {
   return (
     <div>
-      {dimensions && (
+      {dimensions?.l || dimensions?.w || dimensions?.h && (
         <>
           <h3 className="text-[16px] font-semibold text-[#6C7275] mb-2">
             Dimensions

@@ -9,6 +9,7 @@ interface ProductDetailsProps {
   product: Product;
 }
 export default function ProdcutDetails({ product }: ProductDetailsProps) {
+  console.log(product?.attributes);
   return (
     <div className="lx:px-0 lg:px-3 md:px-3 container mx-auto p-6 bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-16 md:gap-10 gap-4">
@@ -70,21 +71,24 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
 
           {/* Product Info */}
           <div className="space-y-2 pt-4 border-t border-gray-200">
-            <div className="flex gap-[98px]">
-              <span className="text-[#6C7275] font-normal font-inter text[12px] w-20">
-                SKU
-              </span>
-              <span className="text-[#141718] font-inter text[12px]">1117</span>
-            </div>
-            <div className="flex gap-[98px]">
-              <span className="text-[#6C7275] font-normal font-inter text[12px] w-20">
-                CATEGORY
-              </span>
-              <span className="text-[#141718] font-inter text[12px]">
-                Living Room, Bedroom
-              </span>
-            </div>
+            {product?.attributes ? (
+              <div>
+                {Object.entries(product?.attributes).map(
+                  ([key, value], index) => (
+                    <div key={index} className="flex gap-[98px]">
+                      <span className="text-[#6C7275] font-normal font-inter text-[12px] w-20">
+                        {key.toUpperCase()}
+                      </span>
+                      <span className="text-[#141718] font-inter text-[12px]">
+                        {value}
+                      </span>
+                    </div>
+                  )
+                )}
+              </div>
+            ) : null}
           </div>
+
           {/* accordion tabs */}
           <AccordionTabs metafields={product?.metafields} />
         </div>
