@@ -102,8 +102,9 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black z-30 opacity-50 visible-0 transition-opacity duration-300 
-                ${cartOpen ? "opacity-50 visible" : "opacity-0 invisible"}`}
+        className={`fixed inset-0 bg-black z-30 opacity-50 visible-0 transition-opacity duration-300 ${
+          cartOpen ? "opacity-50 visible" : "opacity-0 invisible"
+        }`}
         onClick={handleOverlayClick}
       />
       <div

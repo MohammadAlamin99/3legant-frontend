@@ -4,7 +4,7 @@ import { Product } from "@/types/product.type";
 import LoadMoreSkeleton from "../Loading/LoadMoreSkeleton";
 import { Icollection } from "@/types/collection.type";
 import CommonProductCard from "../Slider/CommonProductCard";
-const ShopProductCard = ({
+export default function ShopProductCard ({
   products,
   fetchNextPage,
   isFetchingNextPage,
@@ -18,7 +18,7 @@ const ShopProductCard = ({
   hasNextPage: boolean;
   categoryData?: Icollection[];
   categoryId?: string;
-}) => {
+}) {
   const [sortOption, setSortOption] = useState<string>("");
   const filterCategory = categoryData?.find((item) => item?._id === categoryId);
 
@@ -62,7 +62,7 @@ const ShopProductCard = ({
         </select>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-6">
+      <div className="grid grid-cols-2 gap-2 xl:grid-cols-4 lg:grid-cols-3 lg:gap-6">
         {sortedProducts &&
           sortedProducts.map((item, i) => (
             <div key={i}>
@@ -90,4 +90,3 @@ const ShopProductCard = ({
   );
 };
 
-export default ShopProductCard;

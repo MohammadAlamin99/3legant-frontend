@@ -112,7 +112,7 @@ export default function CommonProductCard({ item }: SliderClientProps) {
               </div>
             )}
           </div>
-          <div className="group overflow-hidden relative w-full h-[308px] lg:h-[349px] md:h-[320px] sm:h-[310px]">
+          <div className="group overflow-hidden relative w-full h-[220px] lg:h-[349px] md:h-[320px] sm:h-[310px]">
             <Image
               className="object-cover group-hover:scale-110 transition-transform duration-300 ease-in-out"
               src={item.featureImage}
