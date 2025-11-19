@@ -32,7 +32,7 @@ export const createReview = async (
 // get review by product id
 export const getReviewByProductId = async (productId: string)=>{
   try {
-    const res = await fetch(`${baseUrl}/review/${productId}`,{
+    const res = await fetch(`${baseUrl}/review?productId=${productId}`,{
       method:"GET",
       headers: {
         "content-type": "application/json",

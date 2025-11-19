@@ -1,7 +1,5 @@
 "use client";
 import { Star } from "lucide-react";
-import Image from "next/image";
-import img from "../../public/images/promotion_banner.jpg";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createReview } from "@/actions/review.action";
 import { getCookie } from "@/helper/Token";
@@ -9,8 +7,12 @@ import { decodeToken } from "@/helper/DecodedToken";
 import { IUser } from "@/types/user.type";
 import { useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import ReviewList from "./ProductDetails/ReviewList";
+import { IReview } from "@/types/review.type";
 
-export default function Review({ id }: { id: string }) {
+
+
+export default function Review({ id, getReview }: { id: string; getReview:IReview[] }) {
   const token: string | undefined = getCookie("token");
   const decoded: IUser | null = decodeToken(token);
   const userId: string | undefined = decoded?.userId;
@@ -121,43 +123,7 @@ export default function Review({ id }: { id: string }) {
             Write Review
           </button>
         </div>
-
-        <h2 className="text-xl font-medium font-poppins mb-6">11 Reviews</h2>
-        <div className="space-y-6">
-          {[1, 2].map((id) => (
-            <div
-              key={id}
-              className="flex max-[575px]:flex-col gap-6 border-b border-gray-200 pb-6"
-            >
-              <div className="relative flex-shrink-0 w-[72px] h-[72px]">
-                <Image
-                  className="rounded-full object-cover"
-                  src={img}
-                  alt="Reviewer"
-                  fill
-                />
-              </div>
-              <div>
-                <h3 className="text-lg font-inter font-semibold text-gray-900 mb-2">
-                  John Doe
-                </h3>
-                <div className="flex gap-1 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star width={16} height={16} key={i} />
-                  ))}
-                </div>
-                <p className="text-[#353945] font-inter font-normal text-sm">
-                  I bought it 3 weeks ago and now come back just to say “Awesome
-                  Product”. I really enjoy it. At vero eos et accusamus et iusto
-                  odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                  deleniti atque corrupt et quas molestias excepturi sint non
-                  provident.
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
+        <ReviewList getReview={getReview}/>
         {/* Load More */}
         <div className="flex justify-center mt-6">
           <button className="border font-inter font-medium border-[#141718] rounded-full px-10 py-2 text-sm text-[#141718] cursor-pointer">

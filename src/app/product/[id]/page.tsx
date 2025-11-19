@@ -1,4 +1,5 @@
 import { getProductById } from "@/actions/product.action";
+import { getReviewByProductId } from "@/actions/review.action";
 import Announcedbar from "@/components/Announcedbar";
 import Footer from "@/components/Footer";
 import NavMenu from "@/components/NavMenu";
@@ -11,12 +12,13 @@ interface PageProps {
 export default async function Page({ params}: PageProps) {
   const { id } = await params;
   const product = await getProductById(id);
+  const getReview = await getReviewByProductId(id);
   return (
     <>
       <Announcedbar />
       <NavMenu />
       <ProductDetails product={product} />
-      <Review id={id}/>
+      <Review id={id} getReview={getReview}/>
       <Footer />
     </>
   );
