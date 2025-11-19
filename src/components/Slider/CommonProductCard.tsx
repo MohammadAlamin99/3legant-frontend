@@ -1,5 +1,5 @@
 "use client";
-import { Heart, Star } from "lucide-react";
+import { Heart } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Product } from "@/types/product.type";
@@ -9,6 +9,9 @@ import { addToWishlist, getWishlist } from "@/actions/wishlist.action";
 import { IWishlist } from "@/types/wishlist.type";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { decodeToken } from "@/helper/DecodedToken";
+import { IUser } from "@/types/user.type";
+import ProductRating from "./ProductRating";
 
 interface SliderClientProps {
   item: Product;
@@ -17,26 +20,15 @@ export default function CommonProductCard({ item }: SliderClientProps) {
   const [isWished, setIsWished] = useState(false);
   const queryClient = useQueryClient();
   const router = useRouter();
+
   // get userid from token
   const token: string | undefined = getCookie("token");
-  function base64UrlDecode(str: string) {
-    str = str.replace(/-/g, "+").replace(/_/g, "/");
-    while (str.length % 4) str += "=";
-    return decodeURIComponent(
-      atob(str)
-        .split("")
-        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
-    );
-  }
-  const payload = token
-    ? JSON.parse(base64UrlDecode(token.split(".")[1]))
-    : null;
+  const payload: IUser | null = decodeToken(token);
 
   // create wishlisht
   const { mutate } = useMutation({
     mutationFn: (productId: string) =>
-      addToWishlist(token || "", payload?.userId, productId),
+      addToWishlist(token || "", payload?.userId || "", productId),
     onSuccess: (createWish) => {
       if (createWish.status === "success") {
         setIsWished(!isWished);
@@ -51,7 +43,7 @@ export default function CommonProductCard({ item }: SliderClientProps) {
   // get wishlist
   const { data: wishlistData } = useQuery({
     queryKey: ["wishlist"],
-    queryFn: () => getWishlist(token || "", payload?.userId),
+    queryFn: () => getWishlist(token || "", payload?.userId || ""),
   });
   // check if product is wished
   useEffect(() => {
@@ -121,7 +113,6 @@ export default function CommonProductCard({ item }: SliderClientProps) {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           </div>
-          {/* <Link href={`product/${item?._id}`}> */}
           <button
             onClick={onRoutePushHandler}
             className="font-inter text-[#FEFEFE] text-[16px] font-medium bg-[#141718] 
@@ -130,34 +121,10 @@ export default function CommonProductCard({ item }: SliderClientProps) {
           >
             Order Now
           </button>
-          {/* </Link> */}
         </div>
+        {/* rating */}
+       <ProductRating item={item}/>
 
-        <div className="flex items-center gap-0.5 mt-3 mb-1">
-          {Array.from({
-            length: Math.floor(item?.rating?.average || 0),
-          }).map((_, index) => (
-            <Star
-              width={16}
-              height={16}
-              key={index}
-              className="text-[#343839] fill-[#343839]"
-            />
-          ))}
-          {Array.from({
-            length: 5 - Math.floor(item?.rating?.average || 0),
-          }).map((_, index) => (
-            <Star
-              width={16}
-              height={16}
-              key={index}
-              className="text-[#6C7275] fill-[#6C7275]"
-            />
-          ))}
-          <span className="ml-1.5 font-inter text-sm font-medium">
-            ({item?.rating?.average})
-          </span>
-        </div>
         <h2 className="text-[16px] font-semibold text-[#141718] leading-8">
           {item?.title}
         </h2>

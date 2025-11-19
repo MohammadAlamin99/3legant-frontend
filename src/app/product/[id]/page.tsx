@@ -16,7 +16,7 @@ export default async function Page({ params}: PageProps) {
       <Announcedbar />
       <NavMenu />
       <ProductDetails product={product} />
-      <Review />
+      <Review id={id}/>
       <Footer />
     </>
   );
