@@ -27,3 +27,21 @@ export const createReview = async (
     return e;
   }
 };
+
+
+// get review by product id
+export const getReviewByProductId = async (productId: string)=>{
+  try {
+    const res = await fetch(`${baseUrl}/review/${productId}`,{
+      method:"GET",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const data = await res.json();
+    return data;
+
+  } catch (e) {
+    return e;
+  }
+}

@@ -1,4 +1,3 @@
-import { Star } from "lucide-react";
 import ColorVarients from "./ColorVarients";
 import ThumsSlider from "./ThumsSlider";
 import { Product } from "@/types/product.type";
