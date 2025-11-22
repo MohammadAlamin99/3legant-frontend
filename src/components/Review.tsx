@@ -1,32 +1,25 @@
 "use client";
 import { Star } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createReview } from "@/actions/review.action";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { createReview, getReviewByProductId } from "@/actions/review.action";
 import { getCookie } from "@/helper/Token";
 import { decodeToken } from "@/helper/DecodedToken";
 import { IUser } from "@/types/user.type";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import ReviewList from "./ProductDetails/ReviewList";
-import { IReview } from "@/types/review.type";
 
-interface reviewProps {
-  data: IReview[];
-}
-export default function Review({
-  id,
-  getReview,
-}: {
-  id: string;
-  getReview: reviewProps;
-}) {
+export default function Review({ id }: { id: string }) {
   const token: string | undefined = getCookie("token");
   const decoded: IUser | null = decodeToken(token);
   const userId: string | undefined = decoded?.userId;
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const [rating, setRating] = useState<number>(0);
   const [hover, setHover] = useState<number>(0);
-  const [isNext, setIsNext] = useState(false);
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
@@ -63,9 +56,29 @@ export default function Review({
     mutate(id);
   };
 
-  // handle loade 
+  // get review
+  const limit = 20;
+  const {
+    data: reviewData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["review", id],
+    queryFn: async ({ pageParam = 1 }) => {
+      return await getReviewByProductId(id, pageParam, limit);
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) => {
+      console.log(lastPage);
+      if (lastPage?.data?.length < limit) return undefined;
+      return pages.length + 1;
+    },
+  });
+  const allReviews = useMemo(() => {
+    return reviewData?.pages.flatMap((page) => page.data) || [];
+  }, [reviewData?.pages]);
 
-  console.log(getReview?.data);
   return (
     <div className="py-10">
       <div className="container mx-auto xl:px-3 lg:px-3 md:px-3 sm:px-3 px-8">
@@ -134,15 +147,19 @@ export default function Review({
             Write Review
           </button>
         </div>
-        <ReviewList getReview={getReview} />
+        <ReviewList getReview={allReviews} />
         {/* Load More */}
-        {isNext && (
-          <div className="flex justify-center mt-6">
-            <button className="border font-inter font-medium border-[#141718] rounded-full px-10 py-2 text-sm text-[#141718] cursor-pointer">
-              Load More
+        <div className="flex justify-center mt-6">
+          {hasNextPage && (
+            <button
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              className="border font-inter font-medium border-[#141718] rounded-full px-10 py-2 text-sm text-[#141718] cursor-pointer"
+            >
+              {isFetchingNextPage ? "Loading..." : "Load More"}
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <ToastContainer />
     </div>
