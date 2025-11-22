@@ -10,15 +10,23 @@ import { toast, ToastContainer } from "react-toastify";
 import ReviewList from "./ProductDetails/ReviewList";
 import { IReview } from "@/types/review.type";
 
-
-
-export default function Review({ id, getReview }: { id: string; getReview:IReview[] }) {
+interface reviewProps {
+  data: IReview[];
+}
+export default function Review({
+  id,
+  getReview,
+}: {
+  id: string;
+  getReview: reviewProps;
+}) {
   const token: string | undefined = getCookie("token");
   const decoded: IUser | null = decodeToken(token);
   const userId: string | undefined = decoded?.userId;
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const [rating, setRating] = useState<number>(0);
   const [hover, setHover] = useState<number>(0);
+  const [isNext, setIsNext] = useState(false);
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
@@ -55,6 +63,9 @@ export default function Review({ id, getReview }: { id: string; getReview:IRevie
     mutate(id);
   };
 
+  // handle loade 
+
+  console.log(getReview?.data);
   return (
     <div className="py-10">
       <div className="container mx-auto xl:px-3 lg:px-3 md:px-3 sm:px-3 px-8">
@@ -123,13 +134,15 @@ export default function Review({ id, getReview }: { id: string; getReview:IRevie
             Write Review
           </button>
         </div>
-        <ReviewList getReview={getReview}/>
+        <ReviewList getReview={getReview} />
         {/* Load More */}
-        <div className="flex justify-center mt-6">
-          <button className="border font-inter font-medium border-[#141718] rounded-full px-10 py-2 text-sm text-[#141718] cursor-pointer">
-            Load More
-          </button>
-        </div>
+        {isNext && (
+          <div className="flex justify-center mt-6">
+            <button className="border font-inter font-medium border-[#141718] rounded-full px-10 py-2 text-sm text-[#141718] cursor-pointer">
+              Load More
+            </button>
+          </div>
+        )}
       </div>
       <ToastContainer />
     </div>

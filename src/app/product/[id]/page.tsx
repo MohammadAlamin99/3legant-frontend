@@ -9,16 +9,16 @@ import Review from "@/components/Review";
 interface PageProps {
   params: { id: string };
 }
-export default async function Page({ params}: PageProps) {
+export default async function Page({ params }: PageProps) {
   const { id } = await params;
   const product = await getProductById(id);
-  const getReview = await getReviewByProductId(id);
+  const getReview = await getReviewByProductId(id, 1, 1);
   return (
     <>
       <Announcedbar />
       <NavMenu />
       <ProductDetails product={product} />
-      <Review id={id} getReview={getReview}/>
+      <Review id={id} getReview={getReview} />
       <Footer />
     </>
   );

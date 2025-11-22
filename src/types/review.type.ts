@@ -4,6 +4,12 @@ export interface IReview {
   productId: string;
   rating: number;
   comment: string;
-  createdAt: string; 
-  updatedAt: string; 
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    _id: string;
+    email: string;
+    name: string;
+    photo: string;
+  };
 }

@@ -1,6 +1,7 @@
-import React from 'react';
-import { IReview } from '@/types/review.type';
-import ProductRating from '../Slider/ProductRating';
+import React from "react";
+import { IReview } from "@/types/review.type";
+import ProductRating from "../Slider/ProductRating";
+import Image from "next/image";
 
 interface ReviewListProps {
   getReview: { data: IReview[] } | undefined;
@@ -18,20 +19,20 @@ export default function ReviewList({ getReview }: ReviewListProps) {
             className="flex max-[575px]:flex-col gap-6 border-b border-gray-200 pb-6"
           >
             <div className="relative flex-shrink-0 w-[72px] h-[72px]">
-              {/* <Image
+              <Image
                 className="rounded-full object-cover"
-                src={item?.image || ""}
+                src={item?.user?.photo || ""}
                 alt="Reviewer"
                 fill
-              /> */}
+              />
             </div>
             <div>
               <h3 className="text-lg font-inter font-semibold text-gray-900 mb-2">
-                {/* {item?.name || "Anonymous"} */}Mohammad Al amin
+                {item?.user?.name || "Anonymous"}
               </h3>
               <ProductRating
                 item={{
-                 _id: "review-" + i,
+                  _id: "review-" + i,
                   title: "",
                   description: "",
                   basePrice: 0,
