@@ -19,7 +19,7 @@ export default function ProdcutDetails({ product }: ProductDetailsProps) {
           <div className="flex items-center space-x-2">
             <ProductRating item={product} />
             <span className="text-[#141718] text-[12px] font-inter font-normal mt-2.5">
-              11 Reviews
+              {product?.rating?.count || 0} Reviews
             </span>
           </div>
 
