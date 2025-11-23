@@ -70,7 +70,6 @@ export default function Review({ id }: { id: string }) {
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, pages) => {
-      console.log(lastPage);
       if (lastPage?.data?.length < limit) return undefined;
       return pages.length + 1;
     },
