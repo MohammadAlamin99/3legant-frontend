@@ -1,5 +1,4 @@
 import { getProductById } from "@/actions/product.action";
-import { getReviewByProductId } from "@/actions/review.action";
 import Announcedbar from "@/components/Announcedbar";
 import Footer from "@/components/Footer";
 import NavMenu from "@/components/NavMenu";
