@@ -165,22 +165,22 @@ export default function ShopProduct() {
                 categoryId
                   ? catNextPage
                   : priceRange.min !== 0 || priceRange.max !== Infinity
-                    ? priceRangeNextPage
-                    : fetchNextPage
+                  ? priceRangeNextPage
+                  : fetchNextPage
               }
               isFetchingNextPage={
                 categoryId
                   ? isCatFatchingNextPage
                   : priceRange.min !== 0 || priceRange.max !== Infinity
-                    ? isPRnageFatchingNextPage
-                    : isFetchingNextPage
+                  ? isPRnageFatchingNextPage
+                  : isFetchingNextPage
               }
               hasNextPage={
                 categoryId
                   ? hasNextCat
                   : priceRange.min !== 0 || priceRange.max !== Infinity
-                    ? hasNextPRange
-                    : hasNext
+                  ? hasNextPRange
+                  : hasNext
               }
               categoryData={categoryData}
               categoryId={categoryId}
@@ -192,7 +192,8 @@ export default function ShopProduct() {
                 No Products Found
               </h2>
               <p className="text-sm text-gray-500 mt-1 font-inter">
-                There are currently no products in this collection. Please check back later.
+                There are currently no products in this collection. Please check
+                back later.
               </p>
             </div>
           )}

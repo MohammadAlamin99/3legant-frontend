@@ -1,11 +1,11 @@
 import React from "react";
-const ShopProductSkeleton = () => {
+export default function ShopProductSkeleton() {
   return (
     <>
       <div className="flex justify-between items-center mb-8">
         <h4 className="text-black font-inter font-semibold">All Products</h4>
       </div>
-      <div className="animate-pulse grid grid-cols-2 gap-2 lg:grid-cols-3 lg:gap-6">
+      <div className="animate-pulse grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-6">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i}>
             <div className="relative bg-gray-200 rounded-md w-full aspect-[300/349]"></div>
@@ -25,6 +25,4 @@ const ShopProductSkeleton = () => {
       </div>
     </>
   );
-};
-
-export default ShopProductSkeleton;
+}
