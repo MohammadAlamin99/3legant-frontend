@@ -31,17 +31,21 @@ export default function ThumsSlider({ product }: ProductDetailsProps) {
               {product?.badge}
             </span>
           )}
-          {product.compareAtPrice && (
-            <div className="bg-[#38CB89] font-inter text-white px-3 py-1 rounded-md text-sm font-bold mt-2">
-              -
-              {(
-                ((product?.compareAtPrice - product?.basePrice) /
-                  product?.compareAtPrice) *
-                100
-              ).toFixed(0)}
-              %
-            </div>
-          )}
+          {product?.compareAtPrice !== undefined &&
+            product.compareAtPrice > 0 &&
+            product.basePrice > 0 &&
+            product.compareAtPrice > product.basePrice && (
+              <div className="bg-[#38CB89] font-inter text-white px-3 py-1 rounded-md text-sm font-bold mt-2">
+                -
+                {(
+                  ((Number(product.compareAtPrice) -
+                    Number(product.basePrice)) /
+                    Number(product.compareAtPrice)) *
+                  100
+                ).toFixed(0)}
+                %
+              </div>
+            )}
         </div>
         <button className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-shadow z-10 cursor-pointer prev-btn">
           <ChevronLeft className="w-5 h-5 text-gray-600" />

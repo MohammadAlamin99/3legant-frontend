@@ -122,14 +122,14 @@ export default function DetailsButton({
             onClick={onWishHandler}
             disabled={isLoading}
             className={`
-    w-full cursor-pointer py-3 px-6 rounded-lg transition-colors flex items-center justify-center space-x-2
-    border 
-    ${
-      isWished
-        ? "bg-red-500 border-red-600 text-white hover:bg-red-600"
-        : "bg-white border-[#141718] text-[#141718] hover:bg-gray-100"
-    }
-  `}
+              w-full cursor-pointer py-3 px-6 rounded-lg transition-colors flex items-center justify-center space-x-2
+              border 
+              ${
+                isWished
+                  ? "bg-red-500 border-red-600 text-white hover:bg-red-600"
+                  : "bg-white border-[#141718] text-[#141718] hover:bg-gray-100"
+              }
+            `}
           >
             <Heart className={`w-5 h-5 ${isWished ? "fill-white" : ""}`} />
             <span>{isWished ? "Wishlisted" : "Wishlist"}</span>

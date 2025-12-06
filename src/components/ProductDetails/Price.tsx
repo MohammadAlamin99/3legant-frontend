@@ -11,7 +11,7 @@ export default function Price({
         <span className="text-[28px] font-medium text-[#121212] font-poppins">
           TK {selectedVariant?.price}
         </span>
-        {selectedVariant?.compareAtPrice && (
+        {selectedVariant?.compareAtPrice !== undefined && selectedVariant?.compareAtPrice > 0 && (
           <span className="text-[20px] font-poppins text-[#6C7275] line-through">
             TK {selectedVariant?.compareAtPrice}
           </span>

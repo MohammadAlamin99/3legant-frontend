@@ -92,7 +92,7 @@ export default function CommonProductCard({ item }: SliderClientProps) {
                 {item?.badge}
               </span>
             )}
-            {item.compareAtPrice && (
+            {item.compareAtPrice !== undefined && item.compareAtPrice > 0 && (
               <div className="bg-[#38CB89] font-inter text-white px-3 py-1 rounded-md text-sm font-bold mt-2">
                 -
                 {(
@@ -123,7 +123,7 @@ export default function CommonProductCard({ item }: SliderClientProps) {
           </button>
         </div>
         {/* rating */}
-       <ProductRating item={item}/>
+        <ProductRating item={item} />
 
         <h2 className="text-[16px] font-semibold text-[#141718] leading-8">
           {item?.title}
