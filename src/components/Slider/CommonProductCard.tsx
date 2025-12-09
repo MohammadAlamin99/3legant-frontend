@@ -132,9 +132,11 @@ export default function CommonProductCard({ item }: SliderClientProps) {
           <p className="text-[14px] font-semibold text-[#141718]">
             TK. {item?.basePrice}
           </p>
-          <p className="text-[14px] font-normal text-[#6C7275] line-through">
-            TK. {item?.compareAtPrice}
-          </p>
+          {item?.compareAtPrice !== undefined && item.compareAtPrice > 0 && (
+            <p className="text-[14px] font-normal text-[#6C7275] line-through">
+              TK. {item?.compareAtPrice}
+            </p>
+          )}
         </div>
       </div>
       <ToastContainer />
