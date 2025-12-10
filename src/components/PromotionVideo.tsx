@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 import Image from "next/image";
-import img from "../../public/images//promotion_video_Thummbnailbanner.jpg"
+import img from "../../public/images/herobanner.jpg"
 import { X } from "lucide-react";
 
 export default function PromotionVideo() {

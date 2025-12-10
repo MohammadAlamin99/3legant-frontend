@@ -1,5 +1,5 @@
 import Link from "next/link";
-import bannerImg from "../../public/images/Hero_banner.png";
+import bannerImg from "../../public/images/main.jpg";
 import Image from "next/image";
 export default function HeroBanner() {
   return (

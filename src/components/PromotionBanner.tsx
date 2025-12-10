@@ -1,5 +1,5 @@
 import Image from "next/image";
-import img from "../../public/images/promotion_banner.jpg";
+import img from "../../public/images/insta2.jpg";
 import CommonButton2 from "./button/CommonButton2";
 export default function PromotionBanner() {
   return (
