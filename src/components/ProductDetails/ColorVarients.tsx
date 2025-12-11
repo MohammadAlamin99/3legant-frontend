@@ -93,28 +93,47 @@ export default function ColorVariant({
     <>
       {/* Size Selection */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">Size</h2>
-        <div className="grid grid-cols-3 gap-3 sm:flex sm:gap-2">
-          {uniqueSizes.map((v, i) => {
-            const isActive =
-              selectedVariant?.options?.size === v?.options?.size;
-            if (v.isActive === false) return null;
-            return (
-              <button
-                key={`${v?.options?.size}-${i}`}
-                onClick={() => handleSizeSelect(v)}
-                className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all cursor-pointer
-                  ${
+        {selectedVariant?.options && (
+          <div>
+            {Object.entries(selectedVariant.options)
+              .filter(([key]) => key !== "color")
+              .map(([key]) => (
+                <p
+                  key={key}
+                  className="text-sm font-medium text-gray-700 mb-2 capitalize"
+                >
+                  {key}
+                </p>
+              ))}
+          </div>
+        )}
+
+        {selectedVariant?.options && (
+          <div className="grid grid-cols-3 gap-3 sm:flex sm:gap-2">
+            {uniqueSizes.map((v, i) => {
+              const isActive =
+                selectedVariant?.options?.size === v?.options?.size;
+              if (v.isActive === false) return null;
+              const optionKey = Object.keys(v?.options || {}).find(
+                (key) => key !== "color"
+              );
+              const optionValue = optionKey ? v?.options?.[optionKey] : "";
+              return (
+                <div
+                  key={i}
+                  onClick={() => handleSizeSelect(v)}
+                  className={`color-variants px-4 py-2 rounded-lg border text-sm font-medium transition-all cursor-pointer ${
                     isActive
                       ? "border-black bg-[#141718] text-white shadow-md"
                       : "border-gray-300 bg-white text-gray-700 hover:border-black hover:bg-gray-50"
                   }`}
-              >
-                {v?.options?.size}
-              </button>
-            );
-          })}
-        </div>
+                >
+                  {optionValue}
+                </div>
+              );
+            })}
+          </div>
+        )}
         <div className="text-xs text-gray-500 space-y-1">
           <p>• Free returns within 30 days</p>
           <p>• Need help? Contact our support team</p>

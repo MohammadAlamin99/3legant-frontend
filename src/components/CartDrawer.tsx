@@ -173,6 +173,7 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                         item={item}
                         qty={cartItem?.quantity || 1}
                         handleQuantityChange={handleQuantityChange}
+                        hidden={false}
                       />
 
                       {/* Remove */}
