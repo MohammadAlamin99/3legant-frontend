@@ -1,6 +1,5 @@
 import { Variant } from "@/types/variant.type";
 import { Minus, Plus } from "lucide-react";
-import React from "react";
 
 export default function QuantityButton({
   item,
@@ -17,7 +16,7 @@ export default function QuantityButton({
     <>
       <div
         className={`items-center justify-between border w-[80px] border-[#6C7275] rounded-md p-2 ${
-          hidden ? "hidden" : "md:flex"
+          hidden ? "hidden" : "flex"
         }`}
       >
         <button
