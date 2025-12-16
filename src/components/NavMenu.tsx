@@ -247,7 +247,7 @@ export default function NavMenu() {
                 {cartItemsCount}
               </span>
             </div>
-          </div>
+        </div>
         </div>
       </div>
       {/* Modals */}

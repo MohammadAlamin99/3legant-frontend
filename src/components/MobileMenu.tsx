@@ -3,6 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/images/phone-logo.png";
 import { Heart, Search, X } from "lucide-react";
+import CartSvg from "./svg/CartSvg";
+import { useRouter } from "next/navigation";
+
 
 interface MobileMenuProps {
   mobileMenu: boolean;
@@ -10,12 +13,17 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ mobileMenu, onClose }: MobileMenuProps) {
+  const router = useRouter();
+  const handleFocus = () => {
+    router.push("/search");
+  };
   return (
     <>
       {/* 🔹 Background Overlay */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-all duration-300 ${mobileMenu ? "opacity-50 visible" : "opacity-0 invisible"
-          }`}
+        className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-all duration-300 ${
+          mobileMenu ? "opacity-50 visible" : "opacity-0 invisible"
+        }`}
         onClick={onClose}
       ></div>
 
@@ -50,24 +58,22 @@ export default function MobileMenu({ mobileMenu, onClose }: MobileMenuProps) {
               className="w-full text-[#6C7275] placeholder:text-[#6C7275] outline-0 font-inter text-[14px] font-normal"
               type="text"
               placeholder="Search"
+              onClick={handleFocus}
             />
           </div>
 
           <ul className="font-inter text-[14px] font-medium">
             <li className="mb-4 border-b-[1px] border-[#E8ECEF] pb-4">
-              <Link href="#">Home</Link>
+              <Link href="/">Home</Link>
             </li>
             <li className="mb-4 border-b-[1px] border-[#E8ECEF] pb-4">
-              <Link href="#">Shop</Link>
-            </li>
-            <li className="mb-4 border-b-[1px] border-[#E8ECEF] pb-4">
-              <Link href="#">About</Link>
-            </li>
-            <li className="mb-4 border-b-[1px] border-[#E8ECEF] pb-4">
-              <Link href="#">Contact</Link>
+              <Link href="/shop">Shop</Link>
             </li>
             <li className="mb-4 border-b-[1px] border-[#E8ECEF] pb-4">
               <Link href="#">Blog</Link>
+            </li>
+            <li className="mb-4 border-b-[1px] border-[#E8ECEF] pb-4">
+              <Link href="/contact">Contact</Link>
             </li>
           </ul>
         </div>
@@ -76,27 +82,7 @@ export default function MobileMenu({ mobileMenu, onClose }: MobileMenuProps) {
           <div className="flex justify-between items-center text-[#6C7275] font-inter text-[14px] font-medium mb-4 pb-4 border-b-[1px] border-[#E8ECEF]">
             <Link href="#">Cart</Link>
             <div className="flex items-center gap-1.5">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M9 6L9 7C9 8.65685 10.3431 10 12 10C13.6569 10 15 8.65685 15 7V6"
-                  stroke="#141718"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M15.6113 3H8.38836C6.433 3 4.76424 4.41365 4.44278 6.3424L2.77612 16.3424C2.36976 18.7805 4.24994 21 6.72169 21H17.278C19.7498 21 21.6299 18.7805 21.2236 16.3424L19.5569 6.3424C19.2355 4.41365 17.5667 3 15.6113 3Z"
-                  stroke="#141718"
-                  strokeWidth="1.5"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <CartSvg />
               <span className="font-inter text-[#fff] font-bold text-[12px] w-5 h-5 bg-[#141718] rounded-[50%] flex items-center justify-center">
                 3
               </span>
