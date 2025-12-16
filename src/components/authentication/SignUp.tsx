@@ -88,7 +88,7 @@ export default function SignUpModal({
               3legant.
             </h4>
             <Image
-              src="/images/promotion_banner.jpg"
+              src="/images/signUp.jpg"
               alt="Signup Illustration"
               fill
               className="w-96 h-auto object-cover"

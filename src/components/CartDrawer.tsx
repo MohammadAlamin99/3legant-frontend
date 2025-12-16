@@ -10,6 +10,7 @@ import EmptyCart from "./cart/EmptyCart";
 import QuantityButton from "./cart/QuantityButton";
 import { ICartItem } from "@/types/cartItem.type";
 import { IProductVariant, Product } from "@/types/variant.type";
+import Variants from "./ProductDetails/Variants";
 
 interface CartDrawerProps {
   cartOpen: boolean;
@@ -163,14 +164,7 @@ export default function CartDrawer({ cartOpen, onClose }: CartDrawerProps) {
                         TK. {item?.price}
                       </span>
                     </div>
-                    {/* variant opiton */}
-                    {item?.options && Object.keys(item.options).length > 0 && (
-                      <p className="text-xs text-[#6C7275] font-inter mb-2">
-                        {Object.entries(item.options)
-                          .map(([key, value]) => `${key}: ${value}`)
-                          .join(" | ")}
-                      </p>
-                    )}
+                    <Variants option={item?.options}/>
 
                     <div className="flex justify-between items-center mt-auto">
                       {/* Quantity */}

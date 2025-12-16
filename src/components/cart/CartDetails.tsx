@@ -88,6 +88,8 @@ export default function CartDetails() {
     setCartItems(updated);
   };
 
+  console.log(allVariants);
+
   return (
     <div className="py-10 md:py-20">
       <div className="lg:px-3 md:px-3 sm:px-3 container mx-auto px-8">
@@ -125,8 +127,10 @@ export default function CartDetails() {
                     <div className="flex items-center gap-4 col-span-1 md:col-span-1">
                       <div className="w-20 h-24 bg-gray-100 overflow-hidden flex items-center justify-center shrink-0">
                         <Image
-                          src={item?.image || "/images/sample-product.jpg"}
-                          alt={item?.parentTitle || "Product"}
+                          src={
+                            item?.image || item?.parentImage || "image/demo.png"
+                          }
+                          alt={item?.parentTitle || "product image"}
                           width={80}
                           height={96}
                           className="object-contain"

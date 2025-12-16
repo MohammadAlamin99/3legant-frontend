@@ -1,10 +1,9 @@
 import React from "react";
 import Image from "next/image";
-
 import { ShoppingCart } from "lucide-react";
-
 import QuantityButton from "../cart/QuantityButton";
 import { IProductVariant } from "@/types/variant.type";
+import Variants from "../ProductDetails/Variants";
 
 export default function OrderSummary({
   allVariants,
@@ -56,8 +55,12 @@ export default function OrderSummary({
                   >
                     <div className="w-20 h-24 bg-gray-100 flex items-center justify-center">
                       <Image
-                        src={item?.image || "/images/sample-product.jpg"}
-                        alt={item?.parentTitle || "Product"}
+                        src={
+                          item?.image ||
+                          item?.parentImage ||
+                          "image/product image"
+                        }
+                        alt={item?.parentTitle || "product image"}
                         width={80}
                         height={96}
                         className="object-contain"
@@ -67,12 +70,8 @@ export default function OrderSummary({
                       <h4 className="text-sm font-semibold text-[#141718] font-inter">
                         {item.parentTitle}
                       </h4>
-                      <p className="text-xs text-[#6C7275] font-inter">
-                        Color: {item.options?.color || "-"}
-                      </p>
-                      <p className="text-xs text-[#6C7275] font-inter">
-                        Size: {item.options?.size || "-"}
-                      </p>
+                      {/* variant */}
+                      <Variants option={item?.options} />
                       <QuantityButton
                         item={item}
                         qty={qty}
